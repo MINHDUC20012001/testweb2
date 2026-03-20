@@ -10,28 +10,46 @@ body{font-family:Arial;margin:0;background:#f4f6f8}
 header{background:#0f172a;color:white;padding:20px}
 header h2{margin:0}
 
-nav{margin-top:10px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-nav a{color:white;text-decoration:none;font-weight:bold}
-
-/* ✅ CHỈ SỬA Ở ĐÂY */
-.menu-item{
-position:relative;
-padding-bottom:8px;
-z-index:1000; /* fix đè lớp */
+/* ✅ MENU THẲNG HÀNG */
+nav{
+margin-top:10px;
+display:flex;
+gap:20px;
+align-items:center;
+flex-wrap:wrap
 }
 
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+
+/* 🔥 FIX LỆCH */
+display:flex;
+align-items:center;
+height:40px;
+line-height:1;
+}
+
+/* 🔥 FIX MENU ITEM */
+.menu-item{
+position:relative;
+display:flex;
+align-items:center;
+height:40px;
+}
+
+/* DROPDOWN (giữ nguyên) */
 .dropdown{
 position:absolute;
 top:100%;
 left:0;
-background:#ffffff !important; /* trắng 100% */
-border-radius:10px;
-box-shadow:0 12px 25px rgba(0,0,0,0.3);
+background:white;
+border-radius:8px;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
 display:none;
 min-width:180px;
 padding-top:5px;
-z-index:9999;
-opacity:1;
 }
 
 .dropdown a{
@@ -45,7 +63,7 @@ font-weight:normal
 
 .menu-item:hover .dropdown{display:block}
 
-/* ===== PHẦN DƯỚI GIỮ NGUYÊN ===== */
+/* ===== PHẦN CÒN LẠI GIỮ NGUYÊN ===== */
 
 .hero{background:linear-gradient(135deg,#111,#444);color:white;padding:80px 20px;text-align:center}
 .hero h1{font-size:36px;margin-bottom:10px}
@@ -103,6 +121,34 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
 </div>
 </div>
 
+<div class="menu-item">
+<a href="#giambeo">Máy giảm béo ▾</a>
+<div class="dropdown">
+<a href="#giambeo">Cavitation 40K</a>
+<a href="#giambeo">RF nâng cơ</a>
+<a href="#giambeo">Lipo Laser</a>
+</div>
+</div>
+
+<div class="menu-item">
+<a href="#thanhly">Máy thanh lý ▾</a>
+<div class="dropdown">
+<a href="#thanhly">Máy triệt lông thanh lý</a>
+<a href="#thanhly">Laser thanh lý</a>
+<a href="#thanhly">Máy spa khác</a>
+</div>
+</div>
+
+<div class="menu-item">
+<a href="#suamay">Sửa máy spa ▾</a>
+<div class="dropdown">
+<a href="#suamay">Sửa máy triệt lông</a>
+<a href="#suamay">Sửa laser CO2</a>
+<a href="#suamay">Sửa Q-Switch</a>
+<a href="#suamay">Thay linh kiện</a>
+</div>
+</div>
+
 <a href="#lienhe">Liên hệ</a>
 </nav>
 </header>
@@ -113,7 +159,7 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
 <a href="#lienhe"><button>Liên hệ tư vấn ngay</button></a>
 </div>
 
-<!-- giữ nguyên các section của bạn -->
+<!-- phần dưới giữ nguyên của bạn -->
 
 </body>
 </html>
