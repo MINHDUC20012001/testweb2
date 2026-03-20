@@ -10,7 +10,7 @@ body{font-family:Arial;margin:0;background:#f4f6f8}
 header{background:#0f172a;color:white;padding:20px}
 header h2{margin:0}
 
-/* ✅ MENU THẲNG HÀNG */
+/* MENU */
 nav{
 margin-top:10px;
 display:flex;
@@ -23,33 +23,30 @@ nav a{
 color:white;
 text-decoration:none;
 font-weight:bold;
-
-/* 🔥 FIX LỆCH */
 display:flex;
 align-items:center;
-height:40px;
-line-height:1;
 }
 
-/* 🔥 FIX MENU ITEM */
+/* FIX LỆCH */
 .menu-item{
 position:relative;
 display:flex;
 align-items:center;
-height:40px;
 }
 
-/* DROPDOWN (giữ nguyên) */
+/* DROPDOWN */
 .dropdown{
 position:absolute;
 top:100%;
 left:0;
 background:white;
+color:black;
 border-radius:8px;
 box-shadow:0 8px 20px rgba(0,0,0,0.15);
 display:none;
 min-width:180px;
 padding-top:5px;
+z-index:999;
 }
 
 .dropdown a{
@@ -61,34 +58,125 @@ font-weight:normal
 
 .dropdown a:hover{background:#f1f1f1}
 
+/* PC hover */
+@media(min-width:769px){
 .menu-item:hover .dropdown{display:block}
+}
 
-/* ===== PHẦN CÒN LẠI GIỮ NGUYÊN ===== */
+/* MOBILE FIX KHÔNG BỊ ĐÈ */
+@media(max-width:768px){
+.dropdown{
+position:static;
+box-shadow:none;
+margin-left:10px;
+}
+}
 
-.hero{background:linear-gradient(135deg,#111,#444);color:white;padding:80px 20px;text-align:center}
-.hero h1{font-size:36px;margin-bottom:10px}
+/* HERO */
+.hero{
+background:linear-gradient(135deg,#111,#444);
+color:white;
+padding:80px 20px;
+text-align:center
+}
 
-button{background:#e11d48;color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer}
+.hero h1{
+font-size:36px;
+margin-bottom:10px
+}
 
-.section{padding:60px 20px;max-width:1200px;margin:auto}
-.section h2{text-align:center;margin-bottom:40px}
+/* BUTTON */
+button{
+background:#e11d48;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:6px;
+cursor:pointer
+}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
+/* SECTION */
+.section{
+padding:60px 20px;
+max-width:1200px;
+margin:auto
+}
 
-.card{background:white;border-radius:12px;padding:20px;box-shadow:0 6px 15px rgba(0,0,0,0.08);transition:0.2s}
+.section h2{
+text-align:center;
+margin-bottom:40px
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px
+}
+
+/* CARD */
+.card{
+background:white;
+border-radius:12px;
+padding:20px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+transition:0.2s
+}
+
 .card:hover{transform:translateY(-5px)}
 
-.price{color:#e11d48;font-weight:bold}
+.price{
+color:#e11d48;
+font-weight:bold
+}
 
-.service{background:white;border-radius:12px;padding:25px;box-shadow:0 6px 15px rgba(0,0,0,0.08)}
+/* SERVICE */
+.service{
+background:white;
+border-radius:12px;
+padding:25px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08)
+}
 
-footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:40px}
+/* FOOTER */
+footer{
+background:#0f172a;
+color:white;
+text-align:center;
+padding:30px;
+margin-top:40px
+}
 
-.contact-box{background:white;padding:30px;border-radius:12px;box-shadow:0 6px 15px rgba(0,0,0,0.08)}
+/* CONTACT */
+.contact-box{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08)
+}
 
-.detail-page{display:none;padding:60px 20px;max-width:1200px;margin:auto}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:white;padding:30px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
-.detail-img{width:100%;border-radius:10px}
+/* DETAIL */
+.detail-page{
+display:none;
+padding:60px 20px;
+max-width:1200px;
+margin:auto
+}
+
+.detail-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08)
+}
+
+.detail-img{
+width:100%;
+border-radius:10px
+}
 
 </style>
 </head>
@@ -153,13 +241,73 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
 </nav>
 </header>
 
+<!-- HERO -->
 <div id="home" class="hero">
 <h1>Cung cấp thiết bị spa chuyên nghiệp</h1>
 <p>Máy mới - Máy thanh lý 90-98% - Bảo hành dài hạn</p>
 <a href="#lienhe"><button>Liên hệ tư vấn ngay</button></a>
 </div>
 
-<!-- phần dưới giữ nguyên của bạn -->
+<!-- TRIET LONG -->
+<div id="trietlong" class="section">
+<h2>Máy triệt lông</h2>
+<div class="grid">
+
+<div class="card">
+<h3>Máy Triệt Lông Diode Laser 808nm</h3>
+<p>Công nghệ triệt lông hiện đại cho spa.</p>
+<p class="price">Giá: Liên hệ</p>
+<button onclick="showDetail('Máy Triệt Lông Diode Laser 808nm','Công nghệ triệt lông hiện đại cho spa','https://via.placeholder.com/600')">Xem chi tiết</button>
+</div>
+
+<div class="card">
+<h3>Máy Triệt Lông IPL</h3>
+<p>Phù hợp spa mới mở.</p>
+<p class="price">Giá: Liên hệ</p>
+<button onclick="showDetail('Máy Triệt Lông IPL','Phù hợp spa mới mở','https://via.placeholder.com/600')">Xem chi tiết</button>
+</div>
+
+</div>
+</div>
+
+<!-- DETAIL -->
+<div id="productDetail" class="detail-page">
+<button onclick="closeDetail()">⬅ Quay lại</button>
+<div class="detail-grid">
+<div>
+<img id="detailImg" class="detail-img">
+</div>
+<div>
+<h2 id="detailTitle"></h2>
+<p class="price">Giá: Liên hệ</p>
+<p id="detailDesc"></p>
+</div>
+</div>
+</div>
+
+<footer>
+<p>© 2026 Thiết Bị Spa Minh Bảo</p>
+</footer>
+
+<script>
+function showDetail(title,desc,img){
+document.getElementById("detailTitle").innerText=title;
+document.getElementById("detailDesc").innerText=desc;
+document.getElementById("detailImg").src=img;
+
+document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+document.querySelector(".hero").style.display="none";
+
+document.getElementById("productDetail").style.display="block";
+window.scrollTo(0,0);
+}
+
+function closeDetail(){
+document.getElementById("productDetail").style.display="none";
+document.querySelectorAll(".section").forEach(s=>s.style.display="block");
+document.querySelector(".hero").style.display="block";
+}
+</script>
 
 </body>
 </html>
