@@ -4,36 +4,180 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Thiết Bị Spa Minh Bảo</title>
+
 <style>
 body{font-family:Arial;margin:0;background:#f4f6f8}
 header{background:#0f172a;color:white;padding:20px}
 header h2{margin:0}
-nav{margin-top:10px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-nav a{color:white;text-decoration:none;font-weight:bold}
-.menu-item{position:relative;padding-bottom:8px}
-.dropdown{position:absolute;top:100%;left:0;background:white;color:black;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.15);display:none;min-width:180px;padding-top:5px}
-.dropdown a{display:block;padding:10px 15px;color:#111;font-weight:normal}
+
+/* FIX MENU */
+nav{
+margin-top:10px;
+display:flex;
+gap:20px;
+align-items:center;
+flex-wrap:wrap
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-weight:bold;
+display:flex;
+align-items:center;
+}
+
+/* FIX LỆCH */
+.menu-item{
+position:relative;
+display:flex;
+align-items:center;
+}
+
+/* DROPDOWN */
+.dropdown{
+position:absolute;
+top:100%;
+left:0;
+background:white;
+color:black;
+border-radius:8px;
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+display:none;
+min-width:180px;
+padding-top:5px
+}
+
+.dropdown a{
+display:block;
+padding:10px 15px;
+color:#111;
+font-weight:normal
+}
+
 .dropdown a:hover{background:#f1f1f1}
 .menu-item:hover .dropdown{display:block}
-.hero{background:linear-gradient(135deg,#111,#444);color:white;padding:80px 20px;text-align:center}
-.hero h1{font-size:36px;margin-bottom:10px}
-button{background:#e11d48;color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer}
-.section{padding:60px 20px;max-width:1200px;margin:auto}
-.section h2{text-align:center;margin-bottom:40px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
-.card{background:white;border-radius:12px;padding:20px;box-shadow:0 6px 15px rgba(0,0,0,0.08);transition:0.2s}
+
+/* HERO */
+.hero{
+background:linear-gradient(135deg,#111,#444);
+color:white;
+padding:80px 20px;
+text-align:center
+}
+
+.hero h1{
+font-size:36px;
+margin-bottom:10px
+}
+
+/* BUTTON */
+button{
+background:#e11d48;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:6px;
+cursor:pointer
+}
+
+/* SECTION */
+.section{
+padding:60px 20px;
+max-width:1200px;
+margin:auto
+}
+
+.section h2{
+text-align:center;
+margin-bottom:40px
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px
+}
+
+/* CARD */
+.card{
+background:white;
+border-radius:12px;
+padding:20px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08);
+transition:0.2s
+}
+
 .card:hover{transform:translateY(-5px)}
-.price{color:#e11d48;font-weight:bold}
-.service{background:white;border-radius:12px;padding:25px;box-shadow:0 6px 15px rgba(0,0,0,0.08)}
-footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:40px}
-.contact-box{background:white;padding:30px;border-radius:12px;box-shadow:0 6px 15px rgba(0,0,0,0.08)}
-input,textarea{width:100%;padding:10px;margin-top:10px;border:1px solid #ccc;border-radius:6px}
+
+.price{
+color:#e11d48;
+font-weight:bold
+}
+
+/* SERVICE */
+.service{
+background:white;
+border-radius:12px;
+padding:25px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08)
+}
+
+/* FOOTER */
+footer{
+background:#0f172a;
+color:white;
+text-align:center;
+padding:30px;
+margin-top:40px
+}
+
+/* CONTACT */
+.contact-box{
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 6px 15px rgba(0,0,0,0.08)
+}
+
+/* FORM */
+input,textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:1px solid #ccc;
+border-radius:6px
+}
+
 form button{margin-top:10px}
-.detail-page{display:none;padding:60px 20px;max-width:1200px;margin:auto}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:white;padding:30px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
-.detail-img{width:100%;border-radius:10px}
+
+/* DETAIL */
+.detail-page{
+display:none;
+padding:60px 20px;
+max-width:1200px;
+margin:auto
+}
+
+.detail-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08)
+}
+
+.detail-img{
+width:100%;
+border-radius:10px
+}
+
 </style>
 </head>
+
 <body>
 
 <header>
@@ -55,7 +199,7 @@ form button{margin-top:10px}
 <div class="menu-item">
 <a href="#laser">Laser thẩm mỹ ▾</a>
 <div class="dropdown">
-<a href="#laser">Q‑Switch ND YAG</a>
+<a href="#laser">Q-Switch ND YAG</a>
 <a href="#laser">CO2 Fractional</a>
 <a href="#laser">Laser Pico</a>
 <a href="#laser">Laser trị nám</a>
@@ -85,22 +229,23 @@ form button{margin-top:10px}
 <div class="dropdown">
 <a href="#suamay">Sửa máy triệt lông</a>
 <a href="#suamay">Sửa laser CO2</a>
-<a href="#suamay">Sửa Q‑Switch</a>
+<a href="#suamay">Sửa Q-Switch</a>
 <a href="#suamay">Thay linh kiện</a>
 </div>
 </div>
 
 <a href="#lienhe">Liên hệ</a>
-
 </nav>
 </header>
 
+<!-- HERO -->
 <div id="home" class="hero">
 <h1>Cung cấp thiết bị spa chuyên nghiệp</h1>
-<p>Máy mới - Máy thanh lý 90‑98% - Bảo hành dài hạn</p>
+<p>Máy mới - Máy thanh lý 90-98% - Bảo hành dài hạn</p>
 <a href="#lienhe"><button>Liên hệ tư vấn ngay</button></a>
 </div>
 
+<!-- TRIET LONG -->
 <div id="trietlong" class="section">
 <h2>Máy triệt lông</h2>
 <div class="grid">
@@ -119,100 +264,10 @@ form button{margin-top:10px}
 <button onclick="showDetail('Máy Triệt Lông IPL','Phù hợp spa mới mở','https://via.placeholder.com/600')">Xem chi tiết</button>
 </div>
 
-<div class="card">
-<h3>Máy Triệt Lông OPT</h3>
-<p>Công nghệ triệt lông nâng cấp.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy Triệt Lông OPT','Công nghệ triệt lông nâng cấp','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
-<div class="card">
-<h3>Máy Triệt Lông SHR</h3>
-<p>Triệt nhanh, ít đau.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy Triệt Lông SHR','Triệt nhanh ít đau','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
 </div>
 </div>
 
-<div id="laser" class="section">
-<h2>Laser thẩm mỹ</h2>
-<div class="grid">
-
-<div class="card">
-<h3>Laser Q‑Switch ND YAG</h3>
-<p>Điều trị nám, tàn nhang, xóa xăm.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Laser Q‑Switch ND YAG','Điều trị nám tàn nhang xóa xăm','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
-<div class="card">
-<h3>Laser CO2 Fractional</h3>
-<p>Trị sẹo rỗ, tái tạo da.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Laser CO2 Fractional','Trị sẹo rỗ tái tạo da','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
-</div>
-</div>
-
-<div id="giambeo" class="section">
-<h2>Máy giảm béo</h2>
-<div class="grid">
-
-<div class="card">
-<h3>Máy Cavitation 40K</h3>
-<p>Giảm mỡ bụng, đùi, bắp tay.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy Cavitation 40K','Giảm mỡ bụng đùi bắp tay','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
-<div class="card">
-<h3>Máy RF nâng cơ</h3>
-<p>Trẻ hóa da, săn chắc da.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy RF nâng cơ','Trẻ hóa da săn chắc da','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
-</div>
-</div>
-
-<div id="suamay" class="section">
-<h2>Dịch vụ sửa chữa thiết bị spa</h2>
-<div class="grid">
-
-<div class="service">
-<h3>Sửa máy triệt lông</h3>
-<p>IPL, SHR, Diode Laser các dòng máy spa.</p>
-</div>
-
-<div class="service">
-<h3>Sửa laser thẩm mỹ</h3>
-<p>CO2 Fractional, Q‑Switch, Laser trị nám.</p>
-</div>
-
-<div class="service">
-<h3>Sửa máy giảm béo</h3>
-<p>RF, Cavitation, Lipo Laser.</p>
-</div>
-
-<div class="service">
-<h3>Thay linh kiện</h3>
-<p>Thay tay cầm, nguồn, board công suất.</p>
-</div>
-
-</div>
-</div>
-
-<div id="lienhe" class="section">
-<h2>Liên hệ tư vấn</h2>
-<div class="contact-box">
-<p><b>Trung tâm bảo hành và cung cấp thiết bị spa Minh Bảo</b></p>
-<p>Hotline: 0929.524.048</p>
-</div>
-</div>
-
+<!-- DETAIL -->
 <div id="productDetail" class="detail-page">
 <button onclick="closeDetail()">⬅ Quay lại</button>
 <div class="detail-grid">
@@ -223,8 +278,6 @@ form button{margin-top:10px}
 <h2 id="detailTitle"></h2>
 <p class="price">Giá: Liên hệ</p>
 <p id="detailDesc"></p>
-<br>
-<a href="https://zalo.me/0929524048" target="_blank"><button>Chat Zalo hỏi máy</button></a>
 </div>
 </div>
 </div>
@@ -235,39 +288,23 @@ form button{margin-top:10px}
 
 <script>
 function showDetail(title,desc,img){
+document.getElementById("detailTitle").innerText=title;
+document.getElementById("detailDesc").innerText=desc;
+document.getElementById("detailImg").src=img;
 
- document.getElementById("detailTitle").innerText=title;
- document.getElementById("detailDesc").innerText=desc;
- document.getElementById("detailImg").src=img;
+document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+document.querySelector(".hero").style.display="none";
 
- document.querySelectorAll(".section").forEach(s=>s.style.display="none");
- document.querySelector(".hero").style.display="none";
-
- document.getElementById("productDetail").style.display="block";
-
- window.scrollTo(0,0);
+document.getElementById("productDetail").style.display="block";
+window.scrollTo(0,0);
 }
 
 function closeDetail(){
- document.getElementById("productDetail").style.display="none";
- document.querySelectorAll(".section").forEach(s=>s.style.display="block");
- document.querySelector(".hero").style.display="block";
+document.getElementById("productDetail").style.display="none";
+document.querySelectorAll(".section").forEach(s=>s.style.display="block");
+document.querySelector(".hero").style.display="block";
 }
 </script>
 
-<div style="position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:10px;z-index:999;">
-
-<a href="https://zalo.me/0929524048" target="_blank" style="text-decoration:none;">
-<div style="background:#0068ff;color:white;padding:12px 16px;border-radius:30px;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.2);">💬 Chat Zalo</div>
-</a>
-
-<a href="tel:0929524048" style="text-decoration:none;">
-<div style="background:#16a34a;color:white;padding:12px 16px;border-radius:30px;font-weight:bold;box-shadow:0 4px 10px rgba(0,0,0,0.2);">📞 Gọi ngay</div>
-</a>
-
-</div>
-
 </body>
 </html>
-
-
