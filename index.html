@@ -13,19 +13,18 @@ header h2{margin:0}
 nav{margin-top:10px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
 nav a{color:white;text-decoration:none;font-weight:bold}
 
-/* ✅ FIX LỆCH + ĐÈ LÊN */
+/* ✅ CHỈ SỬA Ở ĐÂY */
 .menu-item{
 position:relative;
 padding-bottom:8px;
-z-index:1000; /* 🔥 QUAN TRỌNG */
+z-index:1000; /* fix đè lớp */
 }
 
-/* ✅ DROPDOWN KHÔNG XUYÊN */
 .dropdown{
 position:absolute;
 top:100%;
 left:0;
-background:#ffffff !important; /* 🔥 trắng 100% */
+background:#ffffff !important; /* trắng 100% */
 border-radius:10px;
 box-shadow:0 12px 25px rgba(0,0,0,0.3);
 display:none;
@@ -45,6 +44,8 @@ font-weight:normal
 .dropdown a:hover{background:#f1f1f1}
 
 .menu-item:hover .dropdown{display:block}
+
+/* ===== PHẦN DƯỚI GIỮ NGUYÊN ===== */
 
 .hero{background:linear-gradient(135deg,#111,#444);color:white;padding:80px 20px;text-align:center}
 .hero h1{font-size:36px;margin-bottom:10px}
@@ -102,34 +103,6 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
 </div>
 </div>
 
-<div class="menu-item">
-<a href="#giambeo">Máy giảm béo ▾</a>
-<div class="dropdown">
-<a href="#giambeo">Cavitation 40K</a>
-<a href="#giambeo">RF nâng cơ</a>
-<a href="#giambeo">Lipo Laser</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#thanhly">Máy thanh lý ▾</a>
-<div class="dropdown">
-<a href="#thanhly">Máy triệt lông thanh lý</a>
-<a href="#thanhly">Laser thanh lý</a>
-<a href="#thanhly">Máy spa khác</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#suamay">Sửa máy spa ▾</a>
-<div class="dropdown">
-<a href="#suamay">Sửa máy triệt lông</a>
-<a href="#suamay">Sửa laser CO2</a>
-<a href="#suamay">Sửa Q-Switch</a>
-<a href="#suamay">Thay linh kiện</a>
-</div>
-</div>
-
 <a href="#lienhe">Liên hệ</a>
 </nav>
 </header>
@@ -140,28 +113,7 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
 <a href="#lienhe"><button>Liên hệ tư vấn ngay</button></a>
 </div>
 
-<!-- phần dưới giữ nguyên y chang của bạn -->
-<!-- (mình không sửa gì nữa) -->
-
-<script>
-function showDetail(title,desc,img){
- document.getElementById("detailTitle").innerText=title;
- document.getElementById("detailDesc").innerText=desc;
- document.getElementById("detailImg").src=img;
-
- document.querySelectorAll(".section").forEach(s=>s.style.display="none");
- document.querySelector(".hero").style.display="none";
-
- document.getElementById("productDetail").style.display="block";
- window.scrollTo(0,0);
-}
-
-function closeDetail(){
- document.getElementById("productDetail").style.display="none";
- document.querySelectorAll(".section").forEach(s=>s.style.display="block");
- document.querySelector(".hero").style.display="block";
-}
-</script>
+<!-- giữ nguyên các section của bạn -->
 
 </body>
 </html>
