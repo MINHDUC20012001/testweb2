@@ -6,216 +6,57 @@
 <title>Thiết Bị Spa Minh Bảo</title>
 
 <style>
-body{
-font-family:Arial;
-margin:0;
-background:#f4f6f8;
-line-height:1.5;
-}
+body{font-family:Arial;margin:0;background:#f4f6f8}
 
 /* HEADER */
-header{
-background:#0f172a;
-color:white;
-padding:18px;
-}
-header h2{
-margin:0;
-font-size:20px;
-}
+header{background:#0f172a;color:white;padding:15px}
+header h2{margin:0;font-size:18px}
 
-/* NAV */
-nav{
-margin-top:10px;
-display:flex;
-gap:18px;
-flex-wrap:wrap;
-}
-nav a{
-color:white;
-text-decoration:none;
-font-weight:bold;
-font-size:14px;
+/* MENU */
+.menu-toggle{display:none;font-size:22px;cursor:pointer}
+
+nav{display:flex;gap:15px;margin-top:10px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-weight:bold;font-size:14px}
+
+/* MOBILE MENU */
+@media(max-width:768px){
+nav{display:none;flex-direction:column}
+nav.active{display:flex}
+.menu-toggle{display:block}
 }
 
 /* HERO */
-.hero{
-background:linear-gradient(135deg,#111,#444);
-color:white;
-padding:60px 20px;
-text-align:center;
-}
-.hero h1{
-font-size:26px;
-margin-bottom:10px;
-}
-.hero p{
-opacity:0.9;
-}
+.hero{background:linear-gradient(135deg,#111,#444);color:white;padding:60px 20px;text-align:center}
+.hero h1{font-size:24px}
 
 /* BUTTON */
-button{
-background:#e11d48;
-color:white;
-border:none;
-padding:10px 16px;
-border-radius:6px;
-cursor:pointer;
-}
+button{background:#e11d48;color:white;border:none;padding:10px 15px;border-radius:6px}
 
 /* SECTION */
-.section{
-padding:50px 15px;
-max-width:1200px;
-margin:auto;
-}
-.section h2{
-text-align:center;
-margin-bottom:25px;
-}
+.section{padding:40px 15px}
+.section h2{text-align:center;margin-bottom:20px}
 
 /* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:18px;
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px}
 
 /* CARD */
-.card{
-background:white;
-border-radius:12px;
-padding:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-transition:0.2s;
-}
-.card:hover{
-transform:translateY(-4px);
-}
-.card img{
-width:100%;
-border-radius:8px;
-margin-bottom:10px;
-}
-
-.price{
-color:#e11d48;
-font-weight:bold;
-}
-
-/* SERVICE */
-.service{
-background:white;
-border-radius:12px;
-padding:20px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* CONTACT */
-.contact-box{
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
+.card{background:white;border-radius:10px;padding:15px;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
+.card img{width:100%;border-radius:8px}
+.price{color:#e11d48;font-weight:bold}
 
 /* DETAIL */
-.detail-page{
-display:none;
-padding:30px 15px;
-max-width:1200px;
-margin:auto;
-}
-.detail-grid{
-display:grid;
-gap:30px;
-}
-.detail-img{
-width:100%;
-border-radius:10px;
-}
+.detail-page{display:none;padding:20px}
+.detail-box{background:white;padding:20px;border-radius:10px}
+.detail-img{width:100%;border-radius:10px}
 
-/* FLOAT */
-.float-btn{
-position:fixed;
-right:15px;
-bottom:15px;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-.float-btn div{
-padding:10px 14px;
-border-radius:30px;
-color:white;
-font-weight:bold;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
+/* CONTACT */
+.contact-box{background:white;padding:20px;border-radius:10px}
+
+/* FLOAT BUTTON */
+.float-btn{position:fixed;right:15px;bottom:15px;display:flex;flex-direction:column;gap:10px}
+.float-btn div{padding:10px 14px;border-radius:30px;color:white;font-weight:bold}
 .zalo{background:#0068ff}
 .call{background:#16a34a}
-
-/* ===== PC TỐI ƯU ===== */
-@media(min-width:1024px){
-
-body{font-size:18px}
-
-header h2{font-size:26px}
-
-nav a{font-size:16px}
-
-.hero{
-padding:90px 20px;
-}
-.hero h1{
-font-size:42px;
-}
-
-.section{
-padding:80px 30px;
-}
-
-.section h2{
-font-size:32px;
-}
-
-.grid{
-grid-template-columns:repeat(3,1fr);
-gap:30px;
-}
-
-.card{
-padding:20px;
-}
-
-.card h3{
-font-size:20px;
-}
-
-.price{
-font-size:18px;
-}
-
-button{
-font-size:16px;
-padding:14px 22px;
-}
-
-.detail-grid{
-grid-template-columns:1fr 1fr;
-}
-
-}
-
-/* MOBILE */
-@media(max-width:600px){
-
-.hero h1{font-size:22px}
-
-.grid{
-grid-template-columns:1fr;
-}
-
-}
 
 </style>
 </head>
@@ -223,9 +64,11 @@ grid-template-columns:1fr;
 <body>
 
 <header>
-<h2>Minh Bảo - Thiết Bị Spa & Thẩm Mỹ</h2>
+<h2>Minh Bảo - Thiết Bị Spa</h2>
 
-<nav>
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<nav id="menu">
 <a href="#home">Trang chủ</a>
 <a href="#trietlong">Triệt lông</a>
 <a href="#laser">Laser</a>
@@ -237,30 +80,28 @@ grid-template-columns:1fr;
 
 <!-- HERO -->
 <div id="home" class="hero">
-<h1>Cung cấp thiết bị spa chuyên nghiệp</h1>
-<p>Máy mới - Máy thanh lý 90-98% - Bảo hành dài hạn</p>
-<button onclick="scrollToContact()">Liên hệ tư vấn ngay</button>
+<h1>Thiết bị spa chuyên nghiệp</h1>
+<p>Máy mới - Thanh lý - Bảo hành dài</p>
+<button onclick="scrollToContact()">Liên hệ ngay</button>
 </div>
 
-<!-- TRIỆT LÔNG -->
+<!-- TRIET LONG -->
 <div id="trietlong" class="section">
 <h2>Máy triệt lông</h2>
 <div class="grid">
 
 <div class="card">
-<img src="https://via.placeholder.com/400">
-<h3>Diode Laser 808nm</h3>
-<p>Công nghệ cao cấp</p>
+<img src="https://via.placeholder.com/300">
+<h3>Diode Laser</h3>
 <p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Diode Laser 808nm','Công nghệ triệt lông cao cấp','https://via.placeholder.com/600')">Xem chi tiết</button>
+<button onclick="showDetail('Diode Laser','Máy triệt lông cao cấp','https://via.placeholder.com/600')">Xem</button>
 </div>
 
 <div class="card">
-<img src="https://via.placeholder.com/400">
+<img src="https://via.placeholder.com/300">
 <h3>IPL</h3>
-<p>Phù hợp spa mới</p>
 <p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('IPL','Máy triệt lông cơ bản','https://via.placeholder.com/600')">Xem chi tiết</button>
+<button onclick="showDetail('IPL','Máy triệt lông spa','https://via.placeholder.com/600')">Xem</button>
 </div>
 
 </div>
@@ -272,19 +113,18 @@ grid-template-columns:1fr;
 <div class="grid">
 
 <div class="card">
-<img src="https://via.placeholder.com/400">
+<img src="https://via.placeholder.com/300">
 <h3>Q-Switch</h3>
-<p>Trị nám - xóa xăm</p>
 <p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Q-Switch','Xóa xăm trị nám','https://via.placeholder.com/600')">Xem chi tiết</button>
+<button onclick="showDetail('Q-Switch','Xóa xăm trị nám','https://via.placeholder.com/600')">Xem</button>
 </div>
 
 </div>
 </div>
 
-<!-- LIÊN HỆ -->
+<!-- LIEN HE -->
 <div id="lienhe" class="section">
-<h2>Liên hệ tư vấn</h2>
+<h2>Liên hệ</h2>
 <div class="contact-box">
 <p><b>Minh Bảo Spa</b></p>
 <p>📞 0929.524.048</p>
@@ -293,44 +133,28 @@ grid-template-columns:1fr;
 
 <!-- DETAIL -->
 <div id="detail" class="detail-page">
-
 <button onclick="closeDetail()">⬅ Quay lại</button>
 
-<div class="detail-grid">
-
-<div>
+<div class="detail-box">
 <img id="dimg" class="detail-img">
-</div>
-
-<div>
 <h2 id="dtitle"></h2>
-<p class="price">Giá: Liên hệ</p>
 <p id="ddesc"></p>
-
-<br>
-<a href="https://zalo.me/0929524048" target="_blank">
-<button>Chat Zalo hỏi máy</button>
-</a>
-
+<button onclick="chat()">Chat Zalo</button>
 </div>
 
 </div>
-</div>
 
-<!-- FLOAT BUTTON -->
+<!-- FLOAT -->
 <div class="float-btn">
-
-<a href="https://zalo.me/0929524048">
-<div class="zalo">💬 Zalo</div>
-</a>
-
-<a href="tel:0929524048">
-<div class="call">📞 Gọi</div>
-</a>
-
+<a href="https://zalo.me/0929524048"><div class="zalo">💬 Zalo</div></a>
+<a href="tel:0929524048"><div class="call">📞 Gọi</div></a>
 </div>
 
 <script>
+
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("active");
+}
 
 function scrollToContact(){
 document.getElementById("lienhe").scrollIntoView();
@@ -352,6 +176,10 @@ function closeDetail(){
 document.getElementById("detail").style.display="none";
 document.querySelectorAll(".section").forEach(e=>e.style.display="block");
 document.querySelector(".hero").style.display="block";
+}
+
+function chat(){
+window.open("https://zalo.me/0929524048");
 }
 
 </script>
