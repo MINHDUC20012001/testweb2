@@ -27,26 +27,27 @@ display:flex;
 align-items:center;
 }
 
-/* FIX LỆCH */
+/* FIX LỆCH + LAYER */
 .menu-item{
 position:relative;
 display:flex;
 align-items:center;
+z-index:1000;
 }
 
-/* DROPDOWN */
+/* DROPDOWN ĐÈ LÊN */
 .dropdown{
 position:absolute;
 top:100%;
 left:0;
-background:white;
-color:black;
+background:#ffffff;
 border-radius:8px;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
+box-shadow:0 12px 25px rgba(0,0,0,0.25);
 display:none;
 min-width:180px;
 padding-top:5px;
-z-index:999;
+z-index:9999;
+border:1px solid #ddd;
 }
 
 .dropdown a{
@@ -58,19 +59,7 @@ font-weight:normal
 
 .dropdown a:hover{background:#f1f1f1}
 
-/* PC hover */
-@media(min-width:769px){
 .menu-item:hover .dropdown{display:block}
-}
-
-/* MOBILE FIX KHÔNG BỊ ĐÈ */
-@media(max-width:768px){
-.dropdown{
-position:static;
-box-shadow:none;
-margin-left:10px;
-}
-}
 
 /* HERO */
 .hero{
