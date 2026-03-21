@@ -10,7 +10,7 @@ body{font-family:Arial, sans-serif;margin:0;background:#f4f6f8; padding-bottom: 
 header{background:#0f172a;color:white;padding:15px; position: sticky; top:0; z-index:1000}
 header h2{margin:0; font-size: 20px;}
 
-/* MENU ĐẦY ĐỦ MỤC CON */
+/* MENU */
 nav{margin-top:10px;display:flex;gap:15px;flex-wrap:wrap}
 nav a{color:white;text-decoration:none;font-weight:bold;font-size:13px;}
 .menu-item{position:relative;}
@@ -18,7 +18,7 @@ nav a{color:white;text-decoration:none;font-weight:bold;font-size:13px;}
 .dropdown a{display:block;padding:10px 15px;color:#111;border-bottom: 1px solid #eee; font-weight: normal;}
 .menu-item:hover .dropdown{display:block}
 
-/* SLIDESHOW TỰ ĐỘNG LẤY ẢNH ĐÃ ĐĂNG */
+/* SLIDESHOW */
 .hero{background:#000; height: 280px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center;}
 #slideWrapper img {position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; opacity: 0.6; display: none; transition: 1s;}
 .hero-content{z-index: 10; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.8);}
@@ -29,10 +29,9 @@ nav a{color:white;text-decoration:none;font-weight:bold;font-size:13px;}
 .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:15px}
 .card{background:white; border-radius:10px; padding:10px; box-shadow:0 4px 10px rgba(0,0,0,0.05); position: relative;}
 .card img{width:100%; height:160px; object-fit:cover; border-radius:6px;}
-.card h3{font-size: 14px; margin: 10px 0 5px 0; height: 35px; overflow: hidden;}
 .price{color:#e11d48; font-weight:bold; font-size: 14px;}
 
-/* NÚT XÓA & CHI TIẾT */
+/* NÚT */
 .btn-del{position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.8); color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer;}
 .btn-view{width:100%; background:#e11d48; color:white; border:none; padding:8px; border-radius:5px; margin-top:8px; font-size: 13px;}
 
@@ -46,7 +45,7 @@ input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 
 
 /* CONTACT BOX */
 .contact-buttons { position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 9999; }
-.btn-call, .btn-zalo { flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+.btn-call, .btn-zalo { flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; }
 .btn-call { background: #e11d48; }
 .btn-zalo { background: #0084ff; }
 
@@ -130,60 +129,80 @@ let slideTimer;
 
 window.onload = function() { refreshData(); };
 
-// HÀM ĐĂNG MÁY ĐÃ ĐƯỢC FIX LỖI ẢNH
-function saveNewMachine() {
+// --- CHỨC NĂNG NÉN ẢNH TỰ ĐỘNG ---
+async function compressImage(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800; // Giới hạn chiều rộng ảnh
+                const scaleSize = MAX_WIDTH / img.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = img.height * scaleSize;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // Nén chất lượng xuống 0.7 (70%)
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                resolve(dataUrl);
+            };
+        };
+    });
+}
+
+async function saveNewMachine() {
     const fileInput = document.getElementById('upFile');
     const title = document.getElementById('upTitle').value;
     const price = document.getElementById('upPrice').value || "Liên hệ";
     const cat = document.getElementById('upCat').value;
     const desc = document.getElementById('upDesc').value;
 
-    if (!fileInput.files[0]) { alert("Bạn chưa chọn ảnh!"); return; }
-    if (!title) { alert("Bạn chưa nhập tên máy!"); return; }
+    if (!fileInput.files[0] || !title) { alert("Vui lòng chọn ảnh và nhập tên!"); return; }
 
-    // Hiệu ứng đang xử lý
     const btn = document.getElementById('btnSubmit');
-    btn.innerText = "Đang tải ảnh...";
+    btn.innerText = "Đang nén ảnh...";
     btn.disabled = true;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const newProduct = { 
-                id: Date.now(), 
-                img: e.target.result, 
-                title: title, 
-                price: price, 
-                cat: cat, 
-                desc: desc 
-            };
-            
-            let data = JSON.parse(localStorage.getItem('minhbao_final_db') || '[]');
-            data.push(newProduct);
-            localStorage.setItem('minhbao_final_db', JSON.stringify(data));
-            
-            // Xóa form và cập nhật web
-            fileInput.value = "";
-            document.getElementById('upTitle').value = "";
-            document.getElementById('upDesc').value = "";
-            document.getElementById('adminPopup').style.display = 'none';
-            
-            btn.innerText = "ĐĂNG LÊN WEB";
-            btn.disabled = false;
-            
-            refreshData();
-            alert("Đăng thành công!");
-        } catch (err) {
-            alert("Ảnh quá lớn, hãy chọn ảnh nhẹ hơn hoặc chụp trực tiếp!");
-            btn.innerText = "ĐĂNG LÊN WEB";
-            btn.disabled = false;
-        }
-    };
-    reader.readAsDataURL(fileInput.files[0]);
+    try {
+        const compressedImg = await compressImage(fileInput.files[0]);
+        
+        const newProduct = { 
+            id: Date.now(), 
+            img: compressedImg, 
+            title: title, 
+            price: price, 
+            cat: cat, 
+            desc: desc 
+        };
+        
+        let data = JSON.parse(localStorage.getItem('minhbao_spa_pro') || '[]');
+        data.push(newProduct);
+        localStorage.setItem('minhbao_spa_pro', JSON.stringify(data));
+        
+        fileInput.value = "";
+        document.getElementById('upTitle').value = "";
+        document.getElementById('upDesc').value = "";
+        document.getElementById('adminPopup').style.display = 'none';
+        
+        btn.innerText = "ĐĂNG LÊN WEB";
+        btn.disabled = false;
+        
+        refreshData();
+        alert("Đã đăng thành công!");
+    } catch (err) {
+        alert("Lỗi khi xử lý ảnh. Hãy thử lại!");
+        btn.innerText = "ĐĂNG LÊN WEB";
+        btn.disabled = false;
+    }
 }
 
 function refreshData() {
-    const data = JSON.parse(localStorage.getItem('minhbao_final_db') || '[]');
+    const data = JSON.parse(localStorage.getItem('minhbao_spa_pro') || '[]');
     const cats = ['trietlong', 'laser', 'thanhly', 'suamay'];
     cats.forEach(c => document.getElementById('grid-' + c).innerHTML = "");
 
@@ -194,7 +213,7 @@ function refreshData() {
             card.className = 'card';
             card.innerHTML = `
                 <button class="btn-del" onclick="deleteMachine(${p.id})">×</button>
-                <img src="${p.img}" loading="lazy">
+                <img src="${p.img}">
                 <h3>${p.title}</h3>
                 <p class="price">Giá: ${p.price}</p>
                 <button class="btn-view" onclick="showDetail(${p.id})">Xem chi tiết</button>
@@ -203,7 +222,6 @@ function refreshData() {
         }
     });
 
-    // Cập nhật Slideshow
     const slideWrapper = document.getElementById('slideWrapper');
     slideWrapper.innerHTML = "";
     if(data.length > 0) {
@@ -213,8 +231,6 @@ function refreshData() {
             slideWrapper.appendChild(img);
         });
         startSlides();
-    } else {
-        slideWrapper.innerHTML = `<img src="https://via.placeholder.com/1200x600?text=Minh+Bao+Spa" style="display:block">`;
     }
 }
 
@@ -233,15 +249,15 @@ function startSlides() {
 
 function deleteMachine(id) {
     if(confirm("Xóa máy này?")) {
-        let data = JSON.parse(localStorage.getItem('minhbao_final_db') || '[]');
+        let data = JSON.parse(localStorage.getItem('minhbao_spa_pro') || '[]');
         data = data.filter(i => i.id !== id);
-        localStorage.setItem('minhbao_final_db', JSON.stringify(data));
+        localStorage.setItem('minhbao_spa_pro', JSON.stringify(data));
         refreshData();
     }
 }
 
 function showDetail(id) {
-    const data = JSON.parse(localStorage.getItem('minhbao_final_db') || '[]');
+    const data = JSON.parse(localStorage.getItem('minhbao_spa_pro') || '[]');
     const p = data.find(i => i.id == id);
     if(p) {
         document.getElementById("detailImg").src = p.img;
