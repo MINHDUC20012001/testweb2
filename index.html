@@ -8,95 +8,66 @@
 <style>
 :root { --primary: #e11d48; --dark: #0f172a; --gray: #64748b; }
 body{font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:#f8fafc; padding-bottom: 90px; color: #334155;}
-header{background: var(--dark); color:white; padding:15px; position: sticky; top:0; z-index:1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3);}
-header h2{margin:0; font-size: 18px; text-align: center; text-transform: uppercase; letter-spacing: 1.5px;}
+header{background: var(--dark); color:white; padding:15px; position: sticky; top:0; z-index:1000;}
+header h2{margin:0; font-size: 18px; text-align: center; text-transform: uppercase; letter-spacing: 1px;}
 
-/* MENU CHUẨN */
+/* MENU */
 nav{margin-top:12px; display:flex; gap:10px; justify-content: center; flex-wrap:wrap}
-nav a{color:white; text-decoration:none; font-weight:600; font-size:12px; padding: 5px 8px; text-transform: uppercase;}
-.menu-item{position:relative;}
-.dropdown{position:absolute; top:100%; left:0; background:white; color:black; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.15); display:none; min-width:160px; z-index: 999;}
-.dropdown a{display:block; padding:12px 15px; color:#111; border-bottom: 1px solid #f1f5f9; font-weight: 500; text-transform: none;}
-.menu-item:hover .dropdown{display:block}
+nav a{color:white; text-decoration:none; font-weight:600; font-size:12px; text-transform: uppercase;}
 
-/* SLIDESHOW */
+/* SLIDESHOW TRANG CHỦ */
 .hero{background:#000; height: 300px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center;}
-#slideWrapper img {position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; opacity: 0.5; display: none; transition: 1.2s;}
+#slideWrapper img {position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; opacity: 0.5; display: none; transition: 1s;}
 .hero-content{z-index: 10; color: white; padding: 0 20px;}
-.hero-content h1 { font-size: 24px; margin-bottom: 5px; }
 
-/* GRID & CARD - ĐIỀU CHỈNH ĐỀU CHỮ */
+/* GRID & CARD */
 .section{padding:30px 15px; max-width:1200px; margin:auto}
-.section h2{font-size: 18px; border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 20px; text-transform: uppercase; color: var(--dark);}
+.section h2{font-size: 18px; border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 20px; text-transform: uppercase;}
 .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:15px}
-.card{background:white; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); position: relative; display: flex; flex-direction: column;}
+.card{background:white; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); position: relative;}
 .card img{width:100%; height:160px; object-fit:cover; border-radius:8px;}
+.card .title { font-weight: bold; font-size: 14px; margin: 10px 0 5px 0; height: 40px; overflow: hidden; color: var(--dark);}
+.price{color: var(--primary); font-weight:bold; font-size: 15px;}
 
-/* Căn chỉnh tên máy đều nhau */
-.card .title {
-    font-weight: bold; font-size: 14px; margin: 10px 0 5px 0; 
-    color: var(--dark); height: 40px; overflow: hidden; 
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-}
-.price{color: var(--primary); font-weight:bold; font-size: 15px; margin-bottom: 10px;}
+/* CHI TIẾT SẢN PHẨM - SLIDE ẢNH */
+.detail-page{display:none; padding:20px; background: white; min-height: 100vh;}
+.detail-slider { width: 100%; height: 300px; position: relative; overflow: hidden; border-radius: 12px; background: #eee;}
+.detail-slider img { width: 100%; height: 100%; object-fit: contain; display: none;}
 
-/* NÚT */
-.btn-del{position:absolute; top:8px; right:8px; background:rgba(225,29,72,0.9); color:white; border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size: 16px;}
-.btn-view{width:100%; background: var(--dark); color:white; border:none; padding:10px; border-radius:6px; font-size: 12px; font-weight: bold; cursor: pointer; margin-top: auto;}
+/* POPUP ĐĂNG MÁY */
+#adminPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.4); z-index: 10001; width: 85%; max-width: 400px; max-height: 90vh; overflow-y: auto;}
+input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;}
 
-/* MỤC LIÊN HỆ */
-.contact-info { background: white; padding: 30px 20px; border-top: 1px solid #e2e8f0; }
-.contact-item { margin-bottom: 15px; font-size: 14px; display: flex; align-items: center; gap: 10px; }
-.contact-item i { color: var(--primary); width: 20px; }
+/* PREVIEW ẢNH TRƯỚC KHI ĐĂNG */
+#previewArea { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
+.preview-box { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
 
-/* ADMIN POPUP */
-#adminPopup {
-    display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    background: white; padding: 25px; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.4);
-    z-index: 10001; width: 85%; max-width: 400px;
-}
-input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px;}
-
-/* LIÊN HỆ DƯỚI CÙNG */
 .contact-buttons { position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 9999; }
-.btn-call, .btn-zalo { flex: 1; display: flex; align-items: center; justify-content: center; padding: 14px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.btn-call, .btn-zalo { flex: 1; display: flex; align-items: center; justify-content: center; padding: 14px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; }
 .btn-call { background: var(--primary); }
 .btn-zalo { background: #0084ff; }
-
-.detail-page{display:none; padding:20px; min-height: 100vh; background: white;}
-footer{background: var(--dark); color:white; text-align:center; padding:30px; font-size: 12px; opacity: 0.9;}
+footer{background: var(--dark); color:white; text-align:center; padding:30px; font-size: 12px;}
 </style>
 </head>
 
 <body>
 
 <header>
-    <h2>Thiết Bị Spa Minh Bảo</h2>
+    <h2>THIẾT BỊ SPA MINH BẢO</h2>
     <nav>
         <a href="#home" onclick="closeDetail()">Trang chủ</a>
-        <div class="menu-item">
-            <a href="#trietlong">Triệt lông ▾</a>
-            <div class="dropdown">
-                <a href="#trietlong">Máy IPL</a><a href="#trietlong">Máy OPT</a><a href="#trietlong">Diode Laser</a>
-            </div>
-        </div>
-        <div class="menu-item">
-            <a href="#laser">Laser ▾</a>
-            <div class="dropdown">
-                <a href="#laser">Q-Switch</a><a href="#laser">CO2 Fractional</a>
-            </div>
-        </div>
+        <a href="#trietlong">Triệt lông</a>
+        <a href="#laser">Laser</a>
         <a href="#giambeo">Giảm béo</a>
         <a href="#thanhly">Thanh lý</a>
-        <a href="#contact">Liên hệ</a>
     </nav>
 </header>
 
 <div id="home" class="hero">
     <div id="slideWrapper"></div>
     <div class="hero-content">
-        <h1>THIẾT BỊ SPA MINH BẢO</h1>
-        <p>Uy Tín - Chuyên Nghiệp - Tận Tâm</p>
+        <h1>MINH BẢO SPA</h1>
+        <p>Hệ Thống Phân Phối Máy Thẩm Mỹ</p>
     </div>
 </div>
 
@@ -106,34 +77,26 @@ footer{background: var(--dark); color:white; text-align:center; padding:30px; fo
 <div id="thanhly" class="section"><h2>Máy Thanh Lý</h2><div class="grid" id="grid-thanhly"></div></div>
 <div id="suamay" class="section"><h2>Sửa Chữa & Bảo Trì</h2><div class="grid" id="grid-suamay"></div></div>
 
-<div id="contact" class="section">
-    <h2>Thông Tin Liên Hệ</h2>
-    <div class="contact-info" style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-        <div class="contact-item">📍 <b>Địa chỉ:</b> Số 123, Đường ABC, TP. Hồ Chí Minh</div>
-        <div class="contact-item">📞 <b>Hotline:</b> 0900.000.000 (Zalo)</div>
-        <div class="contact-item">📧 <b>Email:</b> spaminhbao@gmail.com</div>
-        <div class="contact-item">⏰ <b>Giờ làm việc:</b> 8:00 - 20:00 (Cả tuần)</div>
-        <p style="font-size: 13px; color: var(--gray); margin-top: 15px;">* Chuyên cung cấp, chuyển giao công nghệ và sửa chữa máy thẩm mỹ tận nơi trên toàn quốc.</p>
-    </div>
-</div>
-
 <div id="productDetail" class="detail-page">
-    <button onclick="closeDetail()" style="margin-bottom:20px; padding:10px 20px; border-radius: 8px; border: 1px solid #ddd; background: #fff;">⬅ Quay lại</button>
-    <img id="detailImg" style="width:100%; border-radius:12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-    <h2 id="detailTitle" style="margin-top: 20px;"></h2>
+    <button onclick="closeDetail()" style="margin-bottom:15px; padding:10px 15px; border-radius:8px;">⬅ Quay lại</button>
+    <div class="detail-slider" id="detailSlider"></div>
+    <p style="text-align:center; font-size:12px; color:gray; margin-top:5px;">(Ảnh tự động chuyển hoặc click để xem ảnh tiếp)</p>
+    <h2 id="detailTitle" style="margin-top:20px;"></h2>
     <p class="price" id="detailPriceDisplay" style="font-size: 22px;"></p>
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-    <p id="detailDesc" style="white-space: pre-line; line-height: 1.8; color: #334155;"></p>
+    <hr>
+    <p id="detailDesc" style="white-space: pre-line; line-height: 1.8;"></p>
 </div>
 
 <div class="contact-buttons">
     <a href="tel:0900000000" class="btn-call">📞 GỌI ĐIỆN</a>
-    <a href="https://zalo.me/0900000000" class="btn-zalo">💬 CHAT ZALO</a>
+    <a href="https://zalo.me/0900000000" class="btn-zalo">💬 ZALO</a>
 </div>
 
 <div id="adminPopup">
-    <h3 style="text-align:center; margin-top:0;">Đăng máy mới</h3>
-    <input type="file" id="upFile" accept="image/*">
+    <h3 style="text-align:center; margin:0">Đăng máy mới</h3>
+    <label style="font-size:12px; color:var(--primary)">* Có thể chọn nhiều ảnh cùng lúc</label>
+    <input type="file" id="upFiles" accept="image/*" multiple onchange="previewImages()">
+    <div id="previewArea"></div>
     <input type="text" id="upTitle" placeholder="Tên máy...">
     <input type="text" id="upPrice" placeholder="Giá tiền...">
     <select id="upCat">
@@ -143,21 +106,36 @@ footer{background: var(--dark); color:white; text-align:center; padding:30px; fo
         <option value="thanhly">Máy thanh lý</option>
         <option value="suamay">Sửa chữa máy spa</option>
     </select>
-    <textarea id="upDesc" rows="5" placeholder="Mô tả thông số kỹ thuật, bảo hành..."></textarea>
-    <button style="width:100%; margin-top:20px; padding:15px; background: var(--primary); color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px;" id="btnSubmit" onclick="saveNewMachine()">ĐĂNG LÊN WEB</button>
-    <button style="width:100%; margin-top:10px; background:#f1f5f9; color:#64748b; border:none; padding:10px; border-radius:10px;" onclick="document.getElementById('adminPopup').style.display='none'">Đóng</button>
+    <textarea id="upDesc" rows="4" placeholder="Mô tả máy..."></textarea>
+    <button style="width:100%; margin-top:20px; padding:15px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:bold" id="btnSubmit" onclick="saveNewMachine()">ĐĂNG LÊN WEB</button>
+    <button style="width:100%; margin-top:10px; background:#eee; border:none; padding:10px; border-radius:10px" onclick="document.getElementById('adminPopup').style.display='none'">Hủy</button>
 </div>
 
 <footer>
     <p>© <span onclick="document.getElementById('adminPopup').style.display='block'" style="cursor:pointer">2026</span> THIẾT BỊ SPA MINH BẢO</p>
-    <p style="font-size: 10px; margin-top: 10px; opacity: 0.5;">Hệ thống quản lý nội bộ</p>
 </footer>
 
 <script>
 let slideIndex = 0;
-let slideTimer;
+let homeTimer, detailTimer;
 
 window.onload = function() { refreshData(); };
+
+function previewImages() {
+    const preview = document.getElementById('previewArea');
+    preview.innerHTML = "";
+    const files = document.getElementById('upFiles').files;
+    for(let i=0; i<files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'preview-box';
+            preview.appendChild(img);
+        }
+        reader.readAsDataURL(files[i]);
+    }
+}
 
 async function compressImage(file) {
     return new Promise((resolve) => {
@@ -168,7 +146,7 @@ async function compressImage(file) {
             img.src = event.target.result;
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 800; 
+                const MAX_WIDTH = 800;
                 const scaleSize = MAX_WIDTH / img.width;
                 canvas.width = MAX_WIDTH;
                 canvas.height = img.height * scaleSize;
@@ -181,41 +159,39 @@ async function compressImage(file) {
 }
 
 async function saveNewMachine() {
-    const fileInput = document.getElementById('upFile');
+    const files = document.getElementById('upFiles').files;
     const title = document.getElementById('upTitle').value;
     const price = document.getElementById('upPrice').value || "Liên hệ";
     const cat = document.getElementById('upCat').value;
     const desc = document.getElementById('upDesc').value;
 
-    if (!fileInput.files[0] || !title) { alert("Thiếu ảnh hoặc tên máy!"); return; }
+    if (files.length === 0 || !title) { alert("Vui lòng chọn ảnh và nhập tên máy!"); return; }
 
     const btn = document.getElementById('btnSubmit');
-    btn.innerText = "Đang nén ảnh...";
+    btn.innerText = "Đang xử lý ảnh...";
     btn.disabled = true;
 
     try {
-        const compressedImg = await compressImage(fileInput.files[0]);
-        const newProduct = { id: Date.now(), img: compressedImg, title, price, cat, desc };
-        let data = JSON.parse(localStorage.getItem('minhbao_final_v11') || '[]');
-        data.push(newProduct);
-        localStorage.setItem('minhbao_final_v11', JSON.stringify(data));
+        let imageArray = [];
+        for(let i=0; i<files.length; i++) {
+            const compressed = await compressImage(files[i]);
+            imageArray.push(compressed);
+        }
         
-        fileInput.value = "";
-        document.getElementById('upTitle').value = "";
-        document.getElementById('upDesc').value = "";
-        document.getElementById('adminPopup').style.display = 'none';
-        btn.innerText = "ĐĂNG LÊN WEB";
-        btn.disabled = false;
-        refreshData();
-        alert("Đã đăng máy thành công!");
+        const newProduct = { id: Date.now(), imgs: imageArray, title, price, cat, desc };
+        let data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
+        data.push(newProduct);
+        localStorage.setItem('minhbao_multi_v12', JSON.stringify(data));
+        
+        location.reload(); // Tải lại trang để cập nhật sạch sẽ
     } catch (err) {
-        alert("Lỗi!");
+        alert("Lỗi bộ nhớ! Bạn nên đăng ít ảnh lại (khoảng 3-4 ảnh/máy).");
         btn.disabled = false;
     }
 }
 
 function refreshData() {
-    const data = JSON.parse(localStorage.getItem('minhbao_final_v11') || '[]');
+    const data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
     const cats = ['trietlong', 'laser', 'giambeo', 'thanhly', 'suamay'];
     cats.forEach(c => document.getElementById('grid-' + c).innerHTML = "");
 
@@ -225,66 +201,91 @@ function refreshData() {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <button class="btn-del" onclick="deleteMachine(${p.id})">×</button>
-                <img src="${p.img}">
+                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%" onclick="deleteMachine(${p.id})">×</button>
+                <img src="${p.imgs[0]}">
                 <div class="title">${p.title}</div>
                 <div class="price">${p.price}</div>
-                <button class="btn-view" onclick="showDetail(${p.id})">CHI TIẾT</button>
+                <button class="btn-zalo" style="padding:8px;font-size:11px;margin-top:5px" onclick="showDetail(${p.id})">XEM CHI TIẾT</button>
             `;
             grid.prepend(card);
         }
     });
 
-    const slideWrapper = document.getElementById('slideWrapper');
-    slideWrapper.innerHTML = "";
+    // Home Slideshow
+    const sw = document.getElementById('slideWrapper');
     if(data.length > 0) {
         data.slice(-5).forEach(p => {
             const img = document.createElement('img');
-            img.src = p.img;
-            slideWrapper.appendChild(img);
+            img.src = p.imgs[0];
+            sw.appendChild(img);
         });
-        startSlides();
+        startHomeSlides();
     }
 }
 
-function startSlides() {
-    clearInterval(slideTimer);
-    let slides = document.querySelectorAll("#slideWrapper img");
-    if(slides.length === 0) return;
-    slideIndex = 0; slides[0].style.display = "block";
-    slideTimer = setInterval(() => {
-        slides[slideIndex].style.display = "none";
-        slideIndex = (slideIndex + 1) % slides.length;
-        slides[slideIndex].style.display = "block";
+function startHomeSlides() {
+    let s = document.querySelectorAll("#slideWrapper img");
+    let idx = 0; s[0].style.display = "block";
+    homeTimer = setInterval(() => {
+        s[idx].style.display = "none";
+        idx = (idx + 1) % s.length;
+        s[idx].style.display = "block";
     }, 4000);
 }
 
-function deleteMachine(id) {
-    if(confirm("Xác nhận xóa máy này?")) {
-        let data = JSON.parse(localStorage.getItem('minhbao_final_v11') || '[]');
-        data = data.filter(i => i.id !== id);
-        localStorage.setItem('minhbao_final_v11', JSON.stringify(data));
-        refreshData();
-    }
-}
-
 function showDetail(id) {
-    const data = JSON.parse(localStorage.getItem('minhbao_final_v11') || '[]');
+    const data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
     const p = data.find(i => i.id == id);
     if(p) {
-        document.getElementById("detailImg").src = p.img;
+        const slider = document.getElementById('detailSlider');
+        slider.innerHTML = "";
+        p.imgs.forEach(src => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.onclick = nextDetailSlide;
+            slider.appendChild(img);
+        });
+        
         document.getElementById("detailTitle").innerText = p.title;
-        document.getElementById("detailPriceDisplay").innerText = "Giá bán: " + p.price;
+        document.getElementById("detailPriceDisplay").innerText = "Giá: " + p.price;
         document.getElementById("detailDesc").innerText = p.desc;
+        
         document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "none");
         document.getElementById("productDetail").style.display = "block";
         window.scrollTo(0,0);
+        startDetailSlides();
+    }
+}
+
+let dIdx = 0;
+function startDetailSlides() {
+    clearInterval(detailTimer);
+    let s = document.querySelectorAll("#detailSlider img");
+    dIdx = 0; s[0].style.display = "block";
+    detailTimer = setInterval(nextDetailSlide, 3000);
+}
+
+function nextDetailSlide() {
+    let s = document.querySelectorAll("#detailSlider img");
+    if(s.length <= 1) return;
+    s[dIdx].style.display = "none";
+    dIdx = (dIdx + 1) % s.length;
+    s[dIdx].style.display = "block";
+}
+
+function deleteMachine(id) {
+    if(confirm("Xóa máy này?")) {
+        let data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
+        data = data.filter(i => i.id !== id);
+        localStorage.setItem('minhbao_multi_v12', JSON.stringify(data));
+        location.reload();
     }
 }
 
 function closeDetail() {
     document.getElementById("productDetail").style.display = "none";
     document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "block");
+    clearInterval(detailTimer);
 }
 </script>
 
