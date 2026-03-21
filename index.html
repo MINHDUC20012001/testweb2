@@ -15,31 +15,27 @@ nav{margin-top:10px;display:flex;gap:15px;flex-wrap:wrap}
 nav a{color:white;text-decoration:none;font-weight:bold;font-size:14px;}
 .menu-item{position:relative;}
 .dropdown{position:absolute;top:100%;left:0;background:white;color:black;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.15);display:none;min-width:160px;z-index: 999;}
-.dropdown a{display:block;padding:10px 12px;color:#111;font-weight:normal}
+.dropdown a{display:block;padding:10px 12px;color:#111;}
 .menu-item:hover .dropdown{display:block}
 
-/* SLIDESHOW TỰ ĐỘNG LẤY ẢNH MÁY ĐÃ ĐĂNG */
+/* SLIDESHOW */
 .slideshow-container { width: 100%; position: relative; height: 300px; background: #000; overflow: hidden; }
-.mySlides { display: none; height: 100%; }
+.mySlides { display: none; height: 100%; animation: fade 1.5s; }
 .mySlides img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
-.hero-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; width: 90%; z-index: 10; }
+@keyframes fade { from {opacity: .4} to {opacity: 1} }
+.hero-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; width: 90%; z-index: 10; pointer-events: none; }
 
 /* GRID & CARD */
 .section{padding:40px 15px; max-width:1200px; margin:auto}
-.section h2{text-align:center; margin-bottom:30px; border-left: 5px solid #e11d48; padding-left: 10px; display: inline-block;}
+.section h2{text-align:left; margin-bottom:20px; color:#0f172a; border-bottom: 2px solid #e11d48; display: inline-block; padding-bottom: 5px;}
 .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:20px}
-.card{background:white; border-radius:12px; padding:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); position: relative; transition: 0.3s;}
-.card:hover{transform: translateY(-5px);}
+.card{background:white; border-radius:12px; padding:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); position: relative;}
 .card img{width:100%; height:180px; object-fit:cover; border-radius:8px;}
 .price{color:#e11d48; font-weight:bold;}
 
-/* NÚT BẤM */
+/* NÚT */
 .btn-detail{width:100%; background:#e11d48; color:white; border:none; padding:10px; border-radius:6px; margin-top:10px; cursor:pointer}
-.btn-delete{position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.7); color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer; font-weight:bold;}
-
-/* TRANG CHI TIẾT */
-.detail-page{display:none; padding:20px; max-width:1200px; margin:auto}
-.detail-img{width:100%; border-radius:12px; margin-bottom:15px;}
+.btn-delete{position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.8); color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer; font-weight:bold; z-index: 5;}
 
 /* POPUP ĐĂNG MÁY */
 #adminPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 15px; box-shadow: 0 0 30px rgba(0,0,0,0.5); z-index: 10001; width: 85%; max-width: 400px; }
@@ -47,10 +43,11 @@ nav a{color:white;text-decoration:none;font-weight:bold;font-size:14px;}
 
 /* LIÊN HỆ */
 .contact-buttons {position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 9999;}
-.btn-call, .btn-zalo {flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
+.btn-call, .btn-zalo {flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px;}
 .btn-call { background: #e11d48; }
 .btn-zalo { background: #0084ff; }
 
+.detail-page{display:none; padding:20px; max-width:1200px; margin:auto}
 footer{background:#0f172a; color:white; text-align:center; padding:20px; margin-top: 30px;}
 </style>
 </head>
@@ -61,15 +58,8 @@ footer{background:#0f172a; color:white; text-align:center; padding:20px; margin-
     <h2>Minh Bảo Spa</h2>
     <nav>
         <a href="#home" onclick="closeDetail()">Trang chủ</a>
-        <div class="menu-item">
-            <a href="#trietlong" onclick="closeDetail()">Máy triệt lông ▾</a>
-            <div class="dropdown"><a href="#trietlong">IPL</a><a href="#trietlong">Diode Laser</a></div>
-        </div>
-        <div class="menu-item">
-            <a href="#laser" onclick="closeDetail()">Laser ▾</a>
-            <div class="dropdown"><a href="#laser">Q-Switch</a><a href="#laser">CO2 Fractional</a></div>
-        </div>
-        <a href="#giambeo" onclick="closeDetail()">Giảm béo</a>
+        <a href="#trietlong" onclick="closeDetail()">Triệt lông</a>
+        <a href="#laser" onclick="closeDetail()">Laser</a>
         <a href="#thanhly" onclick="closeDetail()">Thanh lý</a>
         <a href="#suamay" onclick="closeDetail()">Sửa máy</a>
     </nav>
@@ -78,42 +68,22 @@ footer{background:#0f172a; color:white; text-align:center; padding:20px; margin-
 <div id="home" class="slideshow-container">
     <div id="slideWrapper"></div>
     <div class="hero-text">
-        <h1 style="font-size:22px">THIẾT BỊ SPA MINH BẢO</h1>
-        <p style="font-size:14px">Đẳng cấp - Chất lượng - Tận tâm</p>
+        <h1 style="margin:0; font-size:22px">THIẾT BỊ SPA CHUYÊN NGHIỆP</h1>
+        <p>Uy tín - Chất lượng - Giá tốt</p>
     </div>
 </div>
 
-<div id="trietlong" class="section">
-    <h2>Máy Triệt Lông</h2>
-    <div class="grid" id="grid-trietlong"></div>
-</div>
-
-<div id="laser" class="section">
-    <h2>Laser Thẩm Mỹ</h2>
-    <div class="grid" id="grid-laser"></div>
-</div>
-
-<div id="giambeo" class="section">
-    <h2>Máy Giảm Béo</h2>
-    <div class="grid" id="grid-giambeo"></div>
-</div>
-
-<div id="thanhly" class="section">
-    <h2>Máy Thanh Lý</h2>
-    <div class="grid" id="grid-thanhly"></div>
-</div>
-
-<div id="suamay" class="section">
-    <h2>Sửa Chữa & Bảo Trì</h2>
-    <div class="grid" id="grid-suamay"></div>
-</div>
+<div id="trietlong" class="section"><h2>Máy Triệt Lông</h2><div class="grid" id="grid-trietlong"></div></div>
+<div id="laser" class="section"><h2>Laser Thẩm Mỹ</h2><div class="grid" id="grid-laser"></div></div>
+<div id="thanhly" class="section"><h2>Máy Thanh Lý</h2><div class="grid" id="grid-thanhly"></div></div>
+<div id="suamay" class="section"><h2>Sửa Chữa & Bảo Trì</h2><div class="grid" id="grid-suamay"></div></div>
 
 <div id="productDetail" class="detail-page">
-    <button onclick="closeDetail()" style="padding:10px; margin-bottom:15px; cursor:pointer">⬅ Quay lại danh sách</button>
-    <img id="detailImg" class="detail-img">
+    <button onclick="closeDetail()" style="padding:10px; margin-bottom:15px;">⬅ Quay lại</button>
+    <img id="detailImg" style="width:100%; border-radius:10px;">
     <h2 id="detailTitle"></h2>
-    <p class="price" id="detailPriceDisplay" style="font-size:22px"></p>
-    <p id="detailDesc" style="line-height:1.6; font-size:16px; color:#333; white-space: pre-line;"></p>
+    <p class="price" id="detailPriceDisplay"></p>
+    <p id="detailDesc" style="white-space: pre-line; line-height:1.6;"></p>
 </div>
 
 <div id="adminPopup">
@@ -124,18 +94,17 @@ footer{background:#0f172a; color:white; text-align:center; padding:20px; margin-
     <select id="upCat">
         <option value="trietlong">Máy triệt lông</option>
         <option value="laser">Laser thẩm mỹ</option>
-        <option value="giambeo">Máy giảm béo</option>
         <option value="thanhly">Máy thanh lý</option>
-        <option value="suamay">Dịch vụ sửa máy</option>
+        <option value="suamay">Sửa chữa máy</option>
     </select>
-    <textarea id="upDesc" rows="4" placeholder="Mô tả chi tiết máy..."></textarea>
+    <textarea id="upDesc" rows="4" placeholder="Mô tả chi tiết..."></textarea>
     <button style="width:100%; margin-top:15px; padding:15px; background:#e11d48; color:white; border:none; border-radius:8px; font-weight:bold;" onclick="saveNewMachine()">ĐĂNG NGAY</button>
-    <button style="width:100%; margin-top:10px; padding:10px; background:#666; color:white; border:none; border-radius:8px;" onclick="document.getElementById('adminPopup').style.display='none'">Hủy bỏ</button>
+    <button style="width:100%; margin-top:10px; padding:10px; background:#666; color:white; border:none; border-radius:8px;" onclick="document.getElementById('adminPopup').style.display='none'">Đóng</button>
 </div>
 
 <div class="contact-buttons">
     <a href="tel:0900000000" class="btn-call">📞 GỌI ĐIỆN</a>
-    <a href="https://zalo.me/0900000000" class="btn-zalo">💬 CHAT ZALO</a>
+    <a href="https://zalo.me/0900000000" class="btn-zalo">💬 ZALO</a>
 </div>
 
 <footer>
@@ -144,38 +113,76 @@ footer{background:#0f172a; color:white; text-align:center; padding:20px; margin-
 
 <script>
 let slideIndex = 0;
-let timer;
+let slideTimer;
 
 window.onload = function() { refreshData(); };
 
-function refreshData() {
-    const data = JSON.parse(localStorage.getItem('spa_full_v6') || '[]');
-    
-    // Xóa trắng các grid trước khi vẽ lại
-    const cats = ['trietlong', 'laser', 'giambeo', 'thanhly', 'suamay'];
-    cats.forEach(c => document.getElementById('grid-'+c).innerHTML = "");
+function saveNewMachine() {
+    const fileInput = document.getElementById('upFile');
+    const title = document.getElementById('upTitle').value;
+    const price = document.getElementById('upPrice').value || "Liên hệ";
+    const cat = document.getElementById('upCat').value;
+    const desc = document.getElementById('upDesc').value;
 
-    // Vẽ từng card vào đúng mục của nó
-    data.forEach((p, index) => {
+    if (!fileInput.files[0] || !title) {
+        alert("Vui lòng chọn ảnh và nhập tên máy!");
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const newProduct = {
+            id: Date.now(), // Tạo ID duy nhất để không bị nhầm khi xóa
+            img: e.target.result,
+            title: title,
+            price: price,
+            cat: cat,
+            desc: desc
+        };
+        let data = JSON.parse(localStorage.getItem('minhbao_data') || '[]');
+        data.push(newProduct);
+        localStorage.setItem('minhbao_data', JSON.stringify(data));
+        
+        // Reset form
+        fileInput.value = "";
+        document.getElementById('upTitle').value = "";
+        document.getElementById('upDesc').value = "";
+        document.getElementById('adminPopup').style.display = 'none';
+        
+        refreshData();
+        alert("Đã đăng thành công!");
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+}
+
+function refreshData() {
+    const data = JSON.parse(localStorage.getItem('minhbao_data') || '[]');
+    const cats = ['trietlong', 'laser', 'thanhly', 'suamay'];
+    
+    // Xóa dữ liệu cũ trên màn hình
+    cats.forEach(c => document.getElementById('grid-' + c).innerHTML = "");
+
+    // Vẽ máy vào từng mục
+    data.forEach((p) => {
         const grid = document.getElementById('grid-' + p.cat);
-        if(grid) {
+        if (grid) {
             const card = document.createElement('div');
             card.className = 'card';
             card.innerHTML = `
-                <button class="btn-delete" onclick="deleteMachine(${index})">×</button>
+                <button class="btn-delete" onclick="deleteMachine(${p.id})">×</button>
                 <img src="${p.img}">
                 <h3>${p.title}</h3>
                 <p class="price">Giá: ${p.price}</p>
-                <button class="btn-detail" onclick="showDetail('${p.title}','${p.desc.replace(/'/g, "\\'")}','${p.img}','${p.price}')">Xem chi tiết</button>
+                <button class="btn-detail" onclick="showDetail('${p.id}')">Xem chi tiết</button>
             `;
-            grid.prepend(card);
+            grid.prepend(card); // Máy mới nhất hiện lên đầu mục
         }
     });
 
-    // Cập nhật Slideshow (Lấy 5 ảnh máy bất kỳ đã đăng)
+    // Cập nhật Slideshow
     const slideWrapper = document.getElementById('slideWrapper');
     slideWrapper.innerHTML = "";
-    if(data.length > 0) {
+    if (data.length > 0) {
         data.slice(-5).forEach(p => {
             const div = document.createElement('div');
             div.className = "mySlides";
@@ -188,60 +195,41 @@ function refreshData() {
     }
 }
 
-function startSlideshow() {
-    clearTimeout(timer); slideIndex = 0; showSlides();
-}
-
-function showSlides() {
-    let slides = document.getElementsByClassName("mySlides");
-    if(slides.length === 0) return;
-    for (let i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
-    slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}
-    slides[slideIndex-1].style.display = "block";
-    timer = setTimeout(showSlides, 3000); 
-}
-
-function saveNewMachine() {
-    const file = document.getElementById('upFile').files[0];
-    const title = document.getElementById('upTitle').value;
-    const price = document.getElementById('upPrice').value || "Liên hệ";
-    const cat = document.getElementById('upCat').value;
-    const desc = document.getElementById('upDesc').value;
-
-    if(!file || !title) { alert("Thiếu ảnh hoặc tên máy!"); return; }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const newProduct = { img: e.target.result, title, price, cat, desc };
-        const data = JSON.parse(localStorage.getItem('spa_full_v6') || '[]');
-        data.push(newProduct);
-        localStorage.setItem('spa_full_v6', JSON.stringify(data));
-        
-        document.getElementById('adminPopup').style.display = 'none';
-        refreshData();
-        alert("Đã đăng thành công!");
-    };
-    reader.readAsDataURL(file);
-}
-
-function deleteMachine(index) {
-    if(confirm("Xóa máy này?")) {
-        let data = JSON.parse(localStorage.getItem('spa_full_v6') || '[]');
-        data.splice(index, 1);
-        localStorage.setItem('spa_full_v6', JSON.stringify(data));
+function deleteMachine(id) {
+    if (confirm("Bạn có chắc muốn xóa máy này?")) {
+        let data = JSON.parse(localStorage.getItem('minhbao_data') || '[]');
+        data = data.filter(item => item.id !== id);
+        localStorage.setItem('minhbao_data', JSON.stringify(data));
         refreshData();
     }
 }
 
-function showDetail(title, desc, img, price) {
-    document.getElementById("detailTitle").innerText = title;
-    document.getElementById("detailDesc").innerText = desc;
-    document.getElementById("detailImg").src = img;
-    document.getElementById("detailPriceDisplay").innerText = "Giá: " + price;
-    document.querySelectorAll(".section, .slideshow-container").forEach(s => s.style.display = "none");
-    document.getElementById("productDetail").style.display = "block";
-    window.scrollTo(0,0);
+function startSlideshow() {
+    clearInterval(slideTimer);
+    slideIndex = 0;
+    let slides = document.getElementsByClassName("mySlides");
+    if (slides.length > 0) {
+        slides[0].style.display = "block";
+        slideTimer = setInterval(() => {
+            for (let i = 0; i < slides.length; i++) slides[i].style.display = "none";
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].style.display = "block";
+        }, 3000);
+    }
+}
+
+function showDetail(id) {
+    const data = JSON.parse(localStorage.getItem('minhbao_data') || '[]');
+    const p = data.find(item => item.id == id);
+    if (p) {
+        document.getElementById("detailTitle").innerText = p.title;
+        document.getElementById("detailDesc").innerText = p.desc;
+        document.getElementById("detailImg").src = p.img;
+        document.getElementById("detailPriceDisplay").innerText = "Giá: " + p.price;
+        document.querySelectorAll(".section, .slideshow-container").forEach(s => s.style.display = "none");
+        document.getElementById("productDetail").style.display = "block";
+        window.scrollTo(0, 0);
+    }
 }
 
 function closeDetail() {
