@@ -7,24 +7,24 @@
 
 <style>
 body{font-family:Arial;margin:0;background:#f4f6f8}
-header{background:#0f172a;color:white;padding:20px}
-header h2{margin:0}
+header{background:#0f172a;color:white;padding:15px}
+header h2{margin:0;font-size:18px}
 
-/* FIX MENU */
+/* MENU */
 nav{
 margin-top:10px;
 display:flex;
-gap:20px;
+gap:15px;
 align-items:center;
-flex-wrap:wrap
+overflow-x:auto;
+white-space:nowrap;
 }
 
 nav a{
 color:white;
 text-decoration:none;
 font-weight:bold;
-display:flex;
-align-items:center;
+font-size:14px;
 }
 
 /* FIX LỆCH */
@@ -45,29 +45,42 @@ border-radius:8px;
 box-shadow:0 8px 20px rgba(0,0,0,0.15);
 display:none;
 min-width:180px;
-padding-top:5px
+z-index:999;
 }
 
 .dropdown a{
 display:block;
-padding:10px 15px;
+padding:10px;
 color:#111;
 font-weight:normal
 }
 
 .dropdown a:hover{background:#f1f1f1}
+
+/* PC hover */
+@media(min-width:769px){
 .menu-item:hover .dropdown{display:block}
+}
+
+/* MOBILE dropdown */
+@media(max-width:768px){
+.dropdown{
+position:static;
+box-shadow:none;
+margin-left:10px;
+}
+}
 
 /* HERO */
 .hero{
 background:linear-gradient(135deg,#111,#444);
 color:white;
-padding:80px 20px;
+padding:50px 15px;
 text-align:center
 }
 
 .hero h1{
-font-size:36px;
+font-size:22px;
 margin-bottom:10px
 }
 
@@ -76,52 +89,74 @@ button{
 background:#e11d48;
 color:white;
 border:none;
-padding:12px 20px;
+padding:10px 15px;
 border-radius:6px;
 cursor:pointer
 }
 
 /* SECTION */
 .section{
-padding:60px 20px;
+padding:40px 15px;
 max-width:1200px;
 margin:auto
 }
 
 .section h2{
 text-align:center;
-margin-bottom:40px
+margin-bottom:20px;
+font-size:20px
 }
 
 /* GRID */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px
 }
 
 /* CARD */
 .card{
 background:white;
-border-radius:12px;
-padding:20px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
-transition:0.2s
+border-radius:10px;
+padding:15px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1)
 }
 
-.card:hover{transform:translateY(-5px)}
+.card h3{
+font-size:14px;
+}
 
 .price{
 color:#e11d48;
-font-weight:bold
+font-weight:bold;
+font-size:14px
 }
 
-/* SERVICE */
-.service{
+/* DETAIL */
+.detail-page{
+display:none;
+padding:20px
+}
+
+.detail-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:20px;
 background:white;
-border-radius:12px;
-padding:25px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08)
+padding:20px;
+border-radius:10px
+}
+
+.detail-img{
+width:100%;
+border-radius:10px
+}
+
+/* PC DETAIL */
+@media(min-width:769px){
+.detail-grid{
+grid-template-columns:1fr 1fr;
+}
 }
 
 /* FOOTER */
@@ -129,50 +164,9 @@ footer{
 background:#0f172a;
 color:white;
 text-align:center;
-padding:30px;
-margin-top:40px
-}
-
-/* CONTACT */
-.contact-box{
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08)
-}
-
-/* FORM */
-input,textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:1px solid #ccc;
-border-radius:6px
-}
-
-form button{margin-top:10px}
-
-/* DETAIL */
-.detail-page{
-display:none;
-padding:60px 20px;
-max-width:1200px;
-margin:auto
-}
-
-.detail-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08)
-}
-
-.detail-img{
-width:100%;
-border-radius:10px
+padding:20px;
+margin-top:30px;
+font-size:14px
 }
 
 </style>
@@ -181,56 +175,27 @@ border-radius:10px
 <body>
 
 <header>
-<h2>Minh Bảo - Thiết Bị Spa & Thẩm Mỹ</h2>
+<h2>Minh Bảo - Thiết Bị Spa</h2>
 
 <nav>
 <a href="#home">Trang chủ</a>
 
 <div class="menu-item">
-<a href="#trietlong">Máy triệt lông ▾</a>
+<a href="#trietlong">Triệt lông ▾</a>
 <div class="dropdown">
 <a href="#trietlong">IPL</a>
 <a href="#trietlong">OPT</a>
-<a href="#trietlong">Diode Laser</a>
+<a href="#trietlong">Diode</a>
 <a href="#trietlong">SHR</a>
 </div>
 </div>
 
 <div class="menu-item">
-<a href="#laser">Laser thẩm mỹ ▾</a>
+<a href="#laser">Laser ▾</a>
 <div class="dropdown">
-<a href="#laser">Q-Switch ND YAG</a>
-<a href="#laser">CO2 Fractional</a>
-<a href="#laser">Laser Pico</a>
-<a href="#laser">Laser trị nám</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#giambeo">Máy giảm béo ▾</a>
-<div class="dropdown">
-<a href="#giambeo">Cavitation 40K</a>
-<a href="#giambeo">RF nâng cơ</a>
-<a href="#giambeo">Lipo Laser</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#thanhly">Máy thanh lý ▾</a>
-<div class="dropdown">
-<a href="#thanhly">Máy triệt lông thanh lý</a>
-<a href="#thanhly">Laser thanh lý</a>
-<a href="#thanhly">Máy spa khác</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#suamay">Sửa máy spa ▾</a>
-<div class="dropdown">
-<a href="#suamay">Sửa máy triệt lông</a>
-<a href="#suamay">Sửa laser CO2</a>
-<a href="#suamay">Sửa Q-Switch</a>
-<a href="#suamay">Thay linh kiện</a>
+<a href="#laser">Q-Switch</a>
+<a href="#laser">CO2</a>
+<a href="#laser">Pico</a>
 </div>
 </div>
 
@@ -240,9 +205,8 @@ border-radius:10px
 
 <!-- HERO -->
 <div id="home" class="hero">
-<h1>Cung cấp thiết bị spa chuyên nghiệp</h1>
-<p>Máy mới - Máy thanh lý 90-98% - Bảo hành dài hạn</p>
-<a href="#lienhe"><button>Liên hệ tư vấn ngay</button></a>
+<h1>Thiết bị spa chuyên nghiệp</h1>
+<p>Máy mới - Thanh lý - Bảo hành dài</p>
 </div>
 
 <!-- TRIET LONG -->
@@ -251,17 +215,15 @@ border-radius:10px
 <div class="grid">
 
 <div class="card">
-<h3>Máy Triệt Lông Diode Laser 808nm</h3>
-<p>Công nghệ triệt lông hiện đại cho spa.</p>
+<h3>Diode Laser 808nm</h3>
 <p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy Triệt Lông Diode Laser 808nm','Công nghệ triệt lông hiện đại cho spa','https://via.placeholder.com/600')">Xem chi tiết</button>
+<button onclick="showDetail('Diode Laser 808nm','Máy cao cấp','https://via.placeholder.com/600')">Xem</button>
 </div>
 
 <div class="card">
-<h3>Máy Triệt Lông IPL</h3>
-<p>Phù hợp spa mới mở.</p>
+<h3>IPL</h3>
 <p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy Triệt Lông IPL','Phù hợp spa mới mở','https://via.placeholder.com/600')">Xem chi tiết</button>
+<button onclick="showDetail('IPL','Dành cho spa mới','https://via.placeholder.com/600')">Xem</button>
 </div>
 
 </div>
@@ -270,10 +232,10 @@ border-radius:10px
 <!-- DETAIL -->
 <div id="productDetail" class="detail-page">
 <button onclick="closeDetail()">⬅ Quay lại</button>
+
 <div class="detail-grid">
-<div>
 <img id="detailImg" class="detail-img">
-</div>
+
 <div>
 <h2 id="detailTitle"></h2>
 <p class="price">Giá: Liên hệ</p>
@@ -283,7 +245,7 @@ border-radius:10px
 </div>
 
 <footer>
-<p>© 2026 Thiết Bị Spa Minh Bảo</p>
+<p>© 2026 Minh Bảo Spa</p>
 </footer>
 
 <script>
