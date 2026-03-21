@@ -33,18 +33,18 @@ button{background:#e11d48;color:white;border:none;padding:12px 20px;border-radiu
 /* GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
 
-/* CARD */
+/* CARD - HIỆN ẢNH NGOÀI */
 .card{background:white;border-radius:12px;padding:15px;box-shadow:0 6px 15px rgba(0,0,0,0.08);transition:0.2s}
 .card:hover{transform:translateY(-5px)}
 .card img{width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:10px;}
 .price{color:#e11d48;font-weight:bold}
 
-/* DETAIL PAGE */
+/* DETAIL */
 .detail-page{display:none;padding:60px 20px;max-width:1200px;margin:auto}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:white;padding:30px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
 .detail-img{width:100%;border-radius:10px;}
 
-/* ADMIN POPUP */
+/* ADMIN */
 #adminPopup {
     display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     background: white; padding: 20px; border-radius: 15px; box-shadow: 0 0 30px rgba(0,0,0,0.5);
@@ -52,7 +52,6 @@ button{background:#e11d48;color:white;border:none;padding:12px 20px;border-radiu
 }
 .admin-btn { width: 100%; margin-top: 10px; font-weight: bold; }
 
-/* FOOTER */
 footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:40px}
 
 @media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr; } }
@@ -69,19 +68,38 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
         <div class="menu-item">
             <a href="#trietlong" onclick="closeDetail()">Máy triệt lông ▾</a>
             <div class="dropdown">
-                <a href="#trietlong" onclick="closeDetail()">IPL</a>
-                <a href="#trietlong" onclick="closeDetail()">OPT</a>
-                <a href="#trietlong" onclick="closeDetail()">Diode Laser</a>
+                <a href="#trietlong" onclick="closeDetail()">IPL</a><a href="#trietlong" onclick="closeDetail()">OPT</a><a href="#trietlong" onclick="closeDetail()">Diode Laser</a>
             </div>
         </div>
-        
+
         <div class="menu-item">
             <a href="#laser" onclick="closeDetail()">Laser thẩm mỹ ▾</a>
             <div class="dropdown">
-                <a href="#laser" onclick="closeDetail()">Q-Switch</a>
-                <a href="#laser" onclick="closeDetail()">CO2 Fractional</a>
+                <a href="#laser" onclick="closeDetail()">Q-Switch</a><a href="#laser" onclick="closeDetail()">CO2 Fractional</a>
             </div>
         </div>
+
+        <div class="menu-item">
+            <a href="#giambeo" onclick="closeDetail()">Máy giảm béo ▾</a>
+            <div class="dropdown">
+                <a href="#giambeo" onclick="closeDetail()">Cavitation</a><a href="#giambeo" onclick="closeDetail()">RF nâng cơ</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="#thanhly" onclick="closeDetail()">Máy thanh lý ▾</a>
+            <div class="dropdown">
+                <a href="#thanhly" onclick="closeDetail()">Máy triệt lông cũ</a><a href="#thanhly" onclick="closeDetail()">Laser cũ</a>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <a href="#suamay" onclick="closeDetail()">Sửa máy spa ▾</a>
+            <div class="dropdown">
+                <a href="#suamay" onclick="closeDetail()">Thay xung</a><a href="#suamay" onclick="closeDetail()">Sửa bo mạch</a>
+            </div>
+        </div>
+        
         <a href="#lienhe" onclick="closeDetail()">Liên hệ</a>
     </nav>
 </header>
@@ -96,14 +114,19 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
     <h2>Máy triệt lông</h2>
     <div class="grid" id="mainGrid">
         <div class="card">
-            <img src="https://via.placeholder.com/300x200" alt="Máy triệt lông">
+            <img src="https://via.placeholder.com/300x200" alt="Máy mẫu">
             <h3>Máy Triệt Lông Diode Laser 808nm</h3>
-            <p>Công nghệ triệt lông hiện đại cho spa.</p>
+            <p>Công nghệ hiện đại cho spa chuyên nghiệp.</p>
             <p class="price">Giá: Liên hệ</p>
-            <button onclick="showDetail('Máy Triệt Lông Diode Laser 808nm','Công nghệ triệt lông hiện đại cho spa. Hỗ trợ trả góp.','https://via.placeholder.com/600')">Xem chi tiết</button>
+            <button onclick="showDetail('Máy Triệt Lông Diode Laser 808nm','Chi tiết: Dòng máy Diode Laser 808nm mang lại hiệu quả triệt lông vĩnh viễn, không gây đau rát.','https://via.placeholder.com/600')">Xem chi tiết</button>
         </div>
     </div>
 </div>
+
+<div id="laser" class="section" style="background:#fff"><h2>Laser thẩm mỹ</h2><div class="grid"></div></div>
+<div id="giambeo" class="section"><h2>Máy giảm béo</h2><div class="grid"></div></div>
+<div id="thanhly" class="section" style="background:#fff"><h2>Máy thanh lý</h2><div class="grid"></div></div>
+<div id="suamay" class="section"><h2>Sửa chữa & Bảo trì</h2><div class="grid"></div></div>
 
 <div id="productDetail" class="detail-page">
     <button onclick="closeDetail()" style="margin-bottom:15px">⬅ Quay lại</button>
@@ -132,9 +155,8 @@ footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:
 </footer>
 
 <script>
-// LOAD DỮ LIỆU CŨ
 window.onload = function() {
-    const data = JSON.parse(localStorage.getItem('spa_final_v3') || '[]');
+    const data = JSON.parse(localStorage.getItem('spa_final_all_cats') || '[]');
     data.forEach(p => renderCard(p));
 };
 
@@ -144,18 +166,18 @@ function saveNewMachine() {
     const price = document.getElementById('upPrice').value || "Liên hệ";
     const desc = document.getElementById('upDesc').value;
 
-    if(!file || !title) { alert("Vui lòng chọn ảnh và nhập tên!"); return; }
+    if(!file || !title) { alert("Vui lòng nhập ảnh và tên máy!"); return; }
 
     const reader = new FileReader();
     reader.onload = function(e) {
         const newProduct = { img: e.target.result, title, price, desc };
-        const currentList = JSON.parse(localStorage.getItem('spa_final_v3') || '[]');
+        const currentList = JSON.parse(localStorage.getItem('spa_final_all_cats') || '[]');
         currentList.push(newProduct);
-        localStorage.setItem('spa_final_v3', JSON.stringify(currentList));
+        localStorage.setItem('spa_final_all_cats', JSON.stringify(currentList));
 
         renderCard(newProduct);
         document.getElementById('adminPopup').style.display = 'none';
-        alert("Đăng máy thành công!");
+        alert("Đăng thành công!");
     };
     reader.readAsDataURL(file);
 }
@@ -185,7 +207,6 @@ function showDetail(title, desc, img, price = "Liên hệ") {
     window.scrollTo(0,0);
 }
 
-// HÀM QUAY VỀ TRANG CHỦ
 function closeDetail() {
     document.getElementById("productDetail").style.display = "none";
     document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "block");
