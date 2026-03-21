@@ -6,178 +6,180 @@
 <title>Thiết Bị Spa Minh Bảo</title>
 
 <style>
-body{font-family:Arial;margin:0;background:#f4f6f8; padding-bottom: 70px;} /* Cách đáy để không đè nút */
+body{font-family:Arial;margin:0;background:#f4f6f8; padding-bottom: 80px;}
 header{background:#0f172a;color:white;padding:20px}
 header h2{margin:0}
 
 /* MENU */
-nav{margin-top:10px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-nav a{color:white;text-decoration:none;font-weight:bold;display:flex;align-items:center;}
-.menu-item{position:relative;display:flex;align-items:center;}
-.dropdown{position:absolute;top:100%;left:0;background:white;color:black;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.15);display:none;min-width:180px;padding-top:5px;z-index: 999;}
-.dropdown a{display:block;padding:10px 15px;color:#111;font-weight:normal}
-.dropdown a:hover{background:#f1f1f1}
-.menu-item:hover .dropdown{display:block}
+nav{margin-top:10px;display:flex;gap:15px;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-weight:bold;font-size:14px;}
 
-/* HERO */
-.hero{background:linear-gradient(135deg,#111,#444);color:white;padding:80px 20px;text-align:center}
-.hero h1{font-size:36px;margin-bottom:10px}
+/* SLIDESHOW TỰ ĐỘNG LẤY TỪ MÁY ĐÃ ĐĂNG */
+.slideshow-container {
+    width: 100%;
+    position: relative;
+    height: 350px;
+    background: #000;
+    overflow: hidden;
+}
+.mySlides { display: none; height: 100%; position: relative; }
+.mySlides img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
 
-/* BUTTON */
-button{background:#e11d48;color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer}
+.hero-text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: white; text-align: center; width: 90%; z-index: 10;
+}
 
-/* SECTION */
-.section{padding:60px 20px;max-width:1200px;margin:auto}
-.section h2{text-align:center;margin-bottom:40px}
+/* GRID & CARD */
+.section{padding:30px 15px; max-width:1200px; margin:auto}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px}
+.card{background:white; border-radius:12px; padding:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); position: relative;}
+.card img{width:100%; height:150px; object-fit:cover; border-radius:8px;}
+.card h3{font-size:15px; margin:10px 0 5px 0; height: 40px; overflow: hidden;}
+.price{color:#e11d48; font-weight:bold; font-size:14px;}
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
+/* NÚT BẤM */
+.btn-detail{width:100%; background:#e11d48; color:white; border:none; padding:8px; border-radius:5px; margin-top:5px; cursor:pointer}
+.btn-delete{position:absolute; top:5px; right:5px; background:rgba(0,0,0,0.5); color:white; border:none; border-radius:50%; width:25px; height:25px; cursor:pointer}
 
-/* CARD */
-.card{background:white;border-radius:12px;padding:15px;box-shadow:0 6px 15px rgba(0,0,0,0.08);transition:0.2s}
-.card:hover{transform:translateY(-5px)}
-.card img{width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:10px;}
-.price{color:#e11d48;font-weight:bold}
+/* TRANG CHI TIẾT */
+.detail-page{display:none; padding:20px; max-width:1200px; margin:auto}
+.detail-img{width:100%; border-radius:12px; margin-bottom:15px;}
 
-/* DETAIL */
-.detail-page{display:none;padding:60px 20px;max-width:1200px;margin:auto}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:white;padding:30px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
-.detail-img{width:100%;border-radius:10px;}
-
-/* ADMIN */
+/* POPUP ĐĂNG MÁY */
 #adminPopup {
     display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     background: white; padding: 20px; border-radius: 15px; box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    z-index: 10000; width: 90%; max-width: 400px; color: #333;
+    z-index: 10000; width: 85%; max-width: 400px;
 }
-.admin-btn { width: 100%; margin-top: 10px; font-weight: bold; }
+#adminPopup input, #adminPopup textarea { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
 
-/* BỘ NÚT LIÊN HỆ (ZALO & GỌI) */
-.contact-buttons {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
-    z-index: 9999;
-}
-.btn-call, .btn-zalo {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    border-radius: 50px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
+/* NÚT LIÊN HỆ */
+.contact-buttons {position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 9999;}
+.btn-call, .btn-zalo {flex: 1; display: flex; align-items: center; justify-content: center; padding: 12px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
 .btn-call { background: #e11d48; }
 .btn-zalo { background: #0084ff; }
 
-footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:40px}
-
-@media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr; } }
+footer{background:#0f172a; color:white; text-align:center; padding:20px; font-size:12px;}
 </style>
 </head>
 
 <body>
 
 <header>
-    <h2>Minh Bảo - Thiết Bị Spa & Thẩm Mỹ</h2>
+    <h2>Minh Bảo Spa</h2>
     <nav>
         <a href="#home" onclick="closeDetail()">Trang chủ</a>
-        <div class="menu-item">
-            <a href="#trietlong" onclick="closeDetail()">Máy triệt lông ▾</a>
-            <div class="dropdown">
-                <a href="#trietlong" onclick="closeDetail()">IPL</a><a href="#trietlong" onclick="closeDetail()">OPT</a><a href="#trietlong" onclick="closeDetail()">Diode Laser</a>
-            </div>
-        </div>
-        <div class="menu-item">
-            <a href="#laser" onclick="closeDetail()">Laser thẩm mỹ ▾</a>
-            <div class="dropdown">
-                <a href="#laser" onclick="closeDetail()">Q-Switch</a><a href="#laser" onclick="closeDetail()">CO2 Fractional</a>
-            </div>
-        </div>
-        <div class="menu-item">
-            <a href="#thanhly" onclick="closeDetail()">Máy thanh lý ▾</a>
-            <div class="dropdown">
-                <a href="#thanhly" onclick="closeDetail()">Máy triệt lông cũ</a><a href="#thanhly" onclick="closeDetail()">Laser cũ</a>
-            </div>
-        </div>
-        <div class="menu-item">
-            <a href="#suamay" onclick="closeDetail()">Sửa máy spa ▾</a>
-            <div class="dropdown">
-                <a href="#suamay" onclick="closeDetail()">Sửa bo mạch</a><a href="#suamay" onclick="closeDetail()">Thay xung</a>
-            </div>
-        </div>
+        <a href="#trietlong" onclick="closeDetail()">Sản phẩm</a>
+        <a href="tel:0900000000">Liên hệ</a>
     </nav>
 </header>
 
-<div id="home" class="hero">
-    <h1>Cung cấp thiết bị spa chuyên nghiệp</h1>
-    <p>Máy mới - Máy thanh lý 90-98% - Bảo hành dài hạn</p>
+<div id="home" class="slideshow-container">
+    <div id="slideWrapper">
+        </div>
+    <div class="hero-text">
+        <h1 style="font-size:24px">THIẾT BỊ SPA CHUYÊN NGHIỆP</h1>
+        <p style="font-size:14px">Máy mới & Thanh lý giá tốt nhất</p>
+        <button onclick="document.getElementById('adminPopup').style.display='block'" style="background:#e11d48; color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold;">ĐĂNG MÁY MỚI</button>
+    </div>
 </div>
 
 <div id="trietlong" class="section">
-    <h2>Máy triệt lông</h2>
+    <h2 style="text-align:center; font-size:20px;">DANH SÁCH MÁY</h2>
     <div class="grid" id="mainGrid">
-        <div class="card">
-            <img src="https://via.placeholder.com/300x200" alt="Máy mẫu">
-            <h3>Máy Triệt Lông Diode Laser 808nm</h3>
-            <p>Công nghệ hiện đại cho spa chuyên nghiệp.</p>
-            <p class="price">Giá: Liên hệ</p>
-            <button onclick="showDetail('Máy Triệt Lông Diode Laser 808nm','Chi tiết: Dòng máy Diode Laser 808nm chuyên triệt lông nhanh, bền bỉ.','https://via.placeholder.com/600')">Xem chi tiết</button>
         </div>
-    </div>
 </div>
-
-<div id="laser" class="section" style="background:#fff"><h2>Laser thẩm mỹ</h2><div class="grid"></div></div>
-<div id="suamay" class="section"><h2>Sửa chữa & Bảo trì</h2><div class="grid"></div></div>
 
 <div id="productDetail" class="detail-page">
-    <button onclick="closeDetail()" style="margin-bottom:15px">⬅ Quay lại</button>
-    <div class="detail-grid">
-        <div><img id="detailImg" class="detail-img"></div>
-        <div>
-            <h2 id="detailTitle"></h2>
-            <p class="price" id="detailPriceDisplay"></p>
-            <p id="detailDesc"></p>
-        </div>
-    </div>
-</div>
-
-<div id="adminPopup">
-    <h3>Đăng máy mới</h3>
-    <input type="file" id="upFile" accept="image/*">
-    <input type="text" id="upTitle" placeholder="Tên máy...">
-    <input type="text" id="upPrice" placeholder="Giá máy...">
-    <textarea id="upDesc" rows="4" placeholder="Mô tả chi tiết..."></textarea>
-    <button class="admin-btn" onclick="saveNewMachine()">ĐĂNG MÁY</button>
-    <button class="admin-btn" style="background:#666" onclick="document.getElementById('adminPopup').style.display='none'">Đóng</button>
+    <button onclick="closeDetail()" style="padding:10px; margin-bottom:10px;">⬅ Quay lại</button>
+    <img id="detailImg" class="detail-img">
+    <h2 id="detailTitle"></h2>
+    <p class="price" id="detailPriceDisplay" style="font-size:20px"></p>
+    <p id="detailDesc" style="line-height:1.6; color:#444"></p>
 </div>
 
 <div class="contact-buttons">
-    <a href="tel:0900000000" class="btn-call">
-        <span>📞 Gọi điện ngay</span>
-    </a>
-    <a href="https://zalo.me/0900000000" target="_blank" class="btn-zalo">
-        <span>💬 Chat Zalo</span>
-    </a>
+    <a href="tel:0900000000" class="btn-call">📞 GỌI ĐIỆN</a>
+    <a href="https://zalo.me/0900000000" target="_blank" class="btn-zalo">💬 CHAT ZALO</a>
+</div>
+
+<div id="adminPopup">
+    <h3 style="margin:0; text-align:center">Đăng máy từ điện thoại</h3>
+    <input type="file" id="upFile" accept="image/*">
+    <input type="text" id="upTitle" placeholder="Tên máy...">
+    <input type="text" id="upPrice" placeholder="Giá máy...">
+    <textarea id="upDesc" rows="4" placeholder="Mô tả máy..."></textarea>
+    <button style="width:100%; margin-top:15px; padding:15px; background:#e11d48; color:white; border:none; border-radius:8px; font-weight:bold;" onclick="saveNewMachine()">ĐĂNG NGAY</button>
+    <button style="width:100%; margin-top:10px; padding:10px; background:#666; color:white; border:none; border-radius:8px;" onclick="document.getElementById('adminPopup').style.display='none'">Đóng</button>
 </div>
 
 <footer>
-    <p>© <span style="cursor:pointer" onclick="document.getElementById('adminPopup').style.display='block'">2026</span> Thiết Bị Spa Minh Bảo</p>
+    <p>© <span onclick="document.getElementById('adminPopup').style.display='block'">2026</span> Thiết Bị Spa Minh Bảo</p>
 </footer>
 
 <script>
+let slideIndex = 0;
+let timer;
+
 window.onload = function() {
-    const data = JSON.parse(localStorage.getItem('spa_v4_all') || '[]');
-    data.forEach(p => renderCard(p));
+    refreshData();
 };
+
+// Hàm lấy dữ liệu và vẽ lại toàn bộ trang
+function refreshData() {
+    const data = JSON.parse(localStorage.getItem('spa_pro_v5') || '[]');
+    
+    // 1. Vẽ danh sách máy ở dưới
+    const grid = document.getElementById('mainGrid');
+    grid.innerHTML = "";
+    data.slice().reverse().forEach((p, index) => {
+        const realIndex = data.length - 1 - index;
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+            <button class="btn-delete" onclick="deleteMachine(${realIndex})">×</button>
+            <img src="${p.img}">
+            <h3>${p.title}</h3>
+            <p class="price">Giá: ${p.price}</p>
+            <button class="btn-detail" onclick="showDetail('${p.title}','${p.desc.replace(/\n/g, '<br>')}','${p.img}','${p.price}')">Xem chi tiết</button>
+        `;
+        grid.appendChild(card);
+    });
+
+    // 2. Cập nhật Slideshow (lấy 5 máy mới nhất)
+    const slideWrapper = document.getElementById('slideWrapper');
+    slideWrapper.innerHTML = "";
+    const latest = data.slice(-5); // Lấy 5 máy cuối cùng
+    
+    if(latest.length === 0) {
+        slideWrapper.innerHTML = `<div class="mySlides" style="display:block"><img src="https://via.placeholder.com/1200x500?text=Minh+Bao+Spa"></div>`;
+    } else {
+        latest.forEach(p => {
+            const div = document.createElement('div');
+            div.className = "mySlides fade";
+            div.innerHTML = `<img src="${p.img}">`;
+            slideWrapper.appendChild(div);
+        });
+        startSlideshow();
+    }
+}
+
+function startSlideshow() {
+    clearTimeout(timer);
+    slideIndex = 0;
+    showSlides();
+}
+
+function showSlides() {
+    let slides = document.getElementsByClassName("mySlides");
+    if(slides.length === 0) return;
+    for (let i = 0; i < slides.length; i++) { slides[i].style.display = "none"; }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}
+    slides[slideIndex-1].style.display = "block";
+    timer = setTimeout(showSlides, 3000); 
+}
 
 function saveNewMachine() {
     const file = document.getElementById('upFile').files[0];
@@ -185,49 +187,48 @@ function saveNewMachine() {
     const price = document.getElementById('upPrice').value || "Liên hệ";
     const desc = document.getElementById('upDesc').value;
 
-    if(!file || !title) { alert("Vui lòng nhập ảnh và tên máy!"); return; }
+    if(!file || !title) { alert("Vui lòng chọn ảnh và nhập tên máy!"); return; }
 
     const reader = new FileReader();
     reader.onload = function(e) {
         const newProduct = { img: e.target.result, title, price, desc };
-        const currentList = JSON.parse(localStorage.getItem('spa_v4_all') || '[]');
+        const currentList = JSON.parse(localStorage.getItem('spa_pro_v5') || '[]');
         currentList.push(newProduct);
-        localStorage.setItem('spa_v4_all', JSON.stringify(currentList));
-
-        renderCard(newProduct);
+        localStorage.setItem('spa_pro_v5', JSON.stringify(currentList));
+        
         document.getElementById('adminPopup').style.display = 'none';
-        alert("Đã đăng máy thành công!");
+        document.getElementById('upTitle').value = "";
+        document.getElementById('upDesc').value = "";
+        refreshData();
+        alert("Đã đăng máy và cập nhật Slideshow!");
     };
     reader.readAsDataURL(file);
 }
 
-function renderCard(p) {
-    const grid = document.getElementById('mainGrid');
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-        <img src="${p.img}">
-        <h3>${p.title}</h3>
-        <p>${p.desc.substring(0, 50)}...</p>
-        <p class="price">Giá: ${p.price}</p>
-        <button onclick="showDetail('${p.title}','${p.desc}','${p.img}','${p.price}')">Xem chi tiết</button>
-    `;
-    grid.prepend(card);
+function deleteMachine(index) {
+    if(confirm("Bạn muốn xóa máy này?")) {
+        let currentList = JSON.parse(localStorage.getItem('spa_pro_v5') || '[]');
+        currentList.splice(index, 1);
+        localStorage.setItem('spa_pro_v5', JSON.stringify(currentList));
+        refreshData();
+    }
 }
 
-function showDetail(title, desc, img, price = "Liên hệ") {
+function showDetail(title, desc, img, price) {
     document.getElementById("detailTitle").innerText = title;
-    document.getElementById("detailDesc").innerText = desc;
+    document.getElementById("detailDesc").innerHTML = desc;
     document.getElementById("detailImg").src = img;
     document.getElementById("detailPriceDisplay").innerText = "Giá: " + price;
-    document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "none");
+    document.getElementById("home").style.display = "none";
+    document.getElementById("trietlong").style.display = "none";
     document.getElementById("productDetail").style.display = "block";
     window.scrollTo(0,0);
 }
 
 function closeDetail() {
     document.getElementById("productDetail").style.display = "none";
-    document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "block");
+    document.getElementById("home").style.display = "block";
+    document.getElementById("trietlong").style.display = "block";
 }
 </script>
 
