@@ -10,174 +10,59 @@ body{font-family:Arial;margin:0;background:#f4f6f8}
 header{background:#0f172a;color:white;padding:20px}
 header h2{margin:0}
 
-/* FIX MENU */
-nav{
-margin-top:10px;
-display:flex;
-gap:20px;
-align-items:center;
-flex-wrap:wrap
-}
-
-nav a{
-color:white;
-text-decoration:none;
-font-weight:bold;
-display:flex;
-align-items:center;
-}
-
-/* FIX LỆCH */
-.menu-item{
-position:relative;
-display:flex;
-align-items:center;
-}
-
-/* DROPDOWN */
-.dropdown{
-position:absolute;
-top:100%;
-left:0;
-background:white;
-color:black;
-border-radius:8px;
-box-shadow:0 8px 20px rgba(0,0,0,0.15);
-display:none;
-min-width:180px;
-padding-top:5px
-}
-
-.dropdown a{
-display:block;
-padding:10px 15px;
-color:#111;
-font-weight:normal
-}
-
+/* MENU */
+nav{margin-top:10px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+nav a{color:white;text-decoration:none;font-weight:bold;display:flex;align-items:center;}
+.menu-item{position:relative;display:flex;align-items:center;}
+.dropdown{position:absolute;top:100%;left:0;background:white;color:black;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,0.15);display:none;min-width:180px;padding-top:5px;z-index:10}
+.dropdown a{display:block;padding:10px 15px;color:#111;font-weight:normal}
 .dropdown a:hover{background:#f1f1f1}
 .menu-item:hover .dropdown{display:block}
 
 /* HERO */
-.hero{
-background:linear-gradient(135deg,#111,#444);
-color:white;
-padding:80px 20px;
-text-align:center
-}
-
-.hero h1{
-font-size:36px;
-margin-bottom:10px
-}
+.hero{background:linear-gradient(135deg,#111,#444);color:white;padding:80px 20px;text-align:center}
+.hero h1{font-size:36px;margin-bottom:10px}
 
 /* BUTTON */
-button{
-background:#e11d48;
-color:white;
-border:none;
-padding:12px 20px;
-border-radius:6px;
-cursor:pointer
-}
+button{background:#e11d48;color:white;border:none;padding:12px 20px;border-radius:6px;cursor:pointer}
 
 /* SECTION */
-.section{
-padding:60px 20px;
-max-width:1200px;
-margin:auto
-}
-
-.section h2{
-text-align:center;
-margin-bottom:40px
-}
+.section{padding:60px 20px;max-width:1200px;margin:auto}
+.section h2{text-align:center;margin-bottom:40px}
 
 /* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px
-}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
 
 /* CARD */
-.card{
-background:white;
-border-radius:12px;
-padding:20px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08);
-transition:0.2s
-}
-
+.card{background:white;border-radius:12px;padding:20px;box-shadow:0 6px 15px rgba(0,0,0,0.08);transition:0.2s}
 .card:hover{transform:translateY(-5px)}
+.price{color:#e11d48;font-weight:bold}
 
-.price{
-color:#e11d48;
-font-weight:bold
-}
-
-/* SERVICE */
-.service{
-background:white;
-border-radius:12px;
-padding:25px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08)
-}
+/* DETAIL PAGE */
+.detail-page{display:none;padding:60px 20px;max-width:1200px;margin:auto}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;background:white;padding:30px;border-radius:12px;box-shadow:0 8px 20px rgba(0,0,0,0.08)}
+.detail-img{width:100%;border-radius:10px}
 
 /* FOOTER */
-footer{
-background:#0f172a;
-color:white;
-text-align:center;
-padding:30px;
-margin-top:40px
+footer{background:#0f172a;color:white;text-align:center;padding:30px;margin-top:40px}
+
+/* FORM QUẢN TRỊ ẨN */
+#adminForm {
+    display: none;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: white; color: #333;
+    padding: 20px; border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    z-index: 9999; width: 90%; max-width: 400px;
 }
-
-/* CONTACT */
-.contact-box{
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 6px 15px rgba(0,0,0,0.08)
+#adminForm input, #adminForm textarea {
+    width: 100%; padding: 10px; margin: 8px 0;
+    border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;
 }
-
-/* FORM */
-input,textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:1px solid #ccc;
-border-radius:6px
-}
-
-form button{margin-top:10px}
-
-/* DETAIL */
-.detail-page{
-display:none;
-padding:60px 20px;
-max-width:1200px;
-margin:auto
-}
-
-.detail-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 8px 20px rgba(0,0,0,0.08)
-}
-
-.detail-img{
-width:100%;
-border-radius:10px
-}
-
-/* PHẦN ẨN ĐỂ UP ẢNH */
-#hiddenUpload { display: none; }
-.admin-trigger { cursor: default; user-select: none; color: inherit; text-decoration: none; }
+.admin-btn { width: 100%; margin-top: 10px; }
+.close-admin { background: #666; margin-top: 5px; }
 
 </style>
 </head>
@@ -185,134 +70,116 @@ border-radius:10px
 <body>
 
 <header>
-<h2>Minh Bảo - Thiết Bị Spa & Thẩm Mỹ</h2>
-
-<nav>
-<a href="#home">Trang chủ</a>
-
-<div class="menu-item">
-<a href="#trietlong">Máy triệt lông ▾</a>
-<div class="dropdown">
-<a href="#trietlong">IPL</a>
-<a href="#trietlong">OPT</a>
-<a href="#trietlong">Diode Laser</a>
-<a href="#trietlong">SHR</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#laser">Laser thẩm mỹ ▾</a>
-<div class="dropdown">
-<a href="#laser">Q-Switch ND YAG</a>
-<a href="#laser">CO2 Fractional</a>
-<a href="#laser">Laser Pico</a>
-<a href="#laser">Laser trị nám</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#giambeo">Máy giảm béo ▾</a>
-<div class="dropdown">
-<a href="#giambeo">Cavitation 40K</a>
-<a href="#giambeo">RF nâng cơ</a>
-<a href="#giambeo">Lipo Laser</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#thanhly">Máy thanh lý ▾</a>
-<div class="dropdown">
-<a href="#thanhly">Máy triệt lông thanh lý</a>
-<a href="#thanhly">Laser thanh lý</a>
-<a href="#thanhly">Máy spa khác</a>
-</div>
-</div>
-
-<div class="menu-item">
-<a href="#suamay">Sửa máy spa ▾</a>
-<div class="dropdown">
-<a href="#suamay">Sửa máy triệt lông</a>
-<a href="#suamay">Sửa laser CO2</a>
-<a href="#suamay">Sửa Q-Switch</a>
-<a href="#suamay">Thay linh kiện</a>
-</div>
-</div>
-
-<a href="#lienhe">Liên hệ</a>
-</nav>
+    <h2>Minh Bảo - Thiết Bị Spa & Thẩm Mỹ</h2>
+    <nav>
+        <a href="#home">Trang chủ</a>
+        <div class="menu-item"><a href="#trietlong">Máy triệt lông ▾</a>
+            <div class="dropdown"><a href="#trietlong">IPL</a><a href="#trietlong">OPT</a></div>
+        </div>
+        <a href="#lienhe">Liên hệ</a>
+    </nav>
 </header>
 
 <div id="home" class="hero">
-<h1>Cung cấp thiết bị spa chuyên nghiệp</h1>
-<p>Máy mới - Máy thanh lý 90-98% - Bảo hành dài hạn</p>
-<a href="#lienhe"><button>Liên hệ tư vấn ngay</button></a>
+    <h1>Cung cấp thiết bị spa chuyên nghiệp</h1>
+    <p>Máy mới - Máy thanh lý 90-98% - Bảo hành dài hạn</p>
+    <button onclick="window.location.href='#lienhe'">Liên hệ tư vấn ngay</button>
 </div>
 
 <div id="trietlong" class="section">
-<h2>Máy triệt lông</h2>
-<div class="grid">
-
-<div class="card">
-<h3>Máy Triệt Lông Diode Laser 808nm</h3>
-<p>Công nghệ triệt lông hiện đại cho spa.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy Triệt Lông Diode Laser 808nm','Công nghệ triệt lông hiện đại cho spa','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
-<div class="card">
-<h3>Máy Triệt Lông IPL</h3>
-<p>Phù hợp spa mới mở.</p>
-<p class="price">Giá: Liên hệ</p>
-<button onclick="showDetail('Máy Triệt Lông IPL','Phù hợp spa mới mở','https://via.placeholder.com/600')">Xem chi tiết</button>
-</div>
-
-</div>
+    <h2>Danh sách sản phẩm</h2>
+    <div class="grid" id="productGrid">
+        <div class="card">
+            <h3>Máy Triệt Lông Diode Laser 808nm</h3>
+            <p>Công nghệ triệt lông hiện đại.</p>
+            <p class="price">Giá: Liên hệ</p>
+            <button onclick="showDetail('Máy Triệt Lông Diode Laser 808nm','Công nghệ triệt lông hiện đại cho spa.','https://via.placeholder.com/600')">Xem chi tiết</button>
+        </div>
+    </div>
 </div>
 
 <div id="productDetail" class="detail-page">
-<button onclick="closeDetail()">⬅ Quay lại</button>
-<div class="detail-grid">
-<div>
-<img id="detailImg" class="detail-img">
+    <button onclick="closeDetail()">⬅ Quay lại</button>
+    <div class="detail-grid">
+        <div><img id="detailImg" class="detail-img"></div>
+        <div>
+            <h2 id="detailTitle"></h2>
+            <p class="price" id="detailPrice"></p>
+            <p id="detailDesc"></p>
+        </div>
+    </div>
 </div>
-<div>
-<h2 id="detailTitle"></h2>
-<p class="price">Giá: Liên hệ</p>
-<p id="detailDesc"></p>
-</div>
-</div>
+
+<div id="adminForm">
+    <h3>Đăng máy mới</h3>
+    <input type="file" id="upAnh" accept="image/*">
+    <input type="text" id="upTen" placeholder="Tên máy...">
+    <input type="text" id="upGia" placeholder="Giá (ví dụ: 15.000.000đ hoặc Liên hệ)">
+    <textarea id="upMoTa" placeholder="Mô tả chi tiết máy..."></textarea>
+    <button class="admin-btn" onclick="saveProduct()">ĐĂNG LÊN WEB</button>
+    <button class="admin-btn close-admin" onclick="document.getElementById('adminForm').style.display='none'">Đóng</button>
 </div>
 
 <footer>
-<p>© <span class="admin-trigger" onclick="document.getElementById('hiddenUpload').click();">2026</span> Thiết Bị Spa Minh Bảo</p>
-<input type="file" id="hiddenUpload" accept="image/*" onchange="handleUpload(this)">
+    <p>© <span style="cursor:pointer" onclick="document.getElementById('adminForm').style.display='block'">2026</span> Thiết Bị Spa Minh Bảo</p>
 </footer>
 
 <script>
-function showDetail(title,desc,img){
-document.getElementById("detailTitle").innerText=title;
-document.getElementById("detailDesc").innerText=desc;
-document.getElementById("detailImg").src=img;
-
-document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-document.querySelector(".hero").style.display="none";
-
-document.getElementById("productDetail").style.display="block";
-window.scrollTo(0,0);
+// Hàm hiển thị chi tiết
+function showDetail(title, desc, img, price = "Giá: Liên hệ") {
+    document.getElementById("detailTitle").innerText = title;
+    document.getElementById("detailDesc").innerText = desc;
+    document.getElementById("detailImg").src = img;
+    document.getElementById("detailPrice").innerText = price;
+    document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "none");
+    document.getElementById("productDetail").style.display = "block";
+    window.scrollTo(0,0);
 }
 
-function closeDetail(){
-document.getElementById("productDetail").style.display="none";
-document.querySelectorAll(".section").forEach(s=>s.style.display="block");
-document.querySelector(".hero").style.display="block";
+function closeDetail() {
+    document.getElementById("productDetail").style.display = "none";
+    document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "block");
 }
 
-// Hàm xử lý sau khi bạn chọn ảnh từ điện thoại
-function handleUpload(input) {
-  if (input.files && input.files[0]) {
-    alert("Đã nhận file: " + input.files[0].name + ". Bạn có thể viết tiếp code gửi file lên server ở đây.");
-    // Chỗ này bạn có thể thêm code Ajax để đẩy ảnh lên hosting của bạn
-  }
+// Xử lý lưu máy mới
+function saveProduct() {
+    const file = document.getElementById('upAnh').files[0];
+    const ten = document.getElementById('upTen').value;
+    const gia = document.getElementById('upGia').value;
+    const mota = document.getElementById('upMoTa').value;
+
+    if(!file || !ten) { alert("Vui lòng chọn ảnh và nhập tên máy!"); return; }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const product = {
+            img: e.target.result,
+            title: ten,
+            price: gia || "Liên hệ",
+            desc: mota
+        };
+
+        // Lưu vào danh sách (giả lập)
+        addProductToUI(product);
+        
+        // Đóng form và reset
+        document.getElementById('adminForm').style.display = 'none';
+        alert("Đã đăng máy thành công!");
+    };
+    reader.readAsDataURL(file);
+}
+
+function addProductToUI(p) {
+    const grid = document.getElementById('productGrid');
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+        <h3>${p.title}</h3>
+        <p>${p.desc.substring(0, 50)}...</p>
+        <p class="price">Giá: ${p.price}</p>
+        <button onclick="showDetail('${p.title}','${p.desc}','${p.img}','Giá: ${p.price}')">Xem chi tiết</button>
+    `;
+    grid.prepend(card); // Đưa máy mới lên đầu
 }
 </script>
 
