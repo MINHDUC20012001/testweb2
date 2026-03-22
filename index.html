@@ -1,61 +1,47 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THIẾT BỊ SPA MINH BẢO</title>
-
-<style>
-:root { --primary: #e11d48; --dark: #0f172a; --gray: #64748b; }
-body{font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:#f8fafc; padding-bottom: 90px; color: #334155;}
-header{background: var(--dark); color:white; padding:15px; position: sticky; top:0; z-index:1000;}
-header h2{margin:0; font-size: 18px; text-align: center; text-transform: uppercase; letter-spacing: 1px;}
-
-/* MENU */
-nav{margin-top:12px; display:flex; gap:10px; justify-content: center; flex-wrap:wrap}
-nav a{color:white; text-decoration:none; font-weight:600; font-size:12px; text-transform: uppercase;}
-
-/* SLIDESHOW TRANG CHỦ */
-.hero{background:#000; height: 300px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center;}
-#slideWrapper img {position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; opacity: 0.5; display: none; transition: 1s;}
-.hero-content{z-index: 10; color: white; padding: 0 20px;}
-
-/* GRID & CARD */
-.section{padding:30px 15px; max-width:1200px; margin:auto}
-.section h2{font-size: 18px; border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 20px; text-transform: uppercase;}
-.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:15px}
-.card{background:white; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); position: relative;}
-.card img{width:100%; height:160px; object-fit:cover; border-radius:8px;}
-.card .title { font-weight: bold; font-size: 14px; margin: 10px 0 5px 0; height: 40px; overflow: hidden; color: var(--dark);}
-.price{color: var(--primary); font-weight:bold; font-size: 15px;}
-
-/* CHI TIẾT SẢN PHẨM - SLIDE ẢNH */
-.detail-page{display:none; padding:20px; background: white; min-height: 100vh;}
-.detail-slider { width: 100%; height: 300px; position: relative; overflow: hidden; border-radius: 12px; background: #eee;}
-.detail-slider img { width: 100%; height: 100%; object-fit: contain; display: none;}
-
-/* POPUP ĐĂNG MÁY */
-#adminPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.4); z-index: 10001; width: 85%; max-width: 400px; max-height: 90vh; overflow-y: auto;}
-input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box;}
-
-/* PREVIEW ẢNH TRƯỚC KHI ĐĂNG */
-#previewArea { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
-.preview-box { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
-
-.contact-buttons { position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 9999; }
-.btn-call, .btn-zalo { flex: 1; display: flex; align-items: center; justify-content: center; padding: 14px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; }
-.btn-call { background: var(--primary); }
-.btn-zalo { background: #0084ff; }
-footer{background: var(--dark); color:white; text-align:center; padding:30px; font-size: 12px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THIẾT BỊ SPA MINH BẢO</title>
+    <style>
+        :root { --primary: #e11d48; --dark: #0f172a; --gray: #64748b; }
+        body{font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:#f8fafc; padding-bottom: 90px; color: #334155; scroll-behavior: smooth;}
+        header{background: var(--dark); color:white; padding:15px; position: sticky; top:0; z-index:1000;}
+        header h2{margin:0; font-size: 18px; text-align: center; text-transform: uppercase; letter-spacing: 1px;}
+        nav{margin-top:12px; display:flex; gap:10px; justify-content: center; flex-wrap:wrap}
+        nav a{color:white; text-decoration:none; font-weight:600; font-size:12px; text-transform: uppercase;}
+        .hero{background:#000; height: 300px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center;}
+        #slideWrapper img {position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover; opacity: 0.5; display: none; transition: 1s;}
+        .hero-content{z-index: 10; color: white; padding: 0 20px;}
+        .section{padding:30px 15px; max-width:1200px; margin:auto}
+        .section h2{font-size: 18px; border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 20px; text-transform: uppercase;}
+        .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:15px}
+        .card{background:white; border-radius:12px; padding:12px; box-shadow:0 2px 8px rgba(0,0,0,0.05); position: relative; overflow: hidden;}
+        .card img{width:100%; height:160px; object-fit:cover; border-radius:8px;}
+        .card .title { font-weight: bold; font-size: 14px; margin: 10px 0 5px 0; height: 40px; overflow: hidden; color: var(--dark);}
+        .price{color: var(--primary); font-weight:bold; font-size: 15px;}
+        .detail-page{display:none; padding:20px; background: white; min-height: 100vh;}
+        .detail-slider { width: 100%; height: 350px; position: relative; overflow: hidden; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center;}
+        .detail-slider img { max-width: 100%; max-height: 100%; object-fit: contain; display: none;}
+        #adminPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 25px; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.4); z-index: 10001; width: 85%; max-width: 400px; max-height: 90vh; overflow-y: auto;}
+        input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; font-size: 14px;}
+        #previewArea { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
+        .preview-box { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
+        .contact-buttons { position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 9999; }
+        .btn-call, .btn-zalo { flex: 1; display: flex; align-items: center; justify-content: center; padding: 14px; border-radius: 50px; color: white; text-decoration: none; font-weight: bold; font-size: 14px; border: none; cursor: pointer;}
+        .btn-call { background: var(--primary); }
+        .btn-zalo { background: #0084ff; }
+        footer{background: var(--dark); color:white; text-align:center; padding:30px; font-size: 12px;}
+        .btn-del { position:absolute; top:5px; right:5px; background:rgba(255,0,0,0.7); color:white; border:none; border-radius:50%; width:24px; height:24px; cursor:pointer; z-index: 5;}
+    </style>
 </head>
-
 <body>
 
 <header>
     <h2>THIẾT BỊ SPA MINH BẢO</h2>
     <nav>
-        <a href="#home" onclick="closeDetail()">Trang chủ</a>
+        <a href="#" onclick="closeDetail()">Trang chủ</a>
         <a href="#trietlong">Triệt lông</a>
         <a href="#laser">Laser</a>
         <a href="#giambeo">Giảm béo</a>
@@ -63,28 +49,30 @@ footer{background: var(--dark); color:white; text-align:center; padding:30px; fo
     </nav>
 </header>
 
-<div id="home" class="hero">
+<div id="homeHero" class="hero">
     <div id="slideWrapper"></div>
     <div class="hero-content">
-        <h1>MINH BẢO SPA</h1>
-        <p>Hệ Thống Phân Phối Máy Thẩm Mỹ</p>
+        <h1 style="margin:0; font-size: 24px;">MINH BẢO SPA</h1>
+        <p style="margin:5px 0 0 0; opacity: 0.8;">Hệ Thống Phân Phối Máy Thẩm Mỹ</p>
     </div>
 </div>
 
-<div id="trietlong" class="section"><h2>Máy Triệt Lông</h2><div class="grid" id="grid-trietlong"></div></div>
-<div id="laser" class="section"><h2>Laser Thẩm Mỹ</h2><div class="grid" id="grid-laser"></div></div>
-<div id="giambeo" class="section"><h2>Máy Giảm Béo</h2><div class="grid" id="grid-giambeo"></div></div>
-<div id="thanhly" class="section"><h2>Máy Thanh Lý</h2><div class="grid" id="grid-thanhly"></div></div>
-<div id="suamay" class="section"><h2>Sửa Chữa & Bảo Trì</h2><div class="grid" id="grid-suamay"></div></div>
+<div id="mainContent">
+    <div id="trietlong" class="section"><h2>Máy Triệt Lông</h2><div class="grid" id="grid-trietlong"></div></div>
+    <div id="laser" class="section"><h2>Laser Thẩm Mỹ</h2><div class="grid" id="grid-laser"></div></div>
+    <div id="giambeo" class="section"><h2>Máy Giảm Béo</h2><div class="grid" id="grid-giambeo"></div></div>
+    <div id="thanhly" class="section"><h2>Máy Thanh Lý</h2><div class="grid" id="grid-thanhly"></div></div>
+    <div id="suamay" class="section"><h2>Sửa Chữa & Bảo Trì</h2><div class="grid" id="grid-suamay"></div></div>
+</div>
 
 <div id="productDetail" class="detail-page">
-    <button onclick="closeDetail()" style="margin-bottom:15px; padding:10px 15px; border-radius:8px;">⬅ Quay lại</button>
+    <button onclick="closeDetail()" style="margin-bottom:15px; padding:10px 15px; border-radius:8px; border:1px solid #ddd; background:#fff;">⬅ Quay lại</button>
     <div class="detail-slider" id="detailSlider"></div>
-    <p style="text-align:center; font-size:12px; color:gray; margin-top:5px;">(Ảnh tự động chuyển hoặc click để xem ảnh tiếp)</p>
-    <h2 id="detailTitle" style="margin-top:20px;"></h2>
+    <p style="text-align:center; font-size:12px; color:gray; margin-top:8px;">(Click vào ảnh để xem ảnh tiếp theo)</p>
+    <h2 id="detailTitle" style="margin-top:20px; color:var(--dark);"></h2>
     <p class="price" id="detailPriceDisplay" style="font-size: 22px;"></p>
-    <hr>
-    <p id="detailDesc" style="white-space: pre-line; line-height: 1.8;"></p>
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+    <p id="detailDesc" style="white-space: pre-line; line-height: 1.8; color: #475569;"></p>
 </div>
 
 <div class="contact-buttons">
@@ -93,12 +81,12 @@ footer{background: var(--dark); color:white; text-align:center; padding:30px; fo
 </div>
 
 <div id="adminPopup">
-    <h3 style="text-align:center; margin:0">Đăng máy mới</h3>
-    <label style="font-size:12px; color:var(--primary)">* Có thể chọn nhiều ảnh cùng lúc</label>
+    <h3 style="text-align:center; margin:0 0 15px 0">Đăng máy mới</h3>
+    <label style="font-size:12px; color:var(--primary)">* Chọn một hoặc nhiều ảnh</label>
     <input type="file" id="upFiles" accept="image/*" multiple onchange="previewImages()">
     <div id="previewArea"></div>
     <input type="text" id="upTitle" placeholder="Tên máy...">
-    <input type="text" id="upPrice" placeholder="Giá tiền...">
+    <input type="text" id="upPrice" placeholder="Giá tiền (VD: 15.000.000đ)...">
     <select id="upCat">
         <option value="trietlong">Máy triệt lông</option>
         <option value="laser">Laser thẩm mỹ</option>
@@ -106,9 +94,9 @@ footer{background: var(--dark); color:white; text-align:center; padding:30px; fo
         <option value="thanhly">Máy thanh lý</option>
         <option value="suamay">Sửa chữa máy spa</option>
     </select>
-    <textarea id="upDesc" rows="4" placeholder="Mô tả máy..."></textarea>
+    <textarea id="upDesc" rows="5" placeholder="Mô tả chi tiết sản phẩm..."></textarea>
     <button style="width:100%; margin-top:20px; padding:15px; background:var(--primary); color:white; border:none; border-radius:10px; font-weight:bold" id="btnSubmit" onclick="saveNewMachine()">ĐĂNG LÊN WEB</button>
-    <button style="width:100%; margin-top:10px; background:#eee; border:none; padding:10px; border-radius:10px" onclick="document.getElementById('adminPopup').style.display='none'">Hủy</button>
+    <button style="width:100%; margin-top:10px; background:#f1f5f9; border:none; padding:10px; border-radius:10px; color: #64748b" onclick="document.getElementById('adminPopup').style.display='none'">Hủy bỏ</button>
 </div>
 
 <footer>
@@ -116,11 +104,25 @@ footer{background: var(--dark); color:white; text-align:center; padding:30px; fo
 </footer>
 
 <script>
-let slideIndex = 0;
-let homeTimer, detailTimer;
+/** CẤU HÌNH DATABASE INDEXEDDB **/
+const dbName = "MinhBaoSpaDB";
+const storeName = "products";
 
-window.onload = function() { refreshData(); };
+function openDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+        request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(storeName)) {
+                db.createObjectStore(storeName, { keyPath: "id" });
+            }
+        };
+        request.onsuccess = (e) => resolve(e.target.result);
+        request.onerror = (e) => reject(e.target.error);
+    });
+}
 
+/** XỬ LÝ ẢNH **/
 function previewImages() {
     const preview = document.getElementById('previewArea');
     preview.innerHTML = "";
@@ -146,7 +148,7 @@ async function compressImage(file) {
             img.src = event.target.result;
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 800;
+                const MAX_WIDTH = 800; // Giới hạn chiều rộng để tối ưu dung lượng
                 const scaleSize = MAX_WIDTH / img.width;
                 canvas.width = MAX_WIDTH;
                 canvas.height = img.height * scaleSize;
@@ -158,6 +160,11 @@ async function compressImage(file) {
     });
 }
 
+/** CHỨC NĂNG CHÍNH **/
+let homeTimer, detailTimer;
+
+window.onload = function() { refreshData(); };
+
 async function saveNewMachine() {
     const files = document.getElementById('upFiles').files;
     const title = document.getElementById('upTitle').value;
@@ -165,10 +172,10 @@ async function saveNewMachine() {
     const cat = document.getElementById('upCat').value;
     const desc = document.getElementById('upDesc').value;
 
-    if (files.length === 0 || !title) { alert("Vui lòng chọn ảnh và nhập tên máy!"); return; }
+    if (files.length === 0 || !title) { alert("Vui lòng chọn ít nhất 1 ảnh và nhập tên máy!"); return; }
 
     const btn = document.getElementById('btnSubmit');
-    btn.innerText = "Đang xử lý ảnh...";
+    btn.innerText = "Đang xử lý & lưu...";
     btn.disabled = true;
 
     try {
@@ -179,53 +186,70 @@ async function saveNewMachine() {
         }
         
         const newProduct = { id: Date.now(), imgs: imageArray, title, price, cat, desc };
-        let data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
-        data.push(newProduct);
-        localStorage.setItem('minhbao_multi_v12', JSON.stringify(data));
         
-        location.reload(); // Tải lại trang để cập nhật sạch sẽ
+        const db = await openDB();
+        const tx = db.transaction(storeName, "readwrite");
+        tx.objectStore(storeName).add(newProduct);
+        
+        tx.oncomplete = () => {
+            alert("Đã đăng máy thành công!");
+            location.reload();
+        };
     } catch (err) {
-        alert("Lỗi bộ nhớ! Bạn nên đăng ít ảnh lại (khoảng 3-4 ảnh/máy).");
+        console.error(err);
+        alert("Có lỗi xảy ra khi lưu. Thử lại với ít ảnh hơn hoặc ảnh nhẹ hơn.");
+        btn.innerText = "ĐĂNG LÊN WEB";
         btn.disabled = false;
     }
 }
 
-function refreshData() {
-    const data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
-    const cats = ['trietlong', 'laser', 'giambeo', 'thanhly', 'suamay'];
-    cats.forEach(c => document.getElementById('grid-' + c).innerHTML = "");
+async function refreshData() {
+    const db = await openDB();
+    const tx = db.transaction(storeName, "readonly");
+    const store = tx.objectStore(storeName);
+    const request = store.getAll();
 
-    data.forEach(p => {
-        const grid = document.getElementById('grid-' + p.cat);
-        if(grid) {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <button style="position:absolute;top:5px;right:5px;background:red;color:white;border:none;border-radius:50%" onclick="deleteMachine(${p.id})">×</button>
-                <img src="${p.imgs[0]}">
-                <div class="title">${p.title}</div>
-                <div class="price">${p.price}</div>
-                <button class="btn-zalo" style="padding:8px;font-size:11px;margin-top:5px" onclick="showDetail(${p.id})">XEM CHI TIẾT</button>
-            `;
-            grid.prepend(card);
-        }
-    });
+    request.onsuccess = () => {
+        const data = request.result;
+        const cats = ['trietlong', 'laser', 'giambeo', 'thanhly', 'suamay'];
+        cats.forEach(c => document.getElementById('grid-' + c).innerHTML = "");
 
-    // Home Slideshow
-    const sw = document.getElementById('slideWrapper');
-    if(data.length > 0) {
-        data.slice(-5).forEach(p => {
-            const img = document.createElement('img');
-            img.src = p.imgs[0];
-            sw.appendChild(img);
+        data.forEach(p => {
+            const grid = document.getElementById('grid-' + p.cat);
+            if(grid) {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <button class="btn-del" onclick="deleteMachine(${p.id})">×</button>
+                    <img src="${p.imgs[0]}" onclick="showDetail(${p.id})">
+                    <div class="title">${p.title}</div>
+                    <div class="price">${p.price}</div>
+                    <button class="btn-zalo" style="padding:8px;font-size:11px;margin-top:8px;height:auto;border-radius:6px;" onclick="showDetail(${p.id})">CHI TIẾT</button>
+                `;
+                grid.prepend(card);
+            }
         });
-        startHomeSlides();
-    }
+
+        // Slideshow trang chủ
+        const sw = document.getElementById('slideWrapper');
+        sw.innerHTML = "";
+        if(data.length > 0) {
+            data.slice(-5).forEach(p => {
+                const img = document.createElement('img');
+                img.src = p.imgs[0];
+                sw.appendChild(img);
+            });
+            startHomeSlides();
+        }
+    };
 }
 
+/** ĐIỀU KHIỂN GIAO DIỆN **/
 function startHomeSlides() {
     let s = document.querySelectorAll("#slideWrapper img");
+    if(s.length === 0) return;
     let idx = 0; s[0].style.display = "block";
+    if(homeTimer) clearInterval(homeTimer);
     homeTimer = setInterval(() => {
         s[idx].style.display = "none";
         idx = (idx + 1) % s.length;
@@ -233,10 +257,16 @@ function startHomeSlides() {
     }, 4000);
 }
 
-function showDetail(id) {
-    const data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
-    const p = data.find(i => i.id == id);
-    if(p) {
+async function showDetail(id) {
+    const db = await openDB();
+    const tx = db.transaction(storeName, "readonly");
+    const store = tx.objectStore(storeName);
+    const request = store.get(id);
+
+    request.onsuccess = () => {
+        const p = request.result;
+        if(!p) return;
+
         const slider = document.getElementById('detailSlider');
         slider.innerHTML = "";
         p.imgs.forEach(src => {
@@ -250,19 +280,25 @@ function showDetail(id) {
         document.getElementById("detailPriceDisplay").innerText = "Giá: " + p.price;
         document.getElementById("detailDesc").innerText = p.desc;
         
-        document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "none");
+        document.getElementById("mainContent").style.display = "none";
+        document.getElementById("homeHero").style.display = "none";
         document.getElementById("productDetail").style.display = "block";
         window.scrollTo(0,0);
         startDetailSlides();
-    }
+    };
 }
 
 let dIdx = 0;
 function startDetailSlides() {
-    clearInterval(detailTimer);
+    if(detailTimer) clearInterval(detailTimer);
     let s = document.querySelectorAll("#detailSlider img");
-    dIdx = 0; s[0].style.display = "block";
-    detailTimer = setInterval(nextDetailSlide, 3000);
+    if(s.length === 0) return;
+    dIdx = 0; 
+    s.forEach(img => img.style.display = "none");
+    s[0].style.display = "block";
+    if(s.length > 1) {
+        detailTimer = setInterval(nextDetailSlide, 4000);
+    }
 }
 
 function nextDetailSlide() {
@@ -273,19 +309,23 @@ function nextDetailSlide() {
     s[dIdx].style.display = "block";
 }
 
-function deleteMachine(id) {
-    if(confirm("Xóa máy này?")) {
-        let data = JSON.parse(localStorage.getItem('minhbao_multi_v12') || '[]');
-        data = data.filter(i => i.id !== id);
-        localStorage.setItem('minhbao_multi_v12', JSON.stringify(data));
-        location.reload();
+async function deleteMachine(id) {
+    event.stopPropagation();
+    if(confirm("Bạn có chắc chắn muốn xóa máy này không?")) {
+        const db = await openDB();
+        const tx = db.transaction(storeName, "readwrite");
+        tx.objectStore(storeName).delete(id);
+        tx.oncomplete = () => {
+            refreshData();
+        };
     }
 }
 
 function closeDetail() {
     document.getElementById("productDetail").style.display = "none";
-    document.querySelectorAll(".section, .hero").forEach(s => s.style.display = "block");
-    clearInterval(detailTimer);
+    document.getElementById("mainContent").style.display = "block";
+    document.getElementById("homeHero").style.display = "flex";
+    if(detailTimer) clearInterval(detailTimer);
 }
 </script>
 
