@@ -15,7 +15,13 @@
         nav a{color:white; text-decoration:none; font-weight:600; font-size:10px; text-transform: uppercase; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;}
         nav a:hover, nav a.active {background: var(--primary); border-color: var(--primary);}
 
-        /* TOOL REPAIR - MỤC MỚI THÊM */
+        /* TRUST BAR - THANH UY TÍN (MỚI THÊM) */
+        .trust-bar { background: white; padding: 15px 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-bottom: 1px solid #eee; }
+        .trust-item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--dark); }
+        .trust-item i { font-size: 16px; color: var(--primary); }
+        @media (min-width: 600px) { .trust-bar { grid-template-columns: repeat(4, 1fr); justify-items: center; } }
+
+        /* TOOL REPAIR */
         .sticky-tools { background: #fff; padding: 12px; display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid #e2e8f0; position: sticky; top: 100px; z-index: 999; align-items: center;}
         .btn-repair-form { background: var(--success); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; white-space: nowrap; animation: pulse 2s infinite;}
         @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
@@ -26,14 +32,13 @@
         .filter-btn { white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 1px solid #e2e8f0; font-size: 12px; cursor: pointer; background: #f8fafc; font-weight: 500;}
         .filter-btn.active { background: var(--dark); color: white; border-color: var(--dark);}
 
-        /* SECTIONS */
+        /* SECTIONS & GRID */
         .section{padding:30px 15px; max-width:1100px; margin:auto}
         .section h2{font-size: 19px; border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center;}
         .section h2 span { font-size: 11px; color: #64748b; font-weight: normal; margin-left: auto;}
-        
-        /* GRID & CARDS */
         .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px}
-        .card{background:white; border-radius:12px; padding:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); position: relative; border: 1px solid #f1f5f9;}
+        .card{background:white; border-radius:12px; padding:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); position: relative; border: 1px solid #f1f5f9; transition: 0.3s;}
+        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); border-color: var(--primary); }
         .card img{width:100%; height:150px; object-fit:cover; border-radius:8px; cursor: pointer;}
         .card .title { font-weight: bold; font-size: 13px; margin: 10px 0 5px 0; height: 36px; overflow: hidden; color: var(--dark);}
         .price{color: var(--primary); font-weight:bold; font-size: 15px;}
@@ -44,7 +49,7 @@
         .badge-used { background: var(--gold); }
         .badge-repair { background: var(--success); }
 
-        /* FORM REPAIR POPUP - MỤC MỚI THÊM */
+        /* FORM REPAIR POPUP */
         #repairPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; justify-content: center; align-items: center; padding: 15px;}
         .form-box { background: white; width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; position: relative;}
 
@@ -57,7 +62,7 @@
         input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px;}
         .contact-group { position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 10000; }
         .btn-call { flex: 1; background: var(--primary); color: white; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; }
-        .btn-zalo { flex: 1; background: #0084ff; color: white; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; }
+        .btn-zalo { flex: 1; background: #0084ff; color: white; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 10px rgba(0,132,255,0.3); }
         footer { background: var(--dark); color: #94a3b8; padding: 40px 20px; text-align: center; font-size: 12px; }
     </style>
 </head>
@@ -76,7 +81,14 @@
 
 <div class="sticky-tools">
     <button class="btn-repair-form" onclick="openRepairForm()">🛠️ ĐẶT LỊCH SỬA MÁY</button>
-    <div style="flex:1; font-size: 10px; text-align: right; color: var(--gold); font-weight: bold;">HỖ TRỢ KỸ THUẬT TẬN NƠI</div>
+    <div style="flex:1; font-size: 10px; text-align: right; color: var(--gold); font-weight: bold;">KỸ THUẬT TẬN NƠI 24/7</div>
+</div>
+
+<div class="trust-bar">
+    <div class="trust-item"><span>🛡️</span> Bảo hành 12 tháng</div>
+    <div class="trust-item"><span>🚚</span> Giao hàng toàn quốc</div>
+    <div class="trust-item"><span>🛠️</span> Sửa chữa tận nơi</div>
+    <div class="trust-item"><span>🎓</span> Chuyển giao kĩ thuật</div>
 </div>
 
 <div class="filter-bar">
@@ -175,7 +187,7 @@
 </footer>
 
 <script>
-const dbName = "MinhBaoFinalV5";
+const dbName = "MinhBaoFinalV6";
 const storeName = "items";
 
 function openDB() {
@@ -186,7 +198,6 @@ function openDB() {
     });
 }
 
-/** SỬA CHỮA FORM **/
 function openRepairForm() { document.getElementById('repairPopup').style.display = 'flex'; }
 function sendRepairToZalo() {
     const n = document.getElementById('reName').value;
@@ -198,7 +209,6 @@ function sendRepairToZalo() {
     window.open(`https://zalo.me/0900000000?text=${txt}`, '_blank');
 }
 
-/** QUẢN LÝ DỮ LIỆU **/
 async function saveToDB() {
     const files = document.getElementById('upFiles').files;
     const title = document.getElementById('upTitle').value;
@@ -237,7 +247,7 @@ async function loadData(techFilter = 'all') {
                 const card = document.createElement('div');
                 card.className = 'card';
                 let b = item.cat === 'main' ? 'badge-new' : item.cat === 'used' ? 'badge-used' : 'badge-repair';
-                let t = item.cat === 'main' ? 'MỚI' : item.cat === 'used' ? 'THANH LÝ' : 'SỬA CHỮA';
+                let t = item.cat === 'main' ? 'MỚI' : item.cat === 'used' ? 'THANH LÝ' : 'SỬA XONG';
                 card.innerHTML = `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button><span class="badge ${b}">${t}</span><img src="${item.imgs[0]}" onclick="showDetail(${item.id})"><div class="title">${item.title}</div><div class="price">${item.price}</div>`;
                 grid.prepend(card);
             }
