@@ -34,15 +34,15 @@
         /* SECTION */
         .section { padding: 40px 15px; max-width: var(--max-width); margin: auto; }
         .section h2 { font-size: clamp(18px, 3vw, 24px); border-left: 6px solid var(--primary); padding-left: 15px; margin-bottom: 5px; text-transform: uppercase; }
-        .section .slogan { display: block; font-size: 14px; color: #64748b; margin-bottom: 25px; margin-left: 20px; font-style: italic; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 25px; } }
 
         /* CARD */
-        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; border: 1px solid #f1f5f9; transition: 0.3s; display: flex; flex-direction: column; }
-        .card img { width: 100%; height: clamp(150px, 20vw, 220px); object-fit: cover; border-radius: 8px; cursor: pointer; }
+        .card { background: white; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; border: 1px solid #f1f5f9; transition: 0.3s; display: flex; flex-direction: column; cursor: pointer; }
+        .card img { width: 100%; height: clamp(150px, 20vw, 220px); object-fit: cover; border-radius: 8px; }
         .card .title { font-weight: bold; font-size: 14px; margin: 12px 0 5px 0; height: 40px; overflow: hidden; color: var(--dark); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .price { color: var(--primary); font-weight: 800; font-size: 16px; }
+        .price { color: var(--primary); font-weight: 800; font-size: 16px; margin-bottom: 8px; }
+        .view-more { font-size: 12px; color: #64748b; text-decoration: underline; font-weight: 600; margin-top: auto; }
 
         /* PHẢN HỒI */
         .fb-card { background: #fff; padding: 15px; border-radius: 15px; border: 1px dashed #cbd5e1; }
@@ -53,41 +53,28 @@
         .delete-btn { display: none; position: absolute; top: -10px; right: -10px; background: #ff4d4d; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; z-index: 10; font-weight: bold; }
         body.admin-mode .delete-btn { display: block; }
 
-        /* ================= FOOTER (2 CỘT CĂN GIỮA) ================= */
+        /* FOOTER (2 CỘT CĂN GIỮA) */
         footer { background: var(--dark); color: white; padding: 50px 20px; text-align: center; }
         .footer-caption { font-size: 18px; color: var(--gold); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         .footer-trust { font-style: italic; color: #94a3b8; margin-bottom: 25px; font-size: 14px; max-width: 800px; margin: auto; }
         
-        /* Đây là phần xử lý chính cho yêu cầu của bạn */
-        .footer-info-wrapper {
-            display: flex;
-            justify-content: center; /* Đưa toàn bộ khối vào giữa */
-            width: 100%;
-        }
+        .footer-info-wrapper { display: flex; justify-content: center; width: 100%; }
         .footer-info-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; /* Mặc định 1 cột trên mobile */
-            gap: 15px 40px; 
-            text-align: left; 
-            background: rgba(255,255,255,0.05); 
-            padding: 25px; 
-            border-radius: 12px;
-            max-width: fit-content; /* Chỉ rộng bằng nội dung bên trong */
+            display: grid; grid-template-columns: 1fr; gap: 15px 40px; text-align: left; 
+            background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; max-width: fit-content; 
         }
-        @media (min-width: 768px) { 
-            .footer-info-grid { grid-template-columns: auto auto; } /* 2 cột trên máy tính */
-        }
+        @media (min-width: 768px) { .footer-info-grid { grid-template-columns: auto auto; } }
         .footer-info-grid p { margin: 5px 0; font-size: 14px; }
         .footer-info-grid b { color: var(--gold); }
         .admin-trigger { cursor: pointer; color: #475569; font-size: 12px; margin-top: 25px; display: block; }
 
-        /* CONTACT BOTTOM */
+        /* LIÊN HỆ DƯỚI */
         .contact-group { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; display: flex; gap: 10px; z-index: 10000; }
         .btn-call, .btn-zalo { flex: 1; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; color: white; }
         .btn-call { background: var(--primary); }
         .btn-zalo { background: #0084ff; }
 
-        /* POPUP QUẢN TRỊ NỔI GIỮA */
+        /* POPUP */
         #adminPopupWrap, #repairPopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 15px; backdrop-filter: blur(4px); }
         .form-box { background: white; padding: 25px; border-radius: 15px; width: 100%; max-width: 450px; position: relative; max-height: 90vh; overflow-y: auto; color: var(--dark); }
 
@@ -165,7 +152,6 @@
                 </div>
             </div>
         </div>
-
         <span class="admin-trigger" onclick="openAdmin()">© <span style="color:var(--gold)">2026</span> THIẾT BỊ SPA MINH BẢO</span>
     </div>
 </footer>
@@ -177,11 +163,11 @@
 
 <div id="adminPopupWrap">
     <div class="form-box">
-        <h3 style="text-align:center; margin-top:0">QUẢN TRỊ VIÊN</h3>
+        <h3 style="text-align:center; margin-top:0">💎 QUẢN TRỊ VIÊN</h3>
         <input type="file" id="upFiles" accept="image/*" multiple onchange="previewImgs()">
         <div id="previewArea" style="display:flex; gap:5px; margin-top:10px; flex-wrap:wrap"></div>
         <input type="text" id="upTitle" placeholder="Tên sản phẩm...">
-        <input type="text" id="upPrice" placeholder="Giá bán...">
+        <input type="text" id="upPrice" placeholder="Giá (ví dụ nhập 12 hoặc 120)...">
         <select id="upCat">
             <option value="triet-long">Máy Triệt Lông</option>
             <option value="laser">Máy Laser</option>
@@ -199,12 +185,12 @@
 
 <div id="repairPopup">
     <div class="form-box">
-        <h3 style="text-align:center; color:var(--success)">GỬI YÊU CẦU SỬA CHỮA</h3>
+        <h3 style="text-align:center; color:var(--success)">SỬA CHỮA MÁY</h3>
         <input type="text" id="reName" placeholder="Tên Spa...">
         <input type="text" id="rePhone" placeholder="Số điện thoại...">
         <input type="text" id="reMachine" placeholder="Máy bị lỗi...">
         <textarea id="reNote" rows="4" placeholder="Tình trạng lỗi..."></textarea>
-        <button onclick="sendRepairToZalo()" style="width:100%; margin-top:15px; padding:15px; background:var(--success); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GỬI QUA ZALO</button>
+        <button onclick="sendRepairToZalo()" style="width:100%; margin-top:15px; padding:15px; background:var(--success); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">GỬI ZALO</button>
         <button onclick="document.getElementById('repairPopup').style.display='none'" style="width:100%; margin-top:10px; background:#eee; border:none; padding:10px; border-radius:8px;">ĐÓNG</button>
     </div>
 </div>
@@ -219,8 +205,77 @@ function openRepairForm() { document.getElementById('repairPopup').style.display
 function showSection(type, element) { document.getElementById('productDetail').style.display = "none"; document.getElementById('homePage').style.display = "block"; const sections = ['triet-long','laser','co2','giam-beo','used','repair','phan-hoi']; sections.forEach(s => { const el = document.getElementById('sec-' + s); if(el) el.style.display = (type === 'all' || type === s) ? 'block' : 'none'; }); document.querySelectorAll('#mainNav a').forEach(a => a.classList.remove('active')); if(element) element.classList.add('active'); window.scrollTo(0,0); }
 function backToHome() { document.getElementById('homePage').style.display = "block"; document.getElementById('productDetail').style.display = "none"; }
 async function showDetail(id) { const db = await openDB(); db.transaction(storeName).objectStore(storeName).get(id).onsuccess = (e) => { const item = e.target.result; const slider = document.getElementById('detailSlider'); slider.innerHTML = ""; item.imgs.forEach((src, i) => { const img = document.createElement('img'); img.src = src; img.style.display = i === 0 ? "block" : "none"; img.onclick = () => { img.style.display="none"; (img.nextElementSibling || slider.firstElementChild).style.display="block"; }; slider.appendChild(img); }); document.getElementById('dTitle').innerText = item.title; document.getElementById('dPrice').innerText = item.price; document.getElementById('dDesc').innerText = item.desc; document.getElementById('homePage').style.display = "none"; document.getElementById('productDetail').style.display = "block"; window.scrollTo(0,0); }; }
-async function saveToDB() { const files = document.getElementById('upFiles').files; const title = document.getElementById('upTitle').value; if(!title || files.length === 0) return alert("Thiếu ảnh hoặc tên!"); const imgs = []; for(let f of files) { const base64 = await new Promise((res) => { const r = new FileReader(); r.readAsDataURL(f); r.onload = (e) => { const img = new Image(); img.src = e.target.result; img.onload = () => { const cv = document.createElement('canvas'); const MAX_W = 800; let w=img.width, h=img.height; if(w>MAX_W){ h*=MAX_W/w; w=MAX_W; } cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h); res(cv.toDataURL('image/jpeg',0.8)); } } }); imgs.push(base64); } const db = await openDB(); db.transaction(storeName,"readwrite").objectStore(storeName).add({id:Date.now(),imgs,title,price:document.getElementById('upPrice').value||"",cat:document.getElementById('upCat').value,desc:document.getElementById('upDesc').value}); location.reload(); }
-async function loadData() { const db = await openDB(); db.transaction(storeName).objectStore(storeName).getAll().onsuccess = (e) => { const data = e.target.result; ['triet-long','laser','co2','giam-beo','used','repair','phan-hoi'].forEach(s => { const grid = document.getElementById('grid-'+s); if(grid) grid.innerHTML = ""; }); data.sort((a,b)=>b.id-a.id).forEach(item => { const grid = document.getElementById('grid-'+item.cat); if(grid){ const card = document.createElement('div'); card.className = (item.cat === 'phan-hoi') ? 'card fb-card' : 'card'; card.innerHTML = `<button class="delete-btn" onclick="deleteItem(${item.id})">✕</button>`; if(item.cat === 'phan-hoi') { card.innerHTML += `<span class="fb-user">👤 ${item.title}</span><span class="stars">⭐⭐⭐⭐⭐</span><img src="${item.imgs[0]}" onclick="showDetail(${item.id})" style="height:auto; border-radius:4px; margin-bottom:10px"><div class="fb-content">"${item.desc}"</div>`; } else { card.innerHTML += `<img src="${item.imgs[0]}" onclick="showDetail(${item.id})"><div class="title">${item.title}</div><div class="price">${item.price || "Liên hệ"}</div>`; } grid.appendChild(card); } }); }; }
+
+// HÀM XỬ LÝ GIÁ THÔNG MINH
+function formatPriceInput(val) {
+    if(!val) return "Liên hệ";
+    let n = val.toString().replace(/[^0-9]/g, ''); // Chỉ lấy số
+    if(n.length > 0 && n.length <= 3) {
+        // Nếu nhập 12 -> 12.000.000 VNĐ
+        return parseInt(n).toLocaleString('vi-VN') + ".000.000 VNĐ";
+    } else if (n.length > 3) {
+        // Nếu nhập nhiều số hơn (vd: 500000) -> 500.000 VNĐ
+        return parseInt(n).toLocaleString('vi-VN') + " VNĐ";
+    }
+    return val;
+}
+
+async function saveToDB() {
+    const files = document.getElementById('upFiles').files;
+    const title = document.getElementById('upTitle').value;
+    let priceRaw = document.getElementById('upPrice').value;
+    if(!title || files.length === 0) return alert("Thiếu ảnh hoặc tên!");
+    
+    // Áp dụng format giá
+    const finalPrice = formatPriceInput(priceRaw);
+
+    const imgs = [];
+    for(let f of files) {
+        const base64 = await new Promise((res) => {
+            const r = new FileReader(); r.readAsDataURL(f);
+            r.onload = (e) => {
+                const img = new Image(); img.src = e.target.result;
+                img.onload = () => {
+                    const cv = document.createElement('canvas');
+                    const MAX_W = 800; let w=img.width, h=img.height;
+                    if(w>MAX_W){ h*=MAX_W/w; w=MAX_W; }
+                    cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h);
+                    res(cv.toDataURL('image/jpeg',0.8));
+                }
+            }
+        });
+        imgs.push(base64);
+    }
+    const db = await openDB();
+    db.transaction(storeName,"readwrite").objectStore(storeName).add({id:Date.now(),imgs,title,price:finalPrice,cat:document.getElementById('upCat').value,desc:document.getElementById('upDesc').value});
+    location.reload();
+}
+
+async function loadData() {
+    const db = await openDB();
+    db.transaction(storeName).objectStore(storeName).getAll().onsuccess = (e) => {
+        const data = e.target.result;
+        ['triet-long','laser','co2','giam-beo','used','repair','phan-hoi'].forEach(s => {
+            const grid = document.getElementById('grid-'+s); if(grid) grid.innerHTML = "";
+        });
+        data.sort((a,b)=>b.id-a.id).forEach(item => {
+            const grid = document.getElementById('grid-'+item.cat);
+            if(grid){
+                const card = document.createElement('div');
+                card.className = (item.cat === 'phan-hoi') ? 'card fb-card' : 'card';
+                card.onclick = () => showDetail(item.id);
+                card.innerHTML = `<button class="delete-btn" onclick="deleteItem(${item.id})">✕</button>`;
+                if(item.cat === 'phan-hoi') {
+                    card.innerHTML += `<span class="fb-user">👤 ${item.title}</span><span class="stars">⭐⭐⭐⭐⭐</span><img src="${item.imgs[0]}" style="height:auto; border-radius:4px; margin-bottom:10px"><div class="fb-content">"${item.desc}"</div>`;
+                } else {
+                    card.innerHTML += `<img src="${item.imgs[0]}"><div class="title">${item.title}</div><div class="price">${item.price}</div><div class="view-more">Xem chi tiết...</div>`;
+                }
+                grid.appendChild(card);
+            }
+        });
+    };
+}
+
 async function deleteItem(id) { event.stopPropagation(); if(confirm("Xóa bài này?")) { const db = await openDB(); db.transaction(storeName,"readwrite").objectStore(storeName).delete(id).onsuccess = () => location.reload(); } }
 function previewImgs() { const area = document.getElementById('previewArea'); area.innerHTML = ""; for(let f of document.getElementById('upFiles').files) { const r = new FileReader(); r.onload = (e) => area.innerHTML += `<img src="${e.target.result}" style="width:50px;height:50px;object-fit:cover;border-radius:4px">`; r.readAsDataURL(f); } }
 function sendRepairToZalo() { const txt = `YÊU CẦU SỬA MÁY:%0A- Spa: ${document.getElementById('reName').value}%0A- SĐT: ${document.getElementById('rePhone').value}%0A- Máy: ${document.getElementById('reMachine').value}%0A- Lỗi: ${document.getElementById('reNote').value}`; window.open(`https://zalo.me/0900000000?text=${txt}`, '_blank'); }
