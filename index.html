@@ -27,9 +27,19 @@
         .sticky-tools { background: #fff; padding: 12px; display: flex; gap: 15px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 110px; z-index: 998; align-items: center; max-width: var(--max-width); margin: auto; }
         .btn-repair-form { background: var(--success); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; animation: pulse 2s infinite; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
 
-        /* TRUST BAR */
-        .trust-bar { background: white; padding: 20px 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; border-bottom: 1px solid #eee; max-width: var(--max-width); margin: auto; }
-        .trust-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--dark); }
+        /* ================= TRUST BAR (CĂN GIỮA) ================= */
+        .trust-bar-wrapper { background: white; border-bottom: 1px solid #eee; width: 100%; display: flex; justify-content: center; }
+        .trust-bar { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 15px 30px; 
+            padding: 20px 15px;
+            max-width: fit-content; /* Chỉ rộng bằng nội dung */
+        }
+        @media (min-width: 768px) { 
+            .trust-bar { grid-template-columns: repeat(4, auto); } /* Hiện 4 cột ngang trên PC */
+        }
+        .trust-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 700; color: var(--dark); white-space: nowrap; }
 
         /* SECTION */
         .section { padding: 40px 15px; max-width: var(--max-width); margin: auto; }
@@ -53,15 +63,15 @@
         .delete-btn { display: none; position: absolute; top: -10px; right: -10px; background: #ff4d4d; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; z-index: 10; font-weight: bold; }
         body.admin-mode .delete-btn { display: block; }
 
-        /* FOOTER (2 CỘT CĂN GIỮA) */
+        /* FOOTER (CĂN GIỮA) */
         footer { background: var(--dark); color: white; padding: 50px 20px; text-align: center; }
         .footer-caption { font-size: 18px; color: var(--gold); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
         .footer-trust { font-style: italic; color: #94a3b8; margin-bottom: 25px; font-size: 14px; max-width: 800px; margin: auto; }
         
-        .footer-info-wrapper { display: flex; justify-content: center; width: 100%; }
         .footer-info-grid { 
             display: grid; grid-template-columns: 1fr; gap: 15px 40px; text-align: left; 
-            background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; max-width: fit-content; 
+            background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px;
+            max-width: fit-content; margin: auto;
         }
         @media (min-width: 768px) { .footer-info-grid { grid-template-columns: auto auto; } }
         .footer-info-grid p { margin: 5px 0; font-size: 14px; }
@@ -74,7 +84,7 @@
         .btn-call { background: var(--primary); }
         .btn-zalo { background: #0084ff; }
 
-        /* POPUP */
+        /* POPUP QUẢN TRỊ */
         #adminPopupWrap, #repairPopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 15px; backdrop-filter: blur(4px); }
         .form-box { background: white; padding: 25px; border-radius: 15px; width: 100%; max-width: 450px; position: relative; max-height: 90vh; overflow-y: auto; color: var(--dark); }
 
@@ -110,11 +120,13 @@
     <div style="flex:1; font-size: 11px; text-align: right; color: #b45309; font-weight: bold;">HỖ TRỢ TẬN NƠI 24/7</div>
 </div>
 
-<div class="trust-bar">
-    <div class="trust-item"><span>🛡️</span> Bảo hành 12 tháng</div>
-    <div class="trust-item"><span>🚚</span> Giao hàng toàn quốc</div>
-    <div class="trust-item"><span>🛠️</span> Sửa chữa tận nơi</div>
-    <div class="trust-item"><span>🎓</span> Chuyển giao kĩ thuật</div>
+<div class="trust-bar-wrapper">
+    <div class="trust-bar">
+        <div class="trust-item"><span>🛡️</span> Bảo hành 12 tháng</div>
+        <div class="trust-item"><span>🚚</span> Giao hàng toàn quốc</div>
+        <div class="trust-item"><span>🛠️</span> Sửa chữa tận nơi</div>
+        <div class="trust-item"><span>🎓</span> Chuyển giao kĩ thuật</div>
+    </div>
 </div>
 
 <div id="homePage">
@@ -140,16 +152,14 @@
         <div class="footer-caption">Chữ Tín Quý Hơn Vàng</div>
         <div class="footer-trust">"Minh Bảo tự hào là đối tác chiến lược của hơn 500+ Spa toàn quốc. Chúng tôi không chỉ bán máy, chúng tôi trao giải pháp và sự đồng hành bền vững."</div>
         
-        <div class="footer-info-wrapper">
-            <div class="footer-info-grid">
-                <div>
-                    <p>📍 <b>Địa chỉ:</b> Số 123, Đường Thẩm Mỹ, Quận Tân Bình, TP.HCM</p>
-                    <p>📞 <b>Hotline:</b> 0900.000.000 (Hỗ trợ 24/7)</p>
-                </div>
-                <div>
-                    <p>💬 <b>Zalo kỹ thuật:</b> 0900.000.000 (Mr. Bảo)</p>
-                    <p>🛡️ <b>Bảo hành:</b> Tận nơi trên toàn lãnh thổ Việt Nam</p>
-                </div>
+        <div class="footer-info-grid">
+            <div>
+                <p>📍 <b>Địa chỉ:</b> Số 123, Đường Thẩm Mỹ, Quận Tân Bình, TP.HCM</p>
+                <p>📞 <b>Hotline:</b> 0900.000.000 (Hỗ trợ 24/7)</p>
+            </div>
+            <div>
+                <p>💬 <b>Zalo kỹ thuật:</b> 0900.000.000 (Mr. Bảo)</p>
+                <p>🛡️ <b>Bảo hành:</b> Tận nơi trên toàn lãnh thổ Việt Nam</p>
             </div>
         </div>
         <span class="admin-trigger" onclick="openAdmin()">© <span style="color:var(--gold)">2026</span> THIẾT BỊ SPA MINH BẢO</span>
@@ -206,15 +216,12 @@ function showSection(type, element) { document.getElementById('productDetail').s
 function backToHome() { document.getElementById('homePage').style.display = "block"; document.getElementById('productDetail').style.display = "none"; }
 async function showDetail(id) { const db = await openDB(); db.transaction(storeName).objectStore(storeName).get(id).onsuccess = (e) => { const item = e.target.result; const slider = document.getElementById('detailSlider'); slider.innerHTML = ""; item.imgs.forEach((src, i) => { const img = document.createElement('img'); img.src = src; img.style.display = i === 0 ? "block" : "none"; img.onclick = () => { img.style.display="none"; (img.nextElementSibling || slider.firstElementChild).style.display="block"; }; slider.appendChild(img); }); document.getElementById('dTitle').innerText = item.title; document.getElementById('dPrice').innerText = item.price; document.getElementById('dDesc').innerText = item.desc; document.getElementById('homePage').style.display = "none"; document.getElementById('productDetail').style.display = "block"; window.scrollTo(0,0); }; }
 
-// HÀM XỬ LÝ GIÁ THÔNG MINH
 function formatPriceInput(val) {
     if(!val) return "Liên hệ";
-    let n = val.toString().replace(/[^0-9]/g, ''); // Chỉ lấy số
+    let n = val.toString().replace(/[^0-9]/g, '');
     if(n.length > 0 && n.length <= 3) {
-        // Nếu nhập 12 -> 12.000.000 VNĐ
         return parseInt(n).toLocaleString('vi-VN') + ".000.000 VNĐ";
     } else if (n.length > 3) {
-        // Nếu nhập nhiều số hơn (vd: 500000) -> 500.000 VNĐ
         return parseInt(n).toLocaleString('vi-VN') + " VNĐ";
     }
     return val;
@@ -225,10 +232,7 @@ async function saveToDB() {
     const title = document.getElementById('upTitle').value;
     let priceRaw = document.getElementById('upPrice').value;
     if(!title || files.length === 0) return alert("Thiếu ảnh hoặc tên!");
-    
-    // Áp dụng format giá
     const finalPrice = formatPriceInput(priceRaw);
-
     const imgs = [];
     for(let f of files) {
         const base64 = await new Promise((res) => {
@@ -239,7 +243,8 @@ async function saveToDB() {
                     const cv = document.createElement('canvas');
                     const MAX_W = 800; let w=img.width, h=img.height;
                     if(w>MAX_W){ h*=MAX_W/w; w=MAX_W; }
-                    cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h);
+                    cv.width=w; cv.height=h;
+                    cv.getContext('2d').drawImage(img,0,0,w,h);
                     res(cv.toDataURL('image/jpeg',0.8));
                 }
             }
