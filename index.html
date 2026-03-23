@@ -5,85 +5,274 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THIẾT BỊ SPA MINH BẢO - TỔNG KHO MÁY THẨM MỸ</title>
     <style>
-        :root { --primary: #e11d48; --gold: #b45309; --dark: #0f172a; --light: #f8fafc; --success: #10b981; }
-        body{font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:var(--light); color: #334155; padding-bottom: 90px; scroll-behavior: smooth;}
-        
+        :root { 
+            --primary: #e11d48; 
+            --gold: #b45309; 
+            --dark: #0f172a; 
+            --light: #f8fafc; 
+            --success: #10b981; 
+            --max-width: 1200px;
+        }
+
+        /* RESET & BASE */
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            background: var(--light);
+            color: #334155;
+            padding-bottom: 90px;
+            scroll-behavior: smooth;
+            line-height: 1.5;
+        }
+
         /* HEADER */
-        header{background: var(--dark); color:white; padding:15px; position: sticky; top:0; z-index:1000; box-shadow: 0 2px 10px rgba(0,0,0,0.3);}
-        header h2{margin:0; font-size: 16px; text-align: center; text-transform: uppercase; letter-spacing: 1.5px; color: #fbbf24;}
-        nav{margin-top:12px; display:flex; gap:8px; justify-content: center; flex-wrap:wrap}
-        nav a{color:white; text-decoration:none; font-weight:600; font-size:10px; text-transform: uppercase; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;}
-        nav a:hover, nav a.active {background: var(--primary); border-color: var(--primary);}
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .header-content {
+            max-width: var(--max-width);
+            margin: auto;
+            padding: 0 15px;
+            text-align: center;
+        }
+        header h2 {
+            margin: 0;
+            font-size: clamp(18px, 4vw, 26px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fbbf24;
+        }
 
-        /* TRUST BAR */
-        .trust-bar { background: white; padding: 15px 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-bottom: 1px solid #eee; }
-        .trust-item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--dark); }
-        .trust-item i { font-size: 16px; color: var(--primary); }
-        @media (min-width: 600px) { .trust-bar { grid-template-columns: repeat(4, 1fr); justify-items: center; } }
+        nav {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            padding: 8px 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+        nav a:hover, nav a.active { background: var(--primary); border-color: var(--primary); }
 
-        /* TOOL REPAIR */
-        .sticky-tools { background: #fff; padding: 12px; display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid #e2e8f0; position: sticky; top: 100px; z-index: 999; align-items: center;}
-        .btn-repair-form { background: var(--success); color: white; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; white-space: nowrap; animation: pulse 2s infinite;}
-        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
+        /* TRUST BAR - Co giãn thông minh */
+        .trust-bar {
+            background: white;
+            padding: 20px 15px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            border-bottom: 1px solid #eee;
+            max-width: var(--max-width);
+            margin: auto;
+        }
+        .trust-item { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--dark); }
+        @media (min-width: 768px) { .trust-bar { grid-template-columns: repeat(4, 1fr); justify-items: center; } }
 
-        /* FILTER BAR */
-        .filter-bar { background: #fff; padding: 12px; display: flex; gap: 10px; overflow-x: auto; border-bottom: 1px solid #e2e8f0; scrollbar-width: none;}
+        /* TOOLS & FILTER */
+        .sticky-tools {
+            background: #fff;
+            padding: 12px;
+            display: flex;
+            gap: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 110px;
+            z-index: 998;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: auto;
+        }
+        .btn-repair-form {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        .filter-bar {
+            background: #fff;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            border-bottom: 1px solid #e2e8f0;
+            scrollbar-width: none;
+            max-width: var(--max-width);
+            margin: auto;
+        }
         .filter-bar::-webkit-scrollbar { display: none; }
-        .filter-btn { white-space: nowrap; padding: 8px 16px; border-radius: 20px; border: 1px solid #e2e8f0; font-size: 12px; cursor: pointer; background: #f8fafc; font-weight: 500;}
-        .filter-btn.active { background: var(--dark); color: white; border-color: var(--dark);}
+        .filter-btn {
+            white-space: nowrap;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #e2e8f0;
+            font-size: 13px;
+            cursor: pointer;
+            background: #f8fafc;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .filter-btn.active { background: var(--dark); color: white; border-color: var(--dark); }
 
-        /* SECTIONS & GRID */
-        .section{padding:30px 15px; max-width:1100px; margin:auto}
-        .section h2{font-size: 19px; border-left: 5px solid var(--primary); padding-left: 12px; margin-bottom: 20px; text-transform: uppercase; display: flex; align-items: center;}
-        .section h2 span { font-size: 11px; color: #64748b; font-weight: normal; margin-left: auto;}
-        .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px}
-        .card{background:white; border-radius:12px; padding:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); position: relative; border: 1px solid #f1f5f9; transition: 0.3s;}
-        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); border-color: var(--primary); }
-        .card img{width:100%; height:150px; object-fit:cover; border-radius:8px; cursor: pointer;}
-        .card .title { font-weight: bold; font-size: 13px; margin: 10px 0 5px 0; height: 36px; overflow: hidden; color: var(--dark);}
-        .price{color: var(--primary); font-weight:bold; font-size: 15px;}
-        
-        /* BADGES */
-        .badge { position: absolute; top: 15px; left: 15px; padding: 3px 8px; border-radius: 4px; font-size: 9px; font-weight: bold; color: white; z-index: 2;}
-        .badge-new { background: var(--primary); }
-        .badge-used { background: var(--gold); }
-        .badge-repair { background: var(--success); }
+        /* GRID HỆ THỐNG - CO GIÃN THÔNG MINH */
+        .section { padding: 40px 15px; max-width: var(--max-width); margin: auto; }
+        .section h2 {
+            font-size: clamp(20px, 3vw, 28px);
+            border-left: 6px solid var(--primary);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+        }
+        .section h2 span { font-size: 13px; color: #64748b; font-weight: normal; margin-left: auto; }
+
+        .grid {
+            display: grid;
+            /* Mặc định 2 cột cho điện thoại, tự tăng lên trên máy tính */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; }
+        }
+
+        /* CARD SẢN PHẨM */
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            position: relative;
+            border: 1px solid #f1f5f9;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); border-color: var(--primary); }
+        .card img {
+            width: 100%;
+            height: clamp(150px, 20vw, 250px);
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .card .title {
+            font-weight: bold;
+            font-size: clamp(14px, 1.5vw, 16px);
+            margin: 15px 0 10px 0;
+            height: 44px;
+            overflow: hidden;
+            color: var(--dark);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        .price { color: var(--primary); font-weight: 800; font-size: clamp(16px, 1.8vw, 20px); }
 
         /* POPUPS */
-        #repairPopup, #adminPopupWrap { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; justify-content: center; align-items: center; padding: 15px;}
-        .form-box { background: white; width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; position: relative; max-height: 90vh; overflow-y: auto;}
+        #repairPopup, #adminPopupWrap {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 20000;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            backdrop-filter: blur(5px);
+        }
+        .form-box {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
 
-        /* DETAIL PAGE */
-        .detail-page{display:none; padding:15px; background: white; min-height: 100vh;}
-        .detail-slider { width: 100%; height: 350px; position: relative; overflow: hidden; border-radius: 12px; background: #000;}
-        .detail-slider img { width: 100%; height: 100%; object-fit: contain; display: none;}
-        .delete-btn { position: absolute; top: 5px; right: 5px; background: rgba(225, 29, 72, 0.8); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; z-index: 10; font-size: 14px;}
+        /* DETAIL PAGE - Tối ưu 2 cột trên PC */
+        .detail-page { display: none; padding: 30px 15px; background: white; min-height: 100vh; max-width: var(--max-width); margin: auto; }
+        .detail-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; }
         
-        input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px;}
-        .contact-group { position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 10000; }
-        .btn-call { flex: 1; background: var(--primary); color: white; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; }
-        .btn-zalo { flex: 1; background: #0084ff; color: white; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 10px rgba(0,132,255,0.3); }
-        footer { background: var(--dark); color: #94a3b8; padding: 40px 20px; text-align: center; font-size: 13px; }
-        .admin-trigger { cursor: pointer; color: #fbbf24; font-weight: bold; transition: 0.3s; }
-        .admin-trigger:hover { text-shadow: 0 0 5px rgba(251, 191, 36, 0.5); }
+        .detail-content { display: grid; grid-template-columns: 1fr; gap: 30px; }
+        @media (min-width: 992px) { .detail-content { grid-template-columns: 1fr 1fr; } }
+
+        .detail-slider { width: 100%; height: clamp(300px, 40vw, 500px); border-radius: 15px; background: #000; overflow: hidden; position: relative; }
+        .detail-slider img { width: 100%; height: 100%; object-fit: contain; display: none; }
+        
+        .delete-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(239, 68, 68, 0.9); color: white;
+            border: none; border-radius: 50%; width: 30px; height: 30px;
+            cursor: pointer; z-index: 10; font-weight: bold;
+        }
+
+        /* INPUTS */
+        input, textarea, select { width: 100%; padding: 12px 15px; margin-top: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px; outline: none; }
+        input:focus { border-color: var(--primary); }
+
+        /* FIXED BUTTONS */
+        .contact-group {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 600px; display: flex; gap: 15px; z-index: 10000;
+        }
+        .btn-call, .btn-zalo {
+            flex: 1; text-align: center; padding: 18px; border-radius: 50px;
+            text-decoration: none; font-weight: bold; color: white; font-size: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: 0.3s;
+        }
+        .btn-call { background: var(--primary); }
+        .btn-zalo { background: #0084ff; }
+        .btn-call:hover, .btn-zalo:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(0,0,0,0.2); }
+
+        /* FOOTER */
+        footer { background: var(--dark); color: #94a3b8; padding: 60px 20px; text-align: center; margin-top: 50px; }
+        .admin-trigger { cursor: pointer; color: #fbbf24; font-weight: bold; transition: 0.3s; padding: 5px; }
+        .admin-trigger:hover { color: #fff; }
+
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
     </style>
 </head>
 <body>
 
 <header>
-    <h2>MINH BẢO SPA EQUIPMENT</h2>
-    <nav>
-        <a href="#" onclick="showSection('all')">Tất cả</a>
-        <a href="#sec-main" onclick="showSection('main')">Máy Mới</a>
-        <a href="#sec-used" onclick="showSection('used')">Thanh Lý</a>
-        <a href="#sec-repair" onclick="showSection('repair')">Sửa Chữa</a>
-        <a href="#sec-project" onclick="showSection('project')">Dự Án</a>
-    </nav>
+    <div class="header-content">
+        <h2>MINH BẢO SPA EQUIPMENT</h2>
+        <nav>
+            <a href="#" class="active" onclick="showSection('all')">Tất cả</a>
+            <a href="#sec-main" onclick="showSection('main')">Máy Mới</a>
+            <a href="#sec-used" onclick="showSection('used')">Thanh Lý</a>
+            <a href="#sec-repair" onclick="showSection('repair')">Sửa Chữa</a>
+            <a href="#sec-project" onclick="showSection('project')">Dự Án</a>
+        </nav>
+    </div>
 </header>
 
 <div class="sticky-tools">
     <button class="btn-repair-form" onclick="openRepairForm()">🛠️ ĐẶT LỊCH SỬA MÁY</button>
-    <div style="flex:1; font-size: 10px; text-align: right; color: var(--gold); font-weight: bold;">KỸ THUẬT TẬN NƠI 24/7</div>
+    <div style="flex:1; font-size: 12px; text-align: right; color: var(--gold); font-weight: bold;">KỸ THUẬT TẬN NƠI 24/7</div>
 </div>
 
 <div class="trust-bar">
@@ -104,7 +293,7 @@
 
 <div id="homePage">
     <div id="sec-main" class="section">
-        <h2>🔥 Máy Thẩm Mỹ Mới <span>Chính hãng - Bảo hành dài hạn</span></h2>
+        <h2>🔥 Máy Thẩm Mỹ Mới <span>Chính hãng - Bảo hành dài</span></h2>
         <div class="grid" id="grid-main"></div>
     </div>
 
@@ -125,17 +314,23 @@
 </div>
 
 <div id="productDetail" class="detail-page">
-    <button onclick="backToHome()" style="margin-bottom:15px; padding:10px 20px; border-radius:50px; border:1px solid #ddd; background:#fff; cursor:pointer;">⬅ Quay lại</button>
-    <div class="detail-slider" id="detailSlider"></div>
-    <h2 id="dTitle" style="margin-top:20px;"></h2>
-    <p class="price" id="dPrice" style="font-size: 22px;"></p>
-    <hr style="border:0; border-top:1px solid #eee">
-    <p id="dDesc" style="white-space: pre-line; line-height: 1.8; color: #475569; padding-bottom: 50px;"></p>
+    <div class="detail-header">
+        <button onclick="backToHome()" style="padding:10px 25px; border-radius:50px; border:2px solid var(--dark); background:#fff; font-weight:bold; cursor:pointer;">⬅ QUAY LẠI</button>
+    </div>
+    <div class="detail-content">
+        <div class="detail-slider" id="detailSlider"></div>
+        <div class="detail-info">
+            <h2 id="dTitle" style="margin-top:0; font-size: 28px; color: var(--dark);"></h2>
+            <p class="price" id="dPrice" style="font-size: 30px; margin: 20px 0;"></p>
+            <hr style="border:0; border-top:1px solid #eee; margin: 25px 0;">
+            <p id="dDesc" style="white-space: pre-line; line-height: 1.8; color: #475569; font-size: 16px;"></p>
+        </div>
+    </div>
 </div>
 
 <div id="repairPopup">
     <div class="form-box">
-        <h3 style="margin-top:0; text-align:center; color: var(--success);">YÊU CẦU SỬA MÁY</h3>
+        <h3 style="margin-top:0; text-align:center; color: var(--success); font-size: 22px;">YÊU CẦU SỬA MÁY</h3>
         <input type="text" id="reName" placeholder="Tên Spa / Chủ Spa...">
         <input type="text" id="rePhone" placeholder="Số điện thoại...">
         <input type="text" id="reMachine" placeholder="Tên máy cần sửa...">
@@ -147,24 +342,28 @@
             <option value="Khác">Lỗi khác...</option>
         </select>
         <textarea id="reNote" rows="3" placeholder="Mô tả thêm tình trạng..."></textarea>
-        <button onclick="sendRepairToZalo()" style="width:100%; margin-top:15px; padding:15px; background:var(--success); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">GỬI YÊU CẦU QUA ZALO</button>
-        <button onclick="document.getElementById('repairPopup').style.display='none'" style="width:100%; margin-top:10px; background:#eee; border:none; padding:10px; border-radius:10px; cursor:pointer;">Hủy bỏ</button>
+        <button onclick="sendRepairToZalo()" style="width:100%; margin-top:20px; padding:18px; background:var(--success); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:16px;">GỬI YÊU CẦU QUA ZALO</button>
+        <button onclick="document.getElementById('repairPopup').style.display='none'" style="width:100%; margin-top:12px; background:#eee; border:none; padding:12px; border-radius:10px; cursor:pointer; font-weight:bold;">HỦY BỎ</button>
     </div>
 </div>
 
 <div id="adminPopupWrap">
-    <div class="form-box">
-        <h3 style="text-align:center">QUẢN TRỊ BÀI VIẾT</h3>
+    <div class="form-box" style="max-height: 90vh; overflow-y: auto;">
+        <h3 style="text-align:center; margin-top:0;">QUẢN TRỊ NỘI DUNG</h3>
+        <label style="font-size:12px; color:#666;">Chọn ảnh (có thể chọn nhiều):</label>
         <input type="file" id="upFiles" accept="image/*" multiple onchange="previewImgs()">
-        <div id="previewArea" style="display:flex; gap:5px; margin-top:10px; flex-wrap:wrap"></div>
-        <input type="text" id="upTitle" placeholder="Tên tiêu đề bài đăng...">
-        <input type="text" id="upPrice" placeholder="Giá (nếu có)...">
+        <div id="previewArea" style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap"></div>
+        
+        <input type="text" id="upTitle" placeholder="Tiêu đề sản phẩm/dự án...">
+        <input type="text" id="upPrice" placeholder="Giá (ví dụ: 15.000.000đ hoặc Liên hệ)...">
+        
         <select id="upCat">
             <option value="main">Máy mới chính hãng</option>
             <option value="used">Máy thanh lý (2nd)</option>
             <option value="repair">Ca sửa chữa thực tế</option>
             <option value="project">Dự án bàn giao</option>
         </select>
+        
         <select id="upTech">
             <option value="ipl">IPL / OPT</option>
             <option value="diode">Diode Laser</option>
@@ -173,27 +372,31 @@
             <option value="skincare">Chăm sóc da</option>
             <option value="khac">Khác</option>
         </select>
-        <textarea id="upDesc" rows="4" placeholder="Mô tả chi tiết..."></textarea>
-        <button id="btnSave" onclick="saveToDB()" style="width:100%; margin-top:20px; padding:15px; background:var(--dark); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">LƯU DỮ LIỆU</button>
-        <button onclick="document.getElementById('adminPopupWrap').style.display='none'" style="width:100%; margin-top:10px; background:#f1f5f9; border:none; padding:10px; border-radius:10px; cursor:pointer;">Đóng</button>
+        
+        <textarea id="upDesc" rows="5" placeholder="Mô tả chi tiết sản phẩm..."></textarea>
+        
+        <button id="btnSave" onclick="saveToDB()" style="width:100%; margin-top:20px; padding:18px; background:var(--dark); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">LƯU BÀI ĐĂNG</button>
+        <button onclick="document.getElementById('adminPopupWrap').style.display='none'" style="width:100%; margin-top:12px; background:#f1f5f9; border:none; padding:12px; border-radius:10px; cursor:pointer;">ĐÓNG</button>
     </div>
 </div>
 
 <div class="contact-group">
-    <a href="tel:0900000000" class="btn-call">📞 GỌI ĐIỆN</a>
-    <a href="https://zalo.me/0900000000" class="btn-zalo">💬 ZALO</a>
+    <a href="tel:0900000000" class="btn-call">📞 GỌI TƯ VẤN</a>
+    <a href="https://zalo.me/0900000000" class="btn-zalo">💬 CHÁT ZALO</a>
 </div>
 
 <footer>
-    <p><b>THIẾT BỊ SPA MINH BẢO</b></p>
-    <p>Chuyên cung cấp, sửa chữa, thanh lý máy thẩm mỹ</p>
-    <p style="opacity: 0.8; margin-top: 15px;">
-        © <span class="admin-trigger" onclick="document.getElementById('adminPopupWrap').style.display='flex'">2026</span> THIẾT BỊ SPA MINH BẢO
-    </p>
+    <div class="header-content">
+        <p><b>THIẾT BỊ SPA MINH BẢO</b></p>
+        <p style="font-size: 14px;">Địa chỉ: Tổng kho máy thẩm mỹ toàn quốc</p>
+        <p style="opacity: 0.8; margin-top: 20px; font-size: 13px;">
+            © <span class="admin-trigger" onclick="document.getElementById('adminPopupWrap').style.display='flex'">2026</span> THIẾT BỊ SPA MINH BẢO
+        </p>
+    </div>
 </footer>
 
 <script>
-const dbName = "MinhBaoFinalV6";
+const dbName = "MinhBaoV6_Pro";
 const storeName = "items";
 
 function openDB() {
@@ -205,22 +408,30 @@ function openDB() {
 }
 
 function openRepairForm() { document.getElementById('repairPopup').style.display = 'flex'; }
+
 function sendRepairToZalo() {
     const n = document.getElementById('reName').value;
     const p = document.getElementById('rePhone').value;
     const m = document.getElementById('reMachine').value;
     const e = document.getElementById('reError').value;
     if(!n || !p || !m) return alert("Vui lòng nhập đủ thông tin!");
-    const txt = `YÊU CẦU SỬA MÁY:%0A- Tên: ${n}%0A- SĐT: ${p}%0A- Máy: ${m}%0A- Lỗi: ${e}`;
+    const txt = `YÊU CẦU SỬA MÁY:%0A- Chủ Spa: ${n}%0A- SĐT: ${p}%0A- Tên Máy: ${m}%0A- Tình trạng: ${e}`;
     window.open(`https://zalo.me/0900000000?text=${txt}`, '_blank');
 }
 
 async function saveToDB() {
     const files = document.getElementById('upFiles').files;
     const title = document.getElementById('upTitle').value;
-    if(!title || files.length === 0) return alert("Thiếu ảnh hoặc tên!");
-    document.getElementById('btnSave').innerText = "Đang lưu...";
+    const price = document.getElementById('upPrice').value || "Liên hệ";
+    const cat = document.getElementById('upCat').value;
+    const tech = document.getElementById('upTech').value;
+    const desc = document.getElementById('upDesc').value;
+
+    if(!title || files.length === 0) return alert("Vui lòng nhập tên và chọn ít nhất 1 ảnh!");
+    
+    document.getElementById('btnSave').innerText = "Đang xử lý ảnh...";
     const imgs = [];
+
     for(let f of files) {
         const base64 = await new Promise((res) => {
             const r = new FileReader(); r.readAsDataURL(f);
@@ -228,46 +439,48 @@ async function saveToDB() {
                 const img = new Image(); img.src = e.target.result;
                 img.onload = () => {
                     const cv = document.createElement('canvas');
-                    cv.width = 800; cv.height = img.height * (800 / img.width);
-                    cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
-                    res(cv.toDataURL('image/jpeg', 0.7));
+                    const MAX_W = 1000;
+                    let w = img.width; let h = img.height;
+                    if (w > MAX_W) { h *= MAX_W / w; w = MAX_W; }
+                    cv.width = w; cv.height = h;
+                    cv.getContext('2d').drawImage(img, 0, 0, w, h);
+                    res(cv.toDataURL('image/jpeg', 0.8));
                 }
             }
         });
         imgs.push(base64);
     }
+
     const db = await openDB();
-    db.transaction(storeName, "readwrite").objectStore(storeName).add({ 
-        id: Date.now(), imgs, title, 
-        price: document.getElementById('upPrice').value || "Liên hệ", 
-        cat: document.getElementById('upCat').value, 
-        tech: document.getElementById('upTech').value, 
-        desc: document.getElementById('upDesc').value 
-    });
-    location.reload();
+    const tx = db.transaction(storeName, "readwrite");
+    tx.objectStore(storeName).add({ id: Date.now(), imgs, title, price, cat, tech, desc });
+    tx.oncomplete = () => location.reload();
 }
 
 async function loadData(techFilter = 'all') {
     const db = await openDB();
     db.transaction(storeName).objectStore(storeName).getAll().onsuccess = (e) => {
         const data = e.target.result;
-        ['main', 'used', 'repair', 'project'].forEach(c => document.getElementById('grid-'+c).innerHTML = "");
-        data.forEach(item => {
+        const cats = ['main', 'used', 'repair', 'project'];
+        cats.forEach(c => document.getElementById('grid-'+c).innerHTML = "");
+        
+        data.sort((a,b) => b.id - a.id).forEach(item => {
             if(techFilter !== 'all' && item.tech !== techFilter) return;
             const grid = document.getElementById('grid-'+item.cat);
             if(grid) {
                 const card = document.createElement('div');
                 card.className = 'card';
-                let b = item.cat === 'main' ? 'badge-new' : item.cat === 'used' ? 'badge-used' : 'badge-repair';
-                let t = item.cat === 'main' ? 'MỚI' : item.cat === 'used' ? 'THANH LÝ' : 'SỬA XONG';
+                let bCls = item.cat === 'main' ? 'badge-new' : item.cat === 'used' ? 'badge-used' : 'badge-repair';
+                let bTxt = item.cat === 'main' ? 'MỚI' : item.cat === 'used' ? 'THANH LÝ' : 'HOÀN THÀNH';
+                
                 card.innerHTML = `
-                    <button class="delete-btn" onclick="deleteItem(${item.id})">×</button>
-                    <span class="badge ${b}">${t}</span>
+                    <button class="delete-btn" onclick="deleteItem(${item.id})">✕</button>
+                    <span class="badge ${bCls}">${bTxt}</span>
                     <img src="${item.imgs[0]}" onclick="showDetail(${item.id})">
                     <div class="title">${item.title}</div>
                     <div class="price">${item.price}</div>
                 `;
-                grid.prepend(card);
+                grid.appendChild(card);
             }
         });
     };
@@ -280,59 +493,66 @@ function filterByTech(tech, btn) {
 }
 
 function showSection(type) {
-    const sections = ['main', 'used', 'repair', 'project'];
-    sections.forEach(s => {
-        const el = document.getElementById('sec-'+s);
-        if(el) el.style.display = (type === 'all' || type === s) ? 'block' : 'none';
+    const cats = ['main', 'used', 'repair', 'project'];
+    cats.forEach(c => {
+        document.getElementById('sec-'+c).style.display = (type === 'all' || type === c) ? 'block' : 'none';
     });
+    window.scrollTo(0,0);
 }
 
 async function showDetail(id) {
     const db = await openDB();
     db.transaction(storeName).objectStore(storeName).get(id).onsuccess = (e) => {
         const item = e.target.result;
-        const slider = document.getElementById('detailSlider'); slider.innerHTML = "";
+        const slider = document.getElementById('detailSlider'); 
+        slider.innerHTML = "";
+        
         item.imgs.forEach((src, i) => {
-            const img = document.createElement('img'); img.src = src; img.style.display = i === 0 ? "block" : "none";
-            img.onclick = () => { img.style.display = "none"; (img.nextElementSibling || slider.firstElementChild).style.display = "block"; };
+            const img = document.createElement('img');
+            img.src = src;
+            img.style.display = i === 0 ? "block" : "none";
+            img.onclick = () => {
+                img.style.display = "none";
+                const next = img.nextElementSibling || slider.firstElementChild;
+                next.style.display = "block";
+            };
             slider.appendChild(img);
         });
+
         document.getElementById('dTitle').innerText = item.title;
         document.getElementById('dPrice').innerText = item.price;
         document.getElementById('dDesc').innerText = item.desc;
+        
         document.getElementById('homePage').style.display = "none";
         document.getElementById('productDetail').style.display = "block";
         window.scrollTo(0,0);
     };
 }
 
-function backToHome() { 
-    document.getElementById('homePage').style.display = "block"; 
-    document.getElementById('productDetail').style.display = "none"; 
+function backToHome() {
+    document.getElementById('homePage').style.display = "block";
+    document.getElementById('productDetail').style.display = "none";
 }
 
-async function deleteItem(id) { 
-    event.stopPropagation(); 
-    if(confirm("Xóa bài đăng này?")) { 
-        const db = await openDB(); 
-        db.transaction(storeName, "readwrite").objectStore(storeName).delete(id); 
-        location.reload(); 
-    } 
+async function deleteItem(id) {
+    event.stopPropagation();
+    if(confirm("Xóa bài đăng này vĩnh viễn?")) {
+        const db = await openDB();
+        db.transaction(storeName, "readwrite").objectStore(storeName).delete(id).onsuccess = () => location.reload();
+    }
 }
 
 function previewImgs() {
-    const area = document.getElementById('previewArea'); area.innerHTML = "";
+    const area = document.getElementById('previewArea'); 
+    area.innerHTML = "";
     for(let f of document.getElementById('upFiles').files) {
-        const r = new FileReader(); r.onload = (e) => area.innerHTML += `<img src="${e.target.result}" style="width:50px;height:50px;object-fit:cover;border-radius:4px">`;
+        const r = new FileReader();
+        r.onload = (e) => area.innerHTML += `<img src="${e.target.result}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #ddd">`;
         r.readAsDataURL(f);
     }
 }
 
-window.onload = () => {
-    loadData();
-    // Reset view
-    backToHome();
-};
+window.onload = loadData;
 </script>
 </body>
 </html>
