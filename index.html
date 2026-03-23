@@ -15,7 +15,7 @@
         nav a{color:white; text-decoration:none; font-weight:600; font-size:10px; text-transform: uppercase; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px;}
         nav a:hover, nav a.active {background: var(--primary); border-color: var(--primary);}
 
-        /* TRUST BAR - THANH UY TÍN (MỚI THÊM) */
+        /* TRUST BAR */
         .trust-bar { background: white; padding: 15px 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; border-bottom: 1px solid #eee; }
         .trust-item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--dark); }
         .trust-item i { font-size: 16px; color: var(--primary); }
@@ -49,21 +49,23 @@
         .badge-used { background: var(--gold); }
         .badge-repair { background: var(--success); }
 
-        /* FORM REPAIR POPUP */
-        #repairPopup { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; justify-content: center; align-items: center; padding: 15px;}
-        .form-box { background: white; width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; position: relative;}
+        /* POPUPS */
+        #repairPopup, #adminPopupWrap { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 20000; justify-content: center; align-items: center; padding: 15px;}
+        .form-box { background: white; width: 100%; max-width: 400px; padding: 25px; border-radius: 20px; position: relative; max-height: 90vh; overflow-y: auto;}
 
-        /* ADMIN & DETAIL */
+        /* DETAIL PAGE */
         .detail-page{display:none; padding:15px; background: white; min-height: 100vh;}
         .detail-slider { width: 100%; height: 350px; position: relative; overflow: hidden; border-radius: 12px; background: #000;}
         .detail-slider img { width: 100%; height: 100%; object-fit: contain; display: none;}
-        .delete-btn { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; z-index: 10; font-size: 12px;}
+        .delete-btn { position: absolute; top: 5px; right: 5px; background: rgba(225, 29, 72, 0.8); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; z-index: 10; font-size: 14px;}
         
         input, textarea, select { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 14px;}
         .contact-group { position: fixed; bottom: 15px; left: 10px; right: 10px; display: flex; gap: 10px; z-index: 10000; }
         .btn-call { flex: 1; background: var(--primary); color: white; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; }
         .btn-zalo { flex: 1; background: #0084ff; color: white; text-align: center; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 10px rgba(0,132,255,0.3); }
-        footer { background: var(--dark); color: #94a3b8; padding: 40px 20px; text-align: center; font-size: 12px; }
+        footer { background: var(--dark); color: #94a3b8; padding: 40px 20px; text-align: center; font-size: 13px; }
+        .admin-trigger { cursor: pointer; color: #fbbf24; font-weight: bold; transition: 0.3s; }
+        .admin-trigger:hover { text-shadow: 0 0 5px rgba(251, 191, 36, 0.5); }
     </style>
 </head>
 <body>
@@ -123,7 +125,7 @@
 </div>
 
 <div id="productDetail" class="detail-page">
-    <button onclick="backToHome()" style="margin-bottom:15px; padding:10px 20px; border-radius:50px; border:1px solid #ddd; background:#fff;">⬅ Quay lại</button>
+    <button onclick="backToHome()" style="margin-bottom:15px; padding:10px 20px; border-radius:50px; border:1px solid #ddd; background:#fff; cursor:pointer;">⬅ Quay lại</button>
     <div class="detail-slider" id="detailSlider"></div>
     <h2 id="dTitle" style="margin-top:20px;"></h2>
     <p class="price" id="dPrice" style="font-size: 22px;"></p>
@@ -150,29 +152,31 @@
     </div>
 </div>
 
-<div id="adminPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:25px; border-radius:20px; z-index:30000; width:90%; max-width:400px; box-shadow:0 0 50px rgba(0,0,0,0.5); max-height:80vh; overflow-y:auto;">
-    <h3 style="text-align:center">QUẢN TRỊ BÀI VIẾT</h3>
-    <input type="file" id="upFiles" accept="image/*" multiple onchange="previewImgs()">
-    <div id="previewArea" style="display:flex; gap:5px; margin-top:10px; flex-wrap:wrap"></div>
-    <input type="text" id="upTitle" placeholder="Tên tiêu đề bài đăng...">
-    <input type="text" id="upPrice" placeholder="Giá (nếu có)...">
-    <select id="upCat">
-        <option value="main">Máy mới chính hãng</option>
-        <option value="used">Máy thanh lý (2nd)</option>
-        <option value="repair">Ca sửa chữa thực tế</option>
-        <option value="project">Dự án bàn giao</option>
-    </select>
-    <select id="upTech">
-        <option value="ipl">IPL / OPT</option>
-        <option value="diode">Diode Laser</option>
-        <option value="laser">Nd:Yag Laser</option>
-        <option value="hifu">HIFU / Nâng cơ</option>
-        <option value="skincare">Chăm sóc da</option>
-        <option value="khac">Khác</option>
-    </select>
-    <textarea id="upDesc" rows="4" placeholder="Mô tả chi tiết..."></textarea>
-    <button id="btnSave" onclick="saveToDB()" style="width:100%; margin-top:20px; padding:15px; background:var(--dark); color:white; border:none; border-radius:10px; font-weight:bold">LƯU DỮ LIỆU</button>
-    <button onclick="document.getElementById('adminPopup').style.display='none'" style="width:100%; margin-top:10px; background:#f1f5f9; border:none; padding:10px; border-radius:10px">Hủy</button>
+<div id="adminPopupWrap">
+    <div class="form-box">
+        <h3 style="text-align:center">QUẢN TRỊ BÀI VIẾT</h3>
+        <input type="file" id="upFiles" accept="image/*" multiple onchange="previewImgs()">
+        <div id="previewArea" style="display:flex; gap:5px; margin-top:10px; flex-wrap:wrap"></div>
+        <input type="text" id="upTitle" placeholder="Tên tiêu đề bài đăng...">
+        <input type="text" id="upPrice" placeholder="Giá (nếu có)...">
+        <select id="upCat">
+            <option value="main">Máy mới chính hãng</option>
+            <option value="used">Máy thanh lý (2nd)</option>
+            <option value="repair">Ca sửa chữa thực tế</option>
+            <option value="project">Dự án bàn giao</option>
+        </select>
+        <select id="upTech">
+            <option value="ipl">IPL / OPT</option>
+            <option value="diode">Diode Laser</option>
+            <option value="laser">Nd:Yag Laser</option>
+            <option value="hifu">HIFU / Nâng cơ</option>
+            <option value="skincare">Chăm sóc da</option>
+            <option value="khac">Khác</option>
+        </select>
+        <textarea id="upDesc" rows="4" placeholder="Mô tả chi tiết..."></textarea>
+        <button id="btnSave" onclick="saveToDB()" style="width:100%; margin-top:20px; padding:15px; background:var(--dark); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">LƯU DỮ LIỆU</button>
+        <button onclick="document.getElementById('adminPopupWrap').style.display='none'" style="width:100%; margin-top:10px; background:#f1f5f9; border:none; padding:10px; border-radius:10px; cursor:pointer;">Đóng</button>
+    </div>
 </div>
 
 <div class="contact-group">
@@ -183,7 +187,9 @@
 <footer>
     <p><b>THIẾT BỊ SPA MINH BẢO</b></p>
     <p>Chuyên cung cấp, sửa chữa, thanh lý máy thẩm mỹ</p>
-    <span onclick="document.getElementById('adminPopup').style.display='block'" style="opacity:0.2; cursor:pointer">Quản trị</span>
+    <p style="opacity: 0.8; margin-top: 15px;">
+        © <span class="admin-trigger" onclick="document.getElementById('adminPopupWrap').style.display='flex'">2026</span> THIẾT BỊ SPA MINH BẢO
+    </p>
 </footer>
 
 <script>
@@ -231,7 +237,13 @@ async function saveToDB() {
         imgs.push(base64);
     }
     const db = await openDB();
-    db.transaction(storeName, "readwrite").objectStore(storeName).add({ id: Date.now(), imgs, title, price: document.getElementById('upPrice').value || "Liên hệ", cat: document.getElementById('upCat').value, tech: document.getElementById('upTech').value, desc: document.getElementById('upDesc').value });
+    db.transaction(storeName, "readwrite").objectStore(storeName).add({ 
+        id: Date.now(), imgs, title, 
+        price: document.getElementById('upPrice').value || "Liên hệ", 
+        cat: document.getElementById('upCat').value, 
+        tech: document.getElementById('upTech').value, 
+        desc: document.getElementById('upDesc').value 
+    });
     location.reload();
 }
 
@@ -248,7 +260,13 @@ async function loadData(techFilter = 'all') {
                 card.className = 'card';
                 let b = item.cat === 'main' ? 'badge-new' : item.cat === 'used' ? 'badge-used' : 'badge-repair';
                 let t = item.cat === 'main' ? 'MỚI' : item.cat === 'used' ? 'THANH LÝ' : 'SỬA XONG';
-                card.innerHTML = `<button class="delete-btn" onclick="deleteItem(${item.id})">×</button><span class="badge ${b}">${t}</span><img src="${item.imgs[0]}" onclick="showDetail(${item.id})"><div class="title">${item.title}</div><div class="price">${item.price}</div>`;
+                card.innerHTML = `
+                    <button class="delete-btn" onclick="deleteItem(${item.id})">×</button>
+                    <span class="badge ${b}">${t}</span>
+                    <img src="${item.imgs[0]}" onclick="showDetail(${item.id})">
+                    <div class="title">${item.title}</div>
+                    <div class="price">${item.price}</div>
+                `;
                 grid.prepend(card);
             }
         });
@@ -262,7 +280,11 @@ function filterByTech(tech, btn) {
 }
 
 function showSection(type) {
-    ['main', 'used', 'repair', 'project'].forEach(s => document.getElementById('sec-'+s).style.display = (type === 'all' || type === s) ? 'block' : 'none');
+    const sections = ['main', 'used', 'repair', 'project'];
+    sections.forEach(s => {
+        const el = document.getElementById('sec-'+s);
+        if(el) el.style.display = (type === 'all' || type === s) ? 'block' : 'none';
+    });
 }
 
 async function showDetail(id) {
@@ -284,8 +306,20 @@ async function showDetail(id) {
     };
 }
 
-function backToHome() { document.getElementById('homePage').style.display = "block"; document.getElementById('productDetail').style.display = "none"; }
-async function deleteItem(id) { event.stopPropagation(); if(confirm("Xóa bài này?")) { const db = await openDB(); db.transaction(storeName, "readwrite").objectStore(storeName).delete(id); location.reload(); } }
+function backToHome() { 
+    document.getElementById('homePage').style.display = "block"; 
+    document.getElementById('productDetail').style.display = "none"; 
+}
+
+async function deleteItem(id) { 
+    event.stopPropagation(); 
+    if(confirm("Xóa bài đăng này?")) { 
+        const db = await openDB(); 
+        db.transaction(storeName, "readwrite").objectStore(storeName).delete(id); 
+        location.reload(); 
+    } 
+}
+
 function previewImgs() {
     const area = document.getElementById('previewArea'); area.innerHTML = "";
     for(let f of document.getElementById('upFiles').files) {
@@ -293,7 +327,12 @@ function previewImgs() {
         r.readAsDataURL(f);
     }
 }
-window.onload = () => loadData();
+
+window.onload = () => {
+    loadData();
+    // Reset view
+    backToHome();
+};
 </script>
 </body>
 </html>
