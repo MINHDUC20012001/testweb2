@@ -27,7 +27,7 @@
         .sticky-tools { background: #fff; padding: 12px; display: flex; gap: 15px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 110px; z-index: 998; align-items: center; max-width: var(--max-width); margin: auto; }
         .btn-repair-form { background: var(--success); color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; animation: pulse 2s infinite; }
 
-        /* TRUST BAR CĂN GIỮA */
+        /* TRUST BAR */
         .trust-bar-wrapper { background: white; border-bottom: 1px solid #eee; width: 100%; display: flex; justify-content: center; }
         .trust-bar { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px 30px; padding: 20px 15px; max-width: fit-content; }
         @media (min-width: 768px) { .trust-bar { grid-template-columns: repeat(4, auto); } }
@@ -52,11 +52,8 @@
         /* FOOTER */
         footer { background: var(--dark); color: white; padding: 50px 20px; text-align: center; }
         .footer-caption { font-size: 18px; color: var(--gold); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
-        .footer-trust { font-style: italic; color: #94a3b8; margin-bottom: 25px; font-size: 14px; max-width: 800px; margin: auto; }
         .footer-info-grid { display: grid; grid-template-columns: 1fr; gap: 15px 40px; text-align: left; background: rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; max-width: fit-content; margin: auto; }
         @media (min-width: 768px) { .footer-info-grid { grid-template-columns: auto auto; } }
-        .footer-info-grid p { margin: 5px 0; font-size: 14px; }
-        .footer-info-grid b { color: var(--gold); }
 
         /* UI */
         .contact-group { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; display: flex; gap: 10px; z-index: 10000; }
@@ -126,16 +123,14 @@
 <footer>
     <div class="footer-container">
         <div class="footer-caption">Chữ Tín Quý Hơn Vàng</div>
-        <div class="footer-trust">"Minh Bảo tự hào là đối tác chiến lược của hơn 500+ Spa toàn quốc. Chúng tôi không chỉ bán máy, chúng tôi trao giải pháp và sự đồng hành bền vững."</div>
-        
         <div class="footer-info-grid">
             <div>
                 <p>📍 <b>Địa chỉ:</b> Số 123, Đường Thẩm Mỹ, Quận Tân Bình, TP.HCM</p>
-                <p>📞 <b>Hotline:</b> 0900.000.000 (Hỗ trợ 24/7)</p>
+                <p>📞 <b>Hotline:</b> 0900.000.000</p>
             </div>
             <div>
-                <p>💬 <b>Zalo kỹ thuật:</b> 0900.000.000 (Mr. Bảo)</p>
-                <p>🛡️ <b>Bảo hành:</b> Tận nơi trên toàn lãnh thổ Việt Nam</p>
+                <p>💬 <b>Zalo kỹ thuật:</b> 0900.000.000</p>
+                <p>🛡️ <b>Bảo hành:</b> Toàn quốc</p>
             </div>
         </div>
         <span class="admin-trigger" onclick="toggleAdminMode()">© <span style="color:var(--gold)">2026</span> THIẾT BỊ SPA MINH BẢO</span>
@@ -164,7 +159,7 @@
             <option value="phan-hoi">Phản hồi khách</option>
         </select>
         <textarea id="upDesc" rows="5" placeholder="Mô tả chi tiết..."></textarea>
-        <button onclick="saveToDB()" style="width:100%; margin-top:15px; padding:15px; background:var(--dark); color:white; border:none; border-radius:8px; font-weight:bold;">ĐĂNG BÀI</button>
+        <button id="btnPost" onclick="saveToDB()" style="width:100%; margin-top:15px; padding:15px; background:var(--dark); color:white; border:none; border-radius:8px; font-weight:bold;">ĐĂNG BÀI</button>
         <button onclick="closeAdmin()" style="width:100%; margin-top:10px; background:#f1f5f9; border:none; padding:10px; border-radius:8px;">ĐÓNG</button>
     </div>
 </div>
@@ -181,40 +176,100 @@
     </div>
 </div>
 
-<script>
-// Nâng version Database để cưỡng bức điện thoại xóa cache cũ lỗi
-const dbName = "MinhBao_Final_V10"; 
-const storeName = "items";
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
-function openDB() { 
-    return new Promise((resolve) => { 
-        const req = indexedDB.open(dbName, 1); 
-        req.onupgradeneeded = (e) => e.target.result.createObjectStore(storeName, { keyPath: "id" }); 
-        req.onsuccess = (e) => resolve(e.target.result); 
-    }); 
-}
+    // Cấu hình của bạn
+    const firebaseConfig = { 
+         apiKey: "AIzaSyB8ohI0dWkrg8UtsrCkgo625wjTnIIRkDc",
+         authDomain: "thietbispaminhbao.firebaseapp.com",
+         projectId: "thietbispaminhbao",
+         storageBucket: "thietbispaminhbao.firebasestorage.app",
+         messagingSenderId: "684672295846",
+         appId: "1:684672295846:web:c6927db0a76d2891926567",
+         measurementId: "G-32P7WCJJV5"
+    };
 
-function toggleAdminMode() { document.body.classList.toggle('admin-mode'); if(document.body.classList.contains('admin-mode')) document.getElementById('adminPopupWrap').style.display='flex'; }
-function closeAdmin() { document.getElementById('adminPopupWrap').style.display='none'; }
-function openRepairForm() { document.getElementById('repairPopup').style.display='flex'; }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
-function showSection(type, element) {
-    document.getElementById('productDetail').style.display = "none";
-    document.getElementById('homePage').style.display = "block";
-    const sections = ['triet-long','laser','co2','giam-beo','used','repair','phan-hoi'];
-    sections.forEach(s => { const el = document.getElementById('sec-' + s); if(el) el.style.display = (type === 'all' || type === s) ? 'block' : 'none'; });
-    document.querySelectorAll('#mainNav a').forEach(a => a.classList.remove('active'));
-    if(element) element.classList.add('active');
-    window.scrollTo(0,0);
-}
+    // Load Data Realtime
+    async function loadData() {
+        const q = query(collection(db, "items"), orderBy("createdAt", "desc"));
+        onSnapshot(q, (snapshot) => {
+            const categories = ['triet-long','laser','co2','giam-beo','used','repair','phan-hoi'];
+            categories.forEach(cat => { document.getElementById('grid-'+cat).innerHTML = ""; });
 
-function backToHome() { document.getElementById('homePage').style.display = "block"; document.getElementById('productDetail').style.display = "none"; }
+            snapshot.forEach((docSnap) => {
+                const item = docSnap.data();
+                const id = docSnap.id;
+                const grid = document.getElementById('grid-' + item.cat);
+                if(!grid) return;
 
-async function showDetail(id) {
-    const db = await openDB();
-    db.transaction(storeName).objectStore(storeName).get(id).onsuccess = (e) => {
-        const item = e.target.result;
-        if(!item) return;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => showDetail(item);
+
+                const del = document.createElement('button');
+                del.className = 'delete-btn'; del.innerHTML = '✕';
+                del.onclick = async (ev) => { 
+                    ev.stopPropagation(); 
+                    if(confirm("Xóa bài này?")) await deleteDoc(doc(db, "items", id)); 
+                };
+                card.appendChild(del);
+
+                if(item.cat === 'phan-hoi') {
+                    card.innerHTML += `<span style="font-weight:bold; color:#b45309">👤 ${item.title}</span><img src="${item.imgs[0]}" style="height:auto; margin-top:5px"><div style="font-size:12px; font-style:italic; margin-top:5px">"${item.desc}"</div>`;
+                } else {
+                    card.innerHTML += `<img src="${item.imgs[0]}"><div class="title">${item.title}</div><div class="price">${item.price}</div><div class="view-more">Xem chi tiết...</div>`;
+                }
+                grid.appendChild(card);
+            });
+        });
+    }
+
+    // Save Data
+    async function saveToDB() {
+        const files = document.getElementById('upFiles').files;
+        const title = document.getElementById('upTitle').value;
+        const price = document.getElementById('upPrice').value;
+        const cat = document.getElementById('upCat').value;
+        const desc = document.getElementById('upDesc').value;
+        const btn = document.getElementById('btnPost');
+
+        if(!title || files.length === 0) return alert("Thiếu thông tin!");
+        
+        btn.disabled = true; btn.innerText = "ĐANG TẢI...";
+
+        try {
+            const imgs = [];
+            for(let f of files) {
+                const sRef = ref(storage, `products/${Date.now()}_${f.name}`);
+                await uploadBytes(sRef, f);
+                imgs.push(await getDownloadURL(sRef));
+            }
+            await addDoc(collection(db, "items"), {
+                title, cat, desc, imgs, createdAt: Date.now(),
+                price: formatPrice(price)
+            });
+            alert("Thành công!");
+            closeAdmin();
+        } catch (e) { alert("Lỗi: " + e.message); }
+        btn.disabled = false; btn.innerText = "ĐANG BÀI";
+    }
+
+    // Helper Functions
+    function formatPrice(val) {
+        if(!val) return "Liên hệ";
+        let n = val.toString().replace(/[^0-9]/g, '');
+        if(n.length > 0 && n.length <= 3) return parseInt(n).toLocaleString('vi-VN') + ".000.000 VNĐ";
+        return parseInt(n).toLocaleString('vi-VN') + " VNĐ";
+    }
+
+    function showDetail(item) {
         const slider = document.getElementById('detailSlider');
         slider.innerHTML = "";
         item.imgs.forEach((src, i) => {
@@ -229,87 +284,38 @@ async function showDetail(id) {
         document.getElementById('homePage').style.display = "none";
         document.getElementById('productDetail').style.display = "block";
         window.scrollTo(0,0);
-    };
-}
-
-function formatPriceInput(val) {
-    if(!val) return "Liên hệ";
-    let n = val.toString().replace(/[^0-9]/g, '');
-    if(n.length > 0 && n.length <= 3) return parseInt(n).toLocaleString('vi-VN') + ".000.000 VNĐ";
-    if (n.length > 3) return parseInt(n).toLocaleString('vi-VN') + " VNĐ";
-    return val;
-}
-
-async function saveToDB() {
-    const files = document.getElementById('upFiles').files;
-    const title = document.getElementById('upTitle').value;
-    let priceRaw = document.getElementById('upPrice').value;
-    if(!title || files.length === 0) return alert("Vui lòng chọn ảnh và nhập tên!");
-
-    const imgs = [];
-    for(let f of files) {
-        const base = await new Promise((res) => {
-            const r = new FileReader(); r.readAsDataURL(f);
-            r.onload = (e) => {
-                const img = new Image(); img.src = e.target.result;
-                img.onload = () => {
-                    const cv = document.createElement('canvas');
-                    const MAX = 800; let w=img.width, h=img.height;
-                    if(w>MAX){ h*=MAX/w; w=MAX; }
-                    cv.width=w; cv.height=h;
-                    cv.getContext('2d').drawImage(img,0,0,w,h);
-                    // Nén mạnh hơn để điện thoại dễ tải
-                    res(cv.toDataURL('image/jpeg', 0.6));
-                }
-            }
-        });
-        imgs.push(base);
     }
-    const db = await openDB();
-    const finalPrice = formatPriceInput(priceRaw);
-    db.transaction(storeName,"readwrite").objectStore(storeName).add({
-        id: Date.now(), imgs, title, price: finalPrice, 
-        cat: document.getElementById('upCat').value, 
-        desc: document.getElementById('upDesc').value
-    }).onsuccess = () => location.reload();
-}
 
-async function loadData() {
-    const db = await openDB();
-    db.transaction(storeName).objectStore(storeName).getAll().onsuccess = (e) => {
-        const data = e.target.result;
-        ['triet-long','laser','co2','giam-beo','used','repair','phan-hoi'].forEach(s => { const g = document.getElementById('grid-'+s); if(g) g.innerHTML = ""; });
-        data.sort((a,b)=>b.id-a.id).forEach(item => {
-            const grid = document.getElementById('grid-'+item.cat);
-            if(grid){
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => showDetail(item.id);
-                
-                const del = document.createElement('button');
-                del.className = 'delete-btn'; del.innerHTML = '✕';
-                del.onclick = (ev) => { 
-                    ev.stopPropagation(); 
-                    if(confirm("Xóa bài này?")) { 
-                        db.transaction(storeName,"readwrite").objectStore(storeName).delete(item.id).onsuccess = () => location.reload(); 
-                    } 
-                };
-                card.appendChild(del);
-
-                if(item.cat === 'phan-hoi') {
-                    card.innerHTML += `<span style="font-weight:bold; color:#b45309">👤 ${item.title}</span><span style="color:#f59e0b; display:block; font-size:10px">⭐⭐⭐⭐⭐</span><img src="${item.imgs[0]}" style="height:auto; margin-top:5px"><div style="font-size:12px; font-style:italic; margin-top:5px">"${item.desc}"</div>`;
-                } else {
-                    card.innerHTML += `<img src="${item.imgs[0]}"><div class="title">${item.title}</div><div class="price">${item.price}</div><div class="view-more">Xem chi tiết...</div>`;
-                }
-                grid.appendChild(card);
-            }
+    // Expose functions to Window
+    window.saveToDB = saveToDB;
+    window.toggleAdminMode = () => { document.body.classList.toggle('admin-mode'); if(document.body.classList.contains('admin-mode')) document.getElementById('adminPopupWrap').style.display='flex'; };
+    window.closeAdmin = () => document.getElementById('adminPopupWrap').style.display='none';
+    window.showSection = (type, el) => {
+        document.getElementById('productDetail').style.display = "none";
+        document.getElementById('homePage').style.display = "block";
+        ['triet-long','laser','co2','giam-beo','used','repair','phan-hoi'].forEach(s => { 
+            document.getElementById('sec-'+s).style.display = (type === 'all' || type === s) ? 'block' : 'none'; 
         });
+        document.querySelectorAll('#mainNav a').forEach(a => a.classList.remove('active'));
+        if(el) el.classList.add('active');
+        window.scrollTo(0,0);
     };
-}
+    window.backToHome = () => { document.getElementById('homePage').style.display = "block"; document.getElementById('productDetail').style.display = "none"; };
+    window.previewImgs = () => {
+        const area = document.getElementById('previewArea'); area.innerHTML = "";
+        for(let f of document.getElementById('upFiles').files) {
+            const r = new FileReader(); r.onload = (e) => area.innerHTML += `<img src="${e.target.result}" style="width:50px;height:50px;object-fit:cover;border-radius:4px">`;
+            r.readAsDataURL(f);
+        }
+    };
+    window.openRepairForm = () => document.getElementById('repairPopup').style.display='flex';
+    window.sendRepairToZalo = () => {
+        const txt = `SỬA MÁY: Spa ${document.getElementById('reName').value}, SĐT ${document.getElementById('rePhone').value}, Máy ${document.getElementById('reMachine').value}`;
+        window.open(`https://zalo.me/0900000000?text=${encodeURIComponent(txt)}`, '_blank');
+    };
 
-function previewImgs() { const area = document.getElementById('previewArea'); area.innerHTML = ""; for(let f of document.getElementById('upFiles').files) { const r = new FileReader(); r.onload = (e) => area.innerHTML += `<img src="${e.target.result}" style="width:50px;height:50px;object-fit:cover;border-radius:4px">`; r.readAsDataURL(f); } }
-function sendRepairToZalo() { const txt = `YÊU CẦU SỬA MÁY:%0A- Spa: ${document.getElementById('reName').value}%0A- SĐT: ${document.getElementById('rePhone').value}%0A- Máy: ${document.getElementById('reMachine').value}%0A- Lỗi: ${document.getElementById('reNote').value}`; window.open(`https://zalo.me/0900000000?text=${txt}`, '_blank'); }
-window.onload = loadData;
+    window.onload = loadData;
 </script>
+
 </body>
 </html>
