@@ -2,8 +2,8 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrix & Kết Tụ Hạt Ánh Sáng Siêu Rõ ❤️</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Matrix Mobile Perfect ❤️</title>
     <style>
         * {
             margin: 0;
@@ -15,9 +15,12 @@
             background-color: #000;
             overflow: hidden;
             height: 100vh;
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Ngăn các hành vi cuộn hoặc phóng to không mong muốn trên trình duyệt điện thoại */
+            touch-action: none; 
         }
 
         canvas {
@@ -38,26 +41,36 @@
         const canvas = document.getElementById('creativeCanvas');
         const ctx = canvas.getContext('2d');
 
+        // Hàm kiểm tra xem người dùng có đang dùng điện thoại/màn hình dọc không
+        function isMobile() {
+            return window.innerWidth < 768;
+        }
+
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            // Tính toán lại ma trận nền khi xoay màn hình điện thoại
+            columns = canvas.width / fontSize;
+            drops = Array(Math.floor(columns)).fill(1);
         }
+        
+        // --- 1. MA TRẬN NỀN CHỮ NHỎ BÍ ẨN CHO MOBILE ---
+        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕"];
+        const fontSize = 11; // Chữ nền siêu nhỏ tinh tế cho màn hình điện thoại
+        let columns;
+        let drops;
+        
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. MA TRẬN NỀN CHỮ (HẠ SIÊU MỜ ĐỂ CHỮ TỤ TRỞ NÊN RÕ NÉT) ---
-        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕"];
-        const fontSize = 13; 
-        let columns = canvas.width / fontSize;
-        let drops = Array(Math.floor(columns)).fill(1);
-
-        // --- 2. TIMELINE HIỂN THỊ CHỮ THEO VIDEO ---
+        // --- 2. TIMELINE CHỮ (ĐÃ ĐƯỢC TỐI ƯU NGẮN GỌN TRÁNH TRÀN VIỀN) ---
         const textSequences = ["3", "2", "1", "Em đồng ý", "Làm người yêu", "Anh nhé ❤️", "Anh Yêu Em", "HEART"];
         let currentSequenceIndex = 0;
 
-        // --- 3. HỆ THỐNG QUẢN LÝ HẠT ĐƯỢC TĂNG CƯỜNG ĐỘ SÁNG ---
+        // --- 3. HỆ THỐNG QUẢN LÝ HẠT SÁNG CĂNG NÉT ---
         let particles = [];
-        const maxParticles = 900; // Tăng gấp đôi số hạt để chữ dày dặn, không bị loãng nét
+        // Tăng số hạt để chữ trên điện thoại dù nhỏ vẫn dày dặn và sắc nét
+        const maxParticles = 1000; 
 
         class Particle {
             constructor(x, y) {
@@ -65,23 +78,21 @@
                 this.y = y;
                 this.targetX = x;
                 this.targetY = y;
-                this.vx = Math.random() * 5 - 2.5;
-                this.vy = Math.random() * 5 - 2.5;
-                this.color = '#ffffff'; // Mặc định chữ màu trắng sáng rực
-                this.size = Math.random() * 1.8 + 1.2; // Tăng nhẹ kích thước hạt để rõ nét hơn
+                this.vx = Math.random() * 4 - 2;
+                this.vy = Math.random() * 4 - 2;
+                this.color = '#ffffff';
+                this.size = Math.random() * 1.5 + 1.0; // Hạt mịn phù hợp màn hình Retina/OLED điện thoại
             }
 
             update(mode) {
                 if (mode === "GATHER") {
-                    // Hút mạnh hạt về tâm tạo chữ rõ ràng nhanh hơn
-                    this.x += (this.targetX - this.x) * 0.15;
-                    this.y += (this.targetY - this.y) * 0.15;
+                    this.x += (this.targetX - this.x) * 0.16;
+                    this.y += (this.targetY - this.y) * 0.16;
                 } else {
-                    // Rã chữ tự do
                     this.x += this.vx;
                     this.y += this.vy;
-                    this.vx *= 0.97;
-                    this.vy *= 0.97;
+                    this.vx *= 0.96;
+                    this.vy *= 0.96;
                 }
             }
 
@@ -91,28 +102,27 @@
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = this.color;
                 
-                // HIỆU ỨNG PHÁT SÁNG MẠNH: Giúp chữ có chiều sâu và cực rõ nét
-                ctx.shadowBlur = 10;
+                // Hiệu ứng đổ quầng sáng neon cho điện thoại cực căng
+                ctx.shadowBlur = 8;
                 ctx.shadowColor = this.color === '#ffffff' ? '#ff1493' : this.color; 
                 ctx.fill();
                 ctx.restore();
             }
         }
 
-        // Khởi tạo các hạt sáng
         for (let i = 0; i < maxParticles; i++) {
             particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
         }
 
-        // --- 4. THUẬT TOÁN QUÉT CHỮ SIÊU MỊN ---
+        // --- 4. THUẬT TOÁN QUÉT CHỮ TỰ ĐỘNG CHUẨN ĐIỆN THOẠI ---
         let currentMode = "FREE"; 
 
         function getTargetPoints(text) {
             let targets = [];
             
             if (text === "HEART") {
-                // Vẽ viền trái tim mảnh dệt bằng các hạt sáng lấp lánh như video
-                const scale = Math.min(canvas.width, canvas.height) / 30;
+                // Tự co tỷ lệ hình trái tim vừa khít chiều ngang điện thoại
+                const scale = Math.min(canvas.width, canvas.height) / 26;
                 const step = (Math.PI * 2) / maxParticles;
                 for (let i = 0; i < maxParticles; i++) {
                     let angle = i * step;
@@ -125,15 +135,22 @@
                     });
                 }
             } else {
-                // Tạo canvas ẩn để chụp lưới pixel chữ với độ phân giải cao
                 const memCanvas = document.createElement('canvas');
                 const memCtx = memCanvas.getContext('2d');
                 memCanvas.width = canvas.width;
                 memCanvas.height = canvas.height;
                 
                 let isNumber = !isNaN(text);
-                // Font chữ dày đậm (bold) giúp nhiều hạt tụ vào hơn -> Rõ chữ hơn hẳn
-                memCtx.font = `900 ${isNumber ? '140px' : '65px'} Arial, sans-serif`;
+                
+                // ĐỘT PHÁ CẤU HÌNH TỰ GIẢM SIZE CHỮ NẾU LÀ ĐIỆN THOẠI (DỌC)
+                let finalFontSize;
+                if (isMobile()) {
+                    finalFontSize = isNumber ? '90px' : '36px'; // Kích thước chữ chuẩn Mobile cực đẹp
+                } else {
+                    finalFontSize = isNumber ? '140px' : '65px'; // Máy tính giữ nguyên to rõ
+                }
+
+                memCtx.font = `900 ${finalFontSize} Arial, sans-serif`;
                 memCtx.fillStyle = '#fff';
                 memCtx.textAlign = 'center';
                 memCtx.textBaseline = 'middle';
@@ -141,9 +158,9 @@
 
                 const imgData = memCtx.getImageData(0, 0, canvas.width, canvas.height).data;
                 
-                // Quét mạng lưới điểm chữ (bóp hẹp khoảng cách quét xuống 3px để thu được nhiều điểm mịn hơn)
-                for (let y = 0; y < canvas.height; y += 3) {
-                    for (let x = 0; x < canvas.width; x += 3) {
+                // Quét điểm siêu mịn khoảng cách 2px cho màn hình điện thoại sắc nét
+                for (let y = 0; y < canvas.height; y += 2) {
+                    for (let x = 0; x < canvas.width; x += 2) {
                         let alpha = imgData[((y * canvas.width) + x) * 4 + 3];
                         if (alpha > 128) {
                             targets.push({ x: x, y: y, color: '#ffffff' });
@@ -155,7 +172,7 @@
             return targets;
         }
 
-        // --- 5. ĐIỀU KHIỂN TIMELINE TỰ ĐỘNG CHUYỂN CHỮ ---
+        // --- 5. TIMELINE TỰ ĐỘNG ---
         function runTimeline() {
             if (currentSequenceIndex >= textSequences.length) return;
 
@@ -165,49 +182,47 @@
             particles.forEach((p, index) => {
                 let target = targets[index % targets.length];
                 if (target) {
-                    // Giảm bớt độ lệch ngẫu nhiên để chữ gom lại vuông vức, sắc nét nhất có thể
-                    p.targetX = target.x + (Math.random() * 2 - 1); 
-                    p.targetY = target.y + (Math.random() * 2 - 1);
+                    p.targetX = target.x + (Math.random() * 1.5 - 0.75); 
+                    p.targetY = target.y + (Math.random() * 1.5 - 0.75);
                     p.color = target.color;
                     if (currentText === "HEART" && Math.random() > 0.85) p.color = '#ffffff'; 
                 }
             });
 
-            currentMode = "GATHER"; // Gom hạt thành hình
+            currentMode = "GATHER"; 
 
             if (currentText !== "HEART") {
                 setTimeout(() => {
-                    currentMode = "FREE"; // Bung rã hạt tự do như pháo hoa
+                    currentMode = "FREE"; 
                     particles.forEach(p => {
                         const angle = Math.random() * Math.PI * 2;
-                        const speed = Math.random() * 4 + 1.5;
+                        const speed = Math.random() * 3.5 + 1.5;
                         p.vx = Math.cos(angle) * speed;
                         p.vy = Math.sin(angle) * speed;
                     });
 
                     currentSequenceIndex++;
-                    setTimeout(runTimeline, 1000); 
-                }, currentText.length <= 1 ? 1500 : 2500); // Tăng nhẹ thời gian hiển thị chữ thoại để kịp đọc rõ ràng
+                    setTimeout(runTimeline, 900); // Rã chữ mượt mà sau 0.9s
+                }, currentText.length <= 1 ? 1400 : 2400); 
             }
         }
 
         setTimeout(runTimeline, 500);
 
-        // --- 6. VÒNG LẶP RENDERING LIÊN TỤC ---
+        // --- 6. VÒNG LẶP RENDERING ---
         function animate() {
-            // Đổ lớp phủ đen đặc hơn một chút (0.1) giúp triệt tiêu vệt mờ thừa, làm nổi hạt sáng lên
-            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // A. Ma trận chữ chạy nền siêu mờ ảo, không gây lóa mắt
+            // Vẽ ma trận chữ chạy mờ ảo làm lớp nền sâu
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
                 const text = matrixWords[Math.floor(Math.random() * matrixWords.length)];
                 
-                if(text === "❤️" || text === "💕") ctx.fillStyle = "rgba(255, 23, 68, 0.12)";
-                else ctx.fillStyle = "rgba(255, 105, 180, 0.06)"; // Giảm độ mờ xuống tối đa để tạo độ sâu
+                if(text === "❤️" || text === "💕") ctx.fillStyle = "rgba(255, 23, 68, 0.08)";
+                else ctx.fillStyle = "rgba(255, 105, 180, 0.04)"; // Đẩy mờ tối đa để tôn hạt chữ sáng phía trước
 
-                ctx.fillText(text, i * (fontSize + 12), drops[i] * fontSize);
+                ctx.fillText(text, i * (fontSize + 10), drops[i] * fontSize);
 
                 if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
                     drops[i] = 0;
@@ -215,20 +230,21 @@
                 drops[i]++;
             }
 
-            // B. Cập nhật và vẽ các hạt tụ chữ sắc nét phía trước
+            // Vẽ hạt tụ chữ rõ nét
             particles.forEach(p => {
                 p.update(currentMode);
                 p.draw();
             });
 
-            // C. Vẽ văn bản ở tâm Trái Tim ở màn kết thúc (Giữ nguyên nét căng)
+            // Vẽ text tâm trái tim kết bài (Điều chỉnh kích cỡ gọn cho điện thoại)
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
-                ctx.font = "bold 22px 'Courier New', monospace";
+                let textFont = isMobile() ? "bold 15px 'Courier New', monospace" : "bold 22px 'Courier New', monospace";
+                ctx.font = textFont;
                 let alpha = (Math.sin(Date.now() * 0.005) + 1) / 2 * 0.6 + 0.4;
                 ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.shadowBlur = 12;
+                ctx.shadowBlur = 10;
                 ctx.shadowColor = "#ff1493";
                 ctx.fillText("Love You - Pink Team", canvas.width / 2, canvas.height / 2);
             }
