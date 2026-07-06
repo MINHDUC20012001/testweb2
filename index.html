@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tỏ Tình Matrix & Pháo Hoa ❤️</title>
+    <title>Siêu Ma Trận Tỏ Tình & Pháo Hoa Hạt ❤️</title>
     <style>
-        /* Thiết lập cơ bản xóa khoảng trắng */
         * {
             margin: 0;
             padding: 0;
@@ -13,16 +12,15 @@
         }
 
         body {
-            background-color: black;
+            background-color: #000;
             overflow: hidden;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Canvas làm nền vẽ cả Matrix lẫn Pháo hoa */
         canvas {
             position: absolute;
             top: 0;
@@ -32,143 +30,72 @@
             z-index: 1;
         }
 
-        /* Khối chứa nội dung căn giữa màn hình */
         .content-container {
             position: relative;
             z-index: 2;
             text-align: center;
             width: 90%;
-            max-width: 600px;
+            max-width: 700px;
         }
 
-        /* Hiệu ứng đếm số 3-2-1 bùng nổ kiểu pháo hoa */
-        .countdown-text {
-            font-size: 6rem;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 0 0 20px #ff69b4, 0 0 40px #ff1493, 0 0 60px #fff;
+        /* Hiệu ứng Glitch lấp lánh cực đỉnh cho số và chữ */
+        .effect-text {
+            font-weight: 900;
+            color: #fff;
             display: none;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            animation: zoomAndGlow 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            user-select: none;
-        }
-
-        @keyframes zoomAndGlow {
-            0% {
-                transform: translate(-50%, -50%) scale(0.3);
-                opacity: 0;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.2);
-                opacity: 1;
-                text-shadow: 0 0 30px #fff, 0 0 50px #ff00ff, 0 0 70px #ff00ff;
-            }
-            90% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(0.8);
-                opacity: 0; /* Mờ dần đúng lúc kích nổ pháo hoa hạt */
-            }
-        }
-
-        /* Các câu chữ tỏ tình hiện ra sau đếm ngược */
-        .matrix-text {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 0 0 15px #ff69b4, 0 0 30px #ff1493, 0 0 45px #ffffff;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            display: none;
-            user-select: none;
-        }
-
-        /* Khối bao bọc trái tim đập ở cuối */
-        .heart-wrapper {
-            display: none;
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-            animation: beat 1.2s infinite;
-        }
-
-        /* Thiết kế hình dạng trái tim bằng CSS */
-        .heart-shape {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            background-color: #ff1493;
-            transform: rotate(-45deg);
-            margin-top: 50px;
-            box-shadow: 0 0 30px #ff69b4, inset 0 0 15px rgba(255,255,255,0.6);
-        }
-
-        .heart-shape::before, 
-        .heart-shape::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background-color: #ff1493;
-            border-radius: 50%;
-            box-shadow: 0 0 30px #ff69b4;
-        }
-
-        .heart-shape::before { top: -50px; left: 0; }
-        .heart-shape::after { top: 0; left: 50px; }
-
-        /* Chữ hiển thị giữa tâm trái tim */
-        .heart-text {
-            position: absolute;
-            top: 45%;
-            left: 50%;
             transform: translate(-50%, -50%);
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-shadow: 0 0 5px #000;
-            width: 100%;
+            white-space: nowrap;
+            user-select: none;
         }
 
-        /* Hiệu ứng co giãn nhịp đập trái tim */
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            30% { transform: scale(1.15); }
-            60% { transform: scale(1.05); }
+        .countdown {
+            font-size: 7rem;
+            animation: glitchZoom 1.2s ease-in-out forwards;
+        }
+
+        .love-phrase {
+            font-size: 3.5rem;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes glitchZoom {
+            0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; text-shadow: -3px 0 #ff00ff, 3px 0 #00ffff; }
+            20% { opacity: 1; text-shadow: -5px 0 #ff1493, 5px 0 #ff69b4; }
+            40% { transform: translate(-50%, -50%) scale(1.1); text-shadow: 3px 2px #fff; }
+            60% { transform: translate(-50%, -50%) scale(1); text-shadow: -3px -2px #ff00ff; }
+            90% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+        }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493; }
+            15% { opacity: 1; }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); text-shadow: 0 0 20px #ff1493, 0 0 40px #ff00ff, 0 0 60px #fff; }
         }
     </style>
 </head>
 <body>
 
-    <canvas id="mainCanvas"></canvas>
+    <canvas id="superCanvas"></canvas>
 
     <div class="content-container">
-        <div class="countdown-text" id="text-3">3</div>
-        <div class="countdown-text" id="text-2">2</div>
-        <div class="countdown-text" id="text-1">1</div>
+        <div class="effect-text countdown" id="text-3">3</div>
+        <div class="effect-text countdown" id="text-2">2</div>
+        <div class="effect-text countdown" id="text-1">1</div>
         
-        <div class="matrix-text" id="text-p1">Em đồng ý</div>
-        <div class="matrix-text" id="text-p2">Làm người yêu</div>
-        <div class="matrix-text" id="text-p3">Anh nhé ❤️</div>
-        <div class="matrix-text" id="text-p4">Anh Yêu Em</div>
-        
-        <div class="heart-wrapper" id="final-heart">
-            <div class="heart-shape"></div>
-            <div class="heart-text">Love You</div>
-        </div>
+        <div class="effect-text love-phrase" id="text-p1">Em đồng ý</div>
+        <div class="effect-text love-phrase" id="text-p2">Làm người yêu</div>
+        <div class="effect-text love-phrase" id="text-p3">Anh nhé ❤️</div>
+        <div class="effect-text love-phrase" id="text-p4">Anh Yêu Em</div>
     </div>
 
     <script>
-        const canvas = document.getElementById('mainCanvas');
+        const canvas = document.getElementById('superCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Hàm tự động co giãn kích thước Canvas theo màn hình thiết bị
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -176,155 +103,182 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. CẤU HÌNH MA TRẬN CHỮ "I LOVE YOU" ---
-        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕"];
-        const fontSize = 16;
-        let columns = canvas.width / fontSize;
-        let drops = Array(Math.floor(columns)).fill(1);
+        // --- 1. MA TRẬN ĐA TẦNG (CẦU KỲ HƠN) ---
+        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕", "✨"];
+        const columnsCount = Math.floor(canvas.width / 20);
+        const matrixStreams = [];
 
-        // --- 2. XỬ LÝ HẠT PHÁO HOA CANVAS ---
+        // Tạo cấu trúc mỗi dòng ma trận độc lập về tốc độ, kích thước chữ để tạo chiều sâu
+        for (let i = 0; i < columnsCount; i++) {
+            matrixStreams.push({
+                x: i * 20,
+                y: Math.random() * -canvas.height,
+                speed: Math.random() * 3 + 2,
+                fontSize: Math.floor(Math.random() * 6) + 12, // Kích thước chữ to nhỏ khác nhau
+                opacity: Math.random() * 0.4 + 0.15          // Độ mờ khác nhau tạo hiệu ứng 3D
+            });
+        }
+
+        // --- 2. HỆ THỐNG HẠT PHÁO HOA & GÔM THÀNH TRÁI TIM ---
         let particles = [];
+        let gatherToHeart = false; // Biến kích hoạt gom hạt thành hình trái tim
+        let heartPoints = [];
+
+        // Công thức toán học định hình tọa độ mạng lưới Trái Tim
+        function calculateHeartPoints() {
+            heartPoints = [];
+            const scale = Math.min(canvas.width, canvas.height) / 35; 
+            for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
+                // Công thức phương trình tham số Trái Tim nổi tiếng
+                const x = 16 * Math.pow(Math.sin(angle), 3);
+                const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
+                heartPoints.push({
+                    targetX: canvas.width / 2 + x * scale,
+                    targetY: canvas.height / 2 + y * scale
+                });
+            }
+        }
+        calculateHeartPoints();
+        window.addEventListener('resize', calculateHeartPoints);
+
         class Particle {
-            constructor(x, y, color) {
+            constructor(x, y, color, targetPoint = null) {
                 this.x = x;
                 this.y = y;
                 this.color = color;
-                const angle = Math.random() * Math.PI * 2; // Góc nổ tròn 360 độ
-                const speed = Math.random() * 6 + 4;       // Tốc độ bắn hạt bay ra
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 7 + 4;
                 this.vx = Math.cos(angle) * speed;
                 this.vy = Math.sin(angle) * speed;
                 this.alpha = 1;
-                this.decay = Math.random() * 0.015 + 0.015; // Tốc độ mờ/tàn của hạt pháo
+                this.decay = Math.random() * 0.008 + 0.008;
+                this.targetPoint = targetPoint; // Lưu điểm đích nếu thuộc hình trái tim
             }
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, Math.random() * 2 + 1.5, 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, Math.random() * 1.5 + 1.5, 0, Math.PI * 2);
                 ctx.fillStyle = this.color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = this.color; // Tạo quầng sáng lấp lánh bao quanh hạt
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = this.color;
                 ctx.fill();
                 ctx.restore();
             }
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vy += 0.04; // Thêm chút trọng lực để hạt pháo hơi rơi cong nhẹ xuống
-                this.alpha -= this.decay;
+                if (gatherToHeart && this.targetPoint) {
+                    // Cơ chế hút hạt: Kéo các hạt từ vị trí đang bay về tọa độ hình trái tim
+                    this.x += (this.targetPoint.targetX - this.x) * 0.05;
+                    this.y += (this.targetPoint.targetY - this.y) * 0.05;
+                    this.alpha = 1; // Giữ pháo hoa không bị tắt đi
+                } else {
+                    // Trạng thái nổ tự do bình thường
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.vy += 0.03; // Trọng lực nhẹ
+                    this.alpha -= this.decay;
+                }
             }
         }
 
-        // Hàm kích nổ chùm pháo hoa ngay giữa tâm màn hình
         function explodeFirework() {
             const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff', '#ffb6c1'];
-            const particleCount = 80; // Số lượng hạt trong một chùm nổ
-            for (let i = 0; i < particleCount; i++) {
+            // Bắn đợt hạt tự do
+            for (let i = 0; i < 70; i++) {
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 particles.push(new Particle(canvas.width / 2, canvas.height / 2, color));
             }
         }
 
-        // --- 3. VÒNG LẶP RENDER CHÍNH (UPDATE NỀN MATRIX & PHÁO HOA LIÊN TỤC) ---
+        // Tạo ra các hạt đặc biệt phục vụ riêng cho việc xếp hình trái tim ở cuối
+        function spawnHeartParticles() {
+            const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff'];
+            heartPoints.forEach(point => {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                // Cho xuất phát ngẫu nhiên quanh tâm rồi hút vào
+                const initX = canvas.width / 2 + (Math.random() * 200 - 100);
+                const initY = canvas.height / 2 + (Math.random() * 200 - 100);
+                particles.push(new Particle(initX, initY, color, point));
+            });
+        }
+
+        // --- 3. VÒNG LẶP RENDER CHÍNH ---
         function animate() {
-            // Tạo lớp phủ đen mờ nhẹ để tạo hiệu ứng đuôi mờ (trails) dài cho chữ và pháo
-            ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Vẽ hiệu ứng Matrix làm nền phía dưới
-            ctx.font = "bold " + fontSize + "px monospace";
-            for (let i = 0; i < drops.length; i++) {
+            // Vẽ ma trận nhỏ đa tầng siêu mịn
+            matrixStreams.forEach(stream => {
+                ctx.font = `bold ${stream.fontSize}px monospace`;
                 const text = matrixWords[Math.floor(Math.random() * matrixWords.length)];
                 
-                // Đổi màu ngẫu nhiên: thi thoảng chữ trắng lấp lánh, tim màu đỏ, chữ thường màu hồng mờ
-                if(Math.random() > 0.96) ctx.fillStyle = "#ffffff";
+                if(Math.random() > 0.97) ctx.fillStyle = "#fff";
                 else if(text === "❤️" || text === "💕") ctx.fillStyle = "#ff1744";
-                else ctx.fillStyle = "rgba(255, 105, 180, 0.35)"; // Làm mờ chữ nền xuống để tôn pháo hoa lên
+                else ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
 
-                ctx.fillText(text, i * (fontSize + 12), drops[i] * fontSize);
+                ctx.fillText(text, stream.x, stream.y);
 
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.98) {
-                    drops[i] = 0;
+                stream.y += stream.speed;
+                if (stream.y > canvas.height) {
+                    stream.y = Math.random() * -100;
+                    stream.speed = Math.random() * 3 + 2;
                 }
-                drops[i]++;
-            }
+            });
 
-            // Cập nhật và vẽ các hạt pháo hoa đang bay
+            // Cập nhật pháo hoa / trái tim hạt
             for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update();
                 particles[i].draw();
-                if (particles[i].alpha <= 0) {
-                    particles.splice(i, 1); // Xóa hạt đã biến mất khỏi bộ nhớ để tránh lag máy
+                if (!gatherToHeart && particles[i].alpha <= 0) {
+                    particles.splice(i, 1);
                 }
+            }
+
+            // Tạo nhịp đập co giãn nhẹ cho cả hệ thống trái tim hạt sau giây 14.5
+            if (gatherToHeart) {
+                heartPoints.forEach(p => {
+                    // Dùng hàm sin toán học để dịch chuyển nhẹ bia tọa độ theo thời gian
+                    const pulse = 1 + Math.sin(Date.now() * 0.005) * 0.03;
+                    const cx = canvas.width / 2;
+                    const cy = canvas.height / 2;
+                    p.targetX = cx + (p.targetX - cx) * (pulse / pulse); 
+                });
             }
 
             requestAnimationFrame(animate);
         }
         animate();
 
+        // --- 4. TIMELINE ĐIỀU KHIỂN CHÍNH XÁC ---
+        // Số 3
+        setTimeout(() => document.getElementById('text-3').style.display = 'block', 500);
+        setTimeout(() => { document.getElementById('text-3').style.display = 'none'; explodeFirework(); }, 1700);
 
-        // --- 4. TIMELINE ĐIỀU KHIỂN CHUYỂN ĐỘNG THEO THỜI GIAN ---
-        
-        // --- GIAI ĐOẠN 1: ĐẾM NGƯỢC VÀ PHÁO HOA NỔ ---
-        // Số 3 xuất hiện
-        setTimeout(() => {
-            document.getElementById('text-3').style.display = 'block';
-        }, 500);
-        // Số 3 biến mất -> Bùm! Nổ pháo hoa loạt 1
-        setTimeout(() => {
-            document.getElementById('text-3').style.display = 'none';
-            explodeFirework();
-        }, 1700);
+        // Số 2
+        setTimeout(() => document.getElementById('text-2').style.display = 'block', 1800);
+        setTimeout(() => { document.getElementById('text-2').style.display = 'none'; explodeFirework(); }, 3000);
 
-        // Số 2 xuất hiện
-        setTimeout(() => {
-            document.getElementById('text-2').style.display = 'block';
-        }, 1800);
-        // Số 2 biến mất -> Bùm! Nổ pháo hoa loạt 2
-        setTimeout(() => {
-            document.getElementById('text-2').style.display = 'none';
-            explodeFirework();
-        }, 3000);
+        // Số 1
+        setTimeout(() => document.getElementById('text-1').style.display = 'block', 3100);
+        setTimeout(() => { document.getElementById('text-1').style.display = 'none'; explodeFirework(); setTimeout(explodeFirework, 150); }, 4300);
 
-        // Số 1 xuất hiện
-        setTimeout(() => {
-            document.getElementById('text-1').style.display = 'block';
-        }, 3100);
-        // Số 1 biến mất -> Bùm bùm! Nổ liên tiếp hoành tráng chuẩn bị chạy chữ
-        setTimeout(() => {
-            document.getElementById('text-1').style.display = 'none';
-            explodeFirework();
-            setTimeout(explodeFirework, 150);
-        }, 4300);
-
-
-        // --- GIAI ĐOẠN 2: CHẠY CÁC CÂU CHỮ TỎ TÌNH ---
+        // Chuỗi chữ tỏ tình
         const textTimeline = [
-            { id: 'text-p1', show: 4800, hide: 6800 },   // "Em đồng ý"
-            { id: 'text-p2', show: 7200, hide: 9200 },   // "Làm người yêu"
-            { id: 'text-p3', show: 9600, hide: 11600 },  // "Anh nhé ❤️"
-            { id: 'text-p4', show: 12000, hide: 14000 }, // "Anh Yêu Em"
+            { id: 'text-p1', show: 4800, hide: 6800 },
+            { id: 'text-p2', show: 7200, hide: 9200 },
+            { id: 'text-p3', show: 9600, hide: 11600 },
+            { id: 'text-p4', show: 12000, hide: 14000 },
         ];
 
         textTimeline.forEach(item => {
-            // Hàm kích hoạt hiển thị và mượt mà opacity chữ
-            setTimeout(() => {
-                const el = document.getElementById(item.id);
-                el.style.display = 'block';
-                setTimeout(() => el.style.opacity = 1, 50);
-            }, item.show);
-
-            // Hàm ẩn chữ đi để nhường chỗ cho câu tiếp theo
-            setTimeout(() => {
-                const el = document.getElementById(item.id);
-                el.style.opacity = 0;
-                setTimeout(() => el.style.display = 'none', 500);
-            }, item.hide);
+            setTimeout(() => document.getElementById(item.id).style.display = 'block', item.show);
+            setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide);
         });
 
-        // --- GIAI ĐOẠN 3: HIỂN THỊ TRÁI TIM CHỐT HẠ ---
+        // BÀI CUỐI: Triệu hồi trái tim được dệt bằng hàng trăm hạt ánh sáng
         setTimeout(() => {
-            document.getElementById('final-heart').style.display = 'block';
+            spawnHeartParticles();
+            gatherToHeart = true;
         }, 14500);
 
     </script>
