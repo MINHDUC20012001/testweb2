@@ -47,25 +47,27 @@
         }
 
         // Cấu hình danh sách các cụm chữ nền
-        const matrixPhrases = ["I love you ♥", "Minh đức ♥", "Tú Nhi ♥", "Happy birthday"]; 
+        const matrixPhrases = ["I love you", "Minh đức", "Tú Nhi", "Happy birthday"]; 
         const fontSize = 24; 
         
         let loveBlocks = [];
-        const maxBlocks = 35; // Số lượng khối chữ xuất hiện trên màn hình
+        let columns = 0;
 
-        function createLoveBlock(initY = null) {
-            ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
+        function createLoveBlock(columnIndex, initY = null) {
             const text = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)];
-            const textWidth = ctx.measureText(text).width;
             
+            // Chiều cao của khối chữ dọc bằng số ký tự nhân với cỡ chữ
+            const blockHeight = text.length * fontSize; 
+
             return {
                 text: text,
-                // Rải ngẫu nhiên vị trí X sao cho không bị tràn khỏi màn hình
-                x: Math.random() * (window.innerWidth - textWidth - 20) + 10,
-                // Nếu khởi tạo ban đầu thì rải đều màn hình, nếu tái tạo thì đẩy lên đỉnh trời
-                y: initY !== null ? initY : -fontSize * 2,
-                speed: Math.random() * 0.4 + 0.3, // Tốc độ trôi thong thả, từ tốn
-                opacity: Math.random() * 0.35 + 0.15 // Độ mờ lãng mạn cho nền phía sau
+                // Đặt cố định theo cột dọc tương ứng
+                x: columnIndex * (fontSize + (isMobile() ? 15 : 25)) + 15,
+                // Vị trí Y ban đầu (nếu initY có thì rải đều, không thì ẩn hẳn trên đỉnh)
+                y: initY !== null ? initY : -blockHeight - 50,
+                height: blockHeight,
+                speed: Math.random() * 0.3 + 0.25, // Tốc độ trôi nguyên khối rất thong thả
+                opacity: Math.random() * 0.35 + 0.15 // Độ mờ lãng mạn cho nền
             };
         }
 
@@ -74,11 +76,14 @@
             canvas.height = window.innerHeight * dpr;
             ctx.scale(dpr, dpr);
             
-            // Khởi tạo danh sách các khối chữ nằm rải rác từ trên xuống dưới
+            // Tính số cột đứng dựa trên kích thước chữ + khoảng cách giãn cách cột
+            columns = Math.floor(window.innerWidth / (fontSize + (isMobile() ? 15 : 25)));
+            
             loveBlocks = [];
-            for (let i = 0; i < maxBlocks; i++) {
-                let initialY = Math.random() * -window.innerHeight;
-                loveBlocks.push(createLoveBlock(initialY));
+            for (let i = 0; i < columns; i++) {
+                // Rải ngẫu nhiên các khối dọc ở các độ cao khác nhau trên bầu trời ban đầu
+                let initialY = Math.random() * -window.innerHeight * 1.5;
+                loveBlocks.push(createLoveBlock(i, initialY));
             }
         }
         
@@ -227,35 +232,42 @@
 
         // --- VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
         function animate() {
-            // Giữ nền đen sâu, xóa vệt mờ kéo dài để chữ nguyên khối trôi mượt mà đúng điệu video
-            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+            // Giữ lại một chút mờ nhẹ để chuyển động mượt mà nhưng không tạo dải đuôi dài lê thê
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // VẼ CHỮ NỀN TRÔI NGUYÊN KHỐI THEO CHIỀU NGANG GIỐNG VIDEO MẪU
+            // VẼ CHỮ NỀN XẾP ĐỨNG VÀ RƠI NGUYÊN KHỐI TỪ TRÊN XUỐNG
             ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
-            ctx.textAlign = 'left';
+            ctx.textAlign = 'center';
             
             for (let i = 0; i < loveBlocks.length; i++) {
                 let block = loveBlocks[i];
 
-                if (block.y > -fontSize * 2 && block.y < window.innerHeight + fontSize) {
+                // Chỉ vẽ nếu khối chữ đang nằm trong phạm vi hiển thị của màn hình
+                if (block.y + block.height > 0 && block.y < window.innerHeight) {
                     ctx.save();
-                    // Tạo màu chữ hồng lãng mạn kèm hiệu ứng phát sáng nhẹ
                     ctx.fillStyle = `rgba(255, 50, 135, ${block.opacity})`;
                     ctx.shadowBlur = 4;
                     ctx.shadowColor = "rgba(255, 50, 135, 0.6)";
                     
-                    // Vẽ nguyên cụm từ nằm ngang trôi từ trên xuống
-                    ctx.fillText(block.text, block.x, block.y);
+                    // Vẽ từng ký tự của cụm từ chồng đứng lên nhau theo khối dọc
+                    for (let j = 0; j < block.text.length; j++) {
+                        let char = block.text.charAt(j);
+                        if (char === " ") char = "♥"; // Biến khoảng trắng thành trái tim lãng mạn
+                        
+                        let charY = block.y + (j * fontSize);
+                        ctx.fillText(char, block.x, charY);
+                    }
                     ctx.restore();
                 }
 
-                // Cập nhật vị trí trôi dọc thong thả
+                // Cập nhật vị trí di chuyển đi xuống nguyên khối một cách từ tốn
                 block.y += block.speed;
 
-                // Nếu cụm chữ rơi qua đáy màn hình, reset lên trên đỉnh với nội dung và tọa độ X ngẫu nhiên mới
+                // Khi toàn bộ cột chữ đứng đã lọt hẳn xuống dưới đáy màn hình
                 if (block.y > window.innerHeight) {
-                    loveBlocks[i] = createLoveBlock();
+                    // Tái tạo lại khối chữ mới đẩy lên đỉnh trời
+                    loveBlocks[i] = createLoveBlock(i);
                 }
             }
 
@@ -265,7 +277,7 @@
                 p.draw();
             });
 
-            // MÀN KẾT THÚC: Hiện tên hai bạn ở trung tâm trái tim
+            // MÀN KẾT THÚC: Hiện tên hai bạn ở trung tâm trái tim hồng lãng mạn
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
                 let textFont = isMobile() ? "bold 15px 'Courier New', monospace" : "bold 22px 'Courier New', monospace";
                 ctx.font = textFont;
