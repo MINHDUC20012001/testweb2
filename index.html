@@ -103,7 +103,7 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. MA TRẬN ĐA TẦNG (TĂNG MẬT ĐỘ DÀY ĐẶC) ---
+        // --- 1. MA TRẬN ĐA TẦNG DÀY ĐẶC ---
         const matrixWords = [
             "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", 
             "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
@@ -111,24 +111,23 @@
             "❤️", "💕", "✨", "I LOVE YOU"
         ];
         
-        // Đã giảm khoảng cách cột từ 20 xuống 14 để số lượng chữ dày đặc hơn rất nhiều
         const columnWidth = 14; 
         const columnsCount = Math.floor(canvas.width / columnWidth);
         const matrixStreams = [];
 
-        // Khởi tạo ma trận rải đều màn hình với số lượng cột nhiều hơn
+        // Tạo dòng chữ rải đều màn hình, trượt liên tục tuần hoàn
         for (let i = 0; i < columnsCount; i++) {
             matrixStreams.push({
                 x: i * columnWidth,
                 y: Math.random() * canvas.height,             
-                speed: Math.random() * 0.4 + 0.2,             // Giữ tốc độ trượt siêu chậm rãi
-                fontSize: Math.floor(Math.random() * 4) + 12, // Kích thước chữ vừa vặn để không đè nhau quá mức
+                speed: Math.random() * 0.4 + 0.2,             
+                fontSize: Math.floor(Math.random() * 4) + 12, 
                 opacity: Math.random() * 0.35 + 0.15,          
-                word: matrixWords[Math.floor(Math.random() * matrixWords.length)] // Chữ vẫn giữ cố định khi đang rơi
+                word: matrixWords[Math.floor(Math.random() * matrixWords.length)] 
             });
         }
 
-        // --- 2. HỆ THỐNG HẠT PHÁO HOA & GÔM THÀNH TRÁI TIM ---
+        // --- 2. HỆ THỐNG HẠT PHÁO HOA & TRÁI TIM ---
         let particles = [];
         let gatherToHeart = false; 
         let heartPoints = [];
@@ -166,7 +165,7 @@
                 ctx.globalAlpha = this.alpha;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, Math.random() * 1.5 + 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = color;
+                ctx.fillStyle = this.color; // ĐÃ SỬA: Thay đổi lỗi thiếu 'this.' khiến code bị dừng trôi
                 ctx.shadowBlur = 12;
                 ctx.shadowColor = this.color;
                 ctx.fill();
@@ -209,7 +208,7 @@
             ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Vẽ từng dòng chữ lướt dày đặc, êm dịu
+            // Vẽ ma trận trượt liên tục không ngừng nghỉ
             matrixStreams.forEach(stream => {
                 ctx.font = `bold ${stream.fontSize}px 'Segoe UI', monospace`;
                 const text = stream.word; 
@@ -224,8 +223,9 @@
 
                 stream.y += stream.speed;
                 
-                if (stream.y > canvas.height) {
-                    stream.y = Math.random() * -80; 
+                // Khi chạm đáy màn hình, lập tức quay lại đỉnh để tiếp tục trôi xuống tuần hoàn
+                if (stream.y > canvas.height + 50) {
+                    stream.y = Math.random() * -60; 
                     stream.speed = Math.random() * 0.4 + 0.2; 
                     stream.word = matrixWords[Math.floor(Math.random() * matrixWords.length)]; 
                 }
