@@ -103,15 +103,12 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. MA TRẬN ĐA TẦNG DÀY ĐẶC (ĐÃ THÊM 4 CÂU CHÚC) ---
+        // --- 1. MA TRẬN ĐA TẦNG DÀY ĐẶC ---
         const matrixWords = [
             "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", 
             "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
             "Mãi bên nhau", "Luôn rạng rỡ", "My Girl", "Happy Birthday",
-            "❤️", "💕", "✨", "I LOVE YOU",
-            // 4 câu chúc mới được thêm vào ở đây:
-            "Tuổi mới thật rực rỡ nhé Tú Nhi", "Mừng sinh nhật công chúa Tú Nhi",
-            "Sinh nhật ấm áp nhé em yêu", "Cảm ơn Tú Nhi đã đến bên anh"
+            "❤️", "💕", "✨", "I LOVE YOU"
         ];
         
         const columnWidth = 14; 
@@ -216,8 +213,7 @@
                 ctx.font = `bold ${stream.fontSize}px 'Segoe UI', monospace`;
                 const text = stream.word; 
                 
-                // Cập nhật điều kiện tô màu: Nếu từ chứa "Tú Nhi" hoặc các từ khóa đặc biệt thì tô màu hồng đỏ
-                if(text === "❤️" || text === "💕" || text.includes("Tú Nhi") || text === "Yêu em") {
+                if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Yêu em") {
                     ctx.fillStyle = "#ff1744";
                 } else {
                     ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
@@ -292,3 +288,4 @@
     </script>
 </body>
 </html>
+Giữ nguyên đoạn code này thêm tôi 4 câu chúc vào thôi
