@@ -5,33 +5,212 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thiệp Chúc Mừng Sinh Nhật - Tú Nhi ♥️</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000; overflow: hidden; height: 100vh; display: flex; justify-content: center; align-items: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; perspective: 1000px; }
-        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        .card-wrapper { position: relative; width: 320px; height: 420px; z-index: 1000; cursor: pointer; transition: transform 0.6s, opacity 0.5s ease-in-out; }
-        .card-wrapper.open { transform: rotateY(-140deg) scale(0.8); opacity: 0; pointer-events: none; }
-        .card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.5s ease-in-out; }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; box-shadow: 0 15px 35px rgba(255, 20, 147, 0.3); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center; }
-        .card-front { background: linear-gradient(135deg, #ff1493, #800080); border: 3px solid #fff; color: #fff; }
-        .card-front .heart-icon { font-size: 5rem; color: #fff; animation: heartBeat 1.2s infinite; text-shadow: 0 0 20px rgba(255,255,255,0.8); }
-        .card-back { background: #fff; color: #333; transform: rotateY(180deg); border: 3px solid #ff1493; }
+        body {
+            background-color: #000;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            perspective: 1000px;
+        }
 
-        .content-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 999; text-align: center; width: 90%; max-width: 850px; pointer-events: none; }
-        .effect-text { font-weight: 900; color: #fff; display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; user-select: none; }
-        .countdown { font-size: 7rem; white-space: nowrap; animation: glitchZoom 1.2s ease-in-out forwards; }
-        .love-phrase { font-size: 3.2rem; line-height: 1.35; white-space: normal; word-wrap: break-word; animation: pulseGlow 2s infinite alternate; }
-        .final-phrase { font-size: 2.5rem; font-weight: 900; color: #fff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0); white-space: nowrap; text-shadow: 0 0 10px #ff1493, 0 0 20px #ff00ff, 0 0 40px #fff; animation: finalAppear 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseGlow 2s infinite alternate; animation-delay: 0s, 1.5s; }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
 
-        @keyframes heartBeat { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
-        @keyframes glitchZoom { 0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; } }
-        @keyframes pulseGlow { 0% { transform: translate(-50%, -50%) scale(0.96); } 100% { transform: translate(-50%, -50%) scale(1.04); } }
-        @keyframes finalAppear { 0% { transform: translate(-50%, -50%) scale(0); opacity: 0; } 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+        /* --- CẤU TRÚC THIỆP 3D LẬT MỞ --- */
+        .card-wrapper {
+            position: relative;
+            width: 320px;
+            height: 420px;
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 0.6s, opacity 0.5s ease-in-out;
+        }
 
-        @media (max-width: 500px) { .countdown { font-size: 5rem; } .love-phrase { font-size: 2.1rem; } .final-phrase { font-size: 1.8rem; } }
+        .card-wrapper.open {
+            transform: rotateY(-140deg) scale(0.8);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(255, 20, 147, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ff1493, #800080);
+            border: 3px solid #fff;
+            color: #fff;
+        }
+
+        .card-front .heart-icon {
+            font-size: 5rem;
+            color: #fff;
+            animation: heartBeat 1.2s infinite;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+
+        .card-front h2 {
+            font-size: 1.8rem;
+            margin-top: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .card-front p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .card-back {
+            background: #fff;
+            color: #333;
+            transform: rotateY(180deg);
+            border: 3px solid #ff1493;
+        }
+
+        .card-back h3 {
+            color: #ff1493;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .card-back p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* --- CONTAINER HIỆU ỨNG CHỮ PHÍA SAU --- */
+        .content-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999; 
+            text-align: center;
+            width: 90%; 
+            max-width: 850px;
+            pointer-events: none;
+        }
+
+        .effect-text {
+            font-weight: 900;
+            color: #fff;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; 
+            user-select: none;
+        }
+
+        .countdown {
+            font-size: 7rem;
+            white-space: nowrap;
+            animation: glitchZoom 1.2s ease-in-out forwards;
+        }
+
+        .love-phrase {
+            font-size: 3.2rem;
+            line-height: 1.35;
+            white-space: normal; 
+            word-wrap: break-word;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        .final-phrase {
+            font-size: 2.5rem; 
+            font-weight: 900;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            white-space: nowrap;
+            text-shadow: 0 0 10px #ff1493, 0 0 20px #ff00ff, 0 0 40px #fff;
+            animation: finalAppear 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseGlow 2s infinite alternate;
+            animation-delay: 0s, 1.5s; 
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes glitchZoom {
+            0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; text-shadow: -3px 0 #ff00ff, 3px 0 #00ffff; }
+            20% { opacity: 1; text-shadow: -5px 0 #ff1493, 5px 0 #ff69b4; }
+            40% { transform: translate(-50%, -50%) scale(1.1); text-shadow: 3px 2px #fff; }
+            60% { transform: translate(-50%, -50%) scale(1); text-shadow: -3px -2px #ff00ff; }
+            90% { opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(0.96); text-shadow: 0 0 15px #ff1493, 0 0 25px #ff00ff; }
+            100% { transform: translate(-50%, -50%) scale(1.04); text-shadow: 0 0 25px #ff1493, 0 0 50px #ff00ff, 0 0 70px #fff; }
+        }
+
+        @keyframes finalAppear {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* TỐI ƯU TRÊN ĐIỆN THOẠI */
+        @media (max-width: 500px) {
+            .card-wrapper { width: 280px; height: 380px; }
+            .countdown { font-size: 5rem; }
+            .love-phrase { font-size: 2.1rem; } 
+            .final-phrase { font-size: 1.8rem; letter-spacing: -0.5px; }
+        }
     </style>
 </head>
 <body>
+
+    <!-- THIỆP ĐIỆN TỬ -->
     <div class="card-wrapper" id="birthdayCard" onclick="openCard()">
         <div class="card">
             <div class="card-face card-front">
@@ -49,6 +228,7 @@
 
     <canvas id="superCanvas"></canvas>
 
+    <!-- NỘI DUNG CHỮ CHẠY -->
     <div class="content-container">
         <div class="effect-text countdown" id="text-3">3</div>
         <div class="effect-text countdown" id="text-2">2</div>
@@ -70,19 +250,29 @@
     </div>
 
     <script>
-        // ... (Giữ nguyên logic Canvas của bạn)
-        const canvas = document.getElementById('superCanvas'); const ctx = canvas.getContext('2d');
-        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+        const canvas = document.getElementById('superCanvas');
+        const ctx = canvas.getContext('2d');
 
-        const matrixWords = ["Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", "Yêu em", "Bình yên", "Hạnh phúc", "❤️", "💕"];
-        const matrixStreams = Array.from({length: 50}, (_, i) => ({ x: i * 20, y: Math.random() * canvas.height, speed: Math.random() * 0.4 + 0.2, word: matrixWords[Math.floor(Math.random()*matrixWords.length)] }));
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-        let particles = [], gatherToHeart = false, heartPoints = [];
+        const matrixWords = ["Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", "Yêu em", "Bình yên", "Hạnh phúc", "❤️", "💕", "✨"];
+        const matrixStreams = Array.from({length: 50}, (_, i) => ({
+            x: i * 20, y: Math.random() * canvas.height, speed: Math.random() * 0.4 + 0.2, word: matrixWords[Math.floor(Math.random() * matrixWords.length)]
+        }));
+
+        let particles = [];
+        let gatherToHeart = false; 
+        let heartPoints = [];
+
         function calculateHeartPoints() {
             const scale = Math.min(canvas.width, canvas.height) / 35;
             for (let a = 0; a < Math.PI * 2; a += 0.05) {
-                heartPoints.push({ targetX: canvas.width/2 + (16*Math.pow(Math.sin(a), 3))*scale, targetY: canvas.height/2 - (13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a))*scale });
+                heartPoints.push({ targetX: canvas.width/2 + (16 * Math.pow(Math.sin(a), 3)) * scale, targetY: canvas.height/2 - (13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a)) * scale });
             }
         }
         calculateHeartPoints();
