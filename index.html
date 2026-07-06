@@ -51,30 +51,30 @@
             canvas.height = window.innerHeight * dpr;
             ctx.scale(dpr, dpr);
             
-            columns = window.innerWidth / (fontSize - 2);
-            drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -100); 
+            // Tính toán số cột dựa trên kích thước chữ to mới
+            columns = window.innerWidth / (fontSize - 1);
+            drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -80); 
             
             columnTexts = Array(Math.floor(columns)).fill(0).map(() => matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]);
-            // ĐÃ SỬA: Giảm tốc độ rơi xuống rất nhỏ (0.3 -> 0.7) giúp sao băng lướt từ tốn, chậm rãi
-            dropSpeeds = Array(Math.floor(columns)).fill(0).map(() => Math.random() * 0.4 + 0.3); 
+            dropSpeeds = Array(Math.floor(columns)).fill(0).map(() => Math.random() * 0.35 + 0.25); 
         }
         
-        // --- 1. HỆ THỐNG SAO BĂNG NỀN CHẠY CHẬM ---
+        // --- 1. HỆ THỐNG CHỮ NỀN CODE GREEN (ĐÃ TĂNG CỠ CHỮ LÊN 16) ---
         const matrixPhrases = ["I love you", "Minh đức", "Tú Nhi", "Happy birthday"]; 
-        const fontSize = 11; 
+        const fontSize = 16; // ĐÃ SỬA: Tăng từ 11 lên 16 cho to rõ ràng hơn
         let columns, drops, columnTexts, dropSpeeds;
         
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 2. CHUỖI TEXT CHỮ TRẮNG (ĐÃ BỎ ĐẾM 3-2-1) ---
+        // --- 2. CHUỖI TEXT CHỮ TRẮNG NỔI BẬT PHÍA TRƯỚC ---
         const textSequences = ["Chúc em", "sinh nhật", "vui vẻ 🎂", "Tú Nhi ♥️", "HEART"];
         let currentSequenceIndex = 0;
         let timelineStarted = false;
 
         // --- 3. ĐỊNH NGHĨA LỚP HẠT SÁNG NÉT CAO PHÍA TRƯỚC ---
         let particles = [];
-        const maxParticles = 1100; 
+        const maxParticles = 1200; 
 
         class Particle {
             constructor() {
@@ -82,8 +82,8 @@
                 this.y = Math.random() * window.innerHeight;
                 this.targetX = this.x;
                 this.targetY = this.y;
-                this.vx = (Math.random() * 1.5 - 0.75); 
-                this.vy = (Math.random() * 1.5 - 0.75);
+                this.vx = (Math.random() * 1.4 - 0.7); 
+                this.vy = (Math.random() * 1.4 - 0.7);
                 this.color = '#ffffff';
                 this.size = Math.random() * 1.2 + 1.2; 
                 this.alpha = 0; 
@@ -112,7 +112,7 @@
                 
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
                 ctx.shadowBlur = 10;
-                ctx.shadowColor = 'rgba(255, 20, 147, 0.9)'; 
+                ctx.shadowColor = 'rgba(0, 255, 70, 0.8)'; // Tạo quầng sáng pha chút xanh lục cho hòa hợp nền
                 
                 ctx.fill();
                 ctx.restore();
@@ -189,14 +189,14 @@
             currentMode = "GATHER"; 
 
             if (currentText !== "HEART") {
-                let displayTime = 2400; // Thời gian chữ hiển thị ổn định để đọc
+                let displayTime = 2400; 
 
                 setTimeout(() => {
                     currentMode = "FREE"; 
                     
                     particles.forEach(p => {
-                        p.vx = (Math.random() * 2 - 1) * 1.3;
-                        p.vy = (Math.random() * 2 - 1) * 1.3;
+                        p.vx = (Math.random() * 1.8 - 0.9);
+                        p.vy = (Math.random() * 1.8 - 0.9);
                     });
 
                     currentSequenceIndex++;
@@ -205,7 +205,7 @@
             }
         }
 
-        // Cho ma trận sao băng lướt chậm từ tốn trước 3.5 giây rồi mới gom chữ
+        // Chạy nền mưa từ tốn trước 3.5 giây đúng điệu hacker chuyên nghiệp
         setTimeout(runTimeline, 3500);
 
         // --- 6. VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
@@ -213,7 +213,7 @@
             ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // THUẬT TOÁN SAO BĂNG ĐỔ THÁC TỪ TỐN
+            // THUẬT TOÁN SAO BĂNG ĐỔ THÁC MÀU XANH LỤC NÉT CHẤT CAO
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
                 const currentTextStr = columnTexts[i];
@@ -221,21 +221,21 @@
                 let text = currentTextStr.charAt(charIndex);
                 if (text === " ") text = "★"; 
                 
-                if (Math.random() > 0.985) {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.95)"; 
+                // ĐÃ SỬA: Đổi màu phối màu đặc trưng dân chuyên Code (Xanh Lục Neon)
+                if (Math.random() > 0.982) {
+                    ctx.fillStyle = "rgba(220, 255, 220, 0.95)"; // Đầu vệt sáng rực trắng xanh cực chất
                 } else {
-                    ctx.fillStyle = "rgba(255, 60, 140, 0.35)"; 
+                    ctx.fillStyle = "rgba(0, 255, 70, 0.4)"; // Thân vệt sao băng màu xanh lục Cyber rõ ràng thanh thoát
                 }
 
-                ctx.fillText(text, i * (fontSize + 4), drops[i] * fontSize);
+                ctx.fillText(text, i * (fontSize + 3), drops[i] * fontSize);
 
-                // Cộng dồn theo tốc độ rơi chậm rãi từ tốn đã cấu hình
                 drops[i] += dropSpeeds[i];
 
                 if (drops[i] * fontSize > window.innerHeight && Math.random() > 0.975) {
                     drops[i] = Math.random() * -10;
                     columnTexts[i] = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]; 
-                    dropSpeeds[i] = Math.random() * 0.4 + 0.3; // Giữ nguyên tốc độ rơi chậm cho lượt tiếp theo
+                    dropSpeeds[i] = Math.random() * 0.38 + 0.25; 
                 }
             }
 
@@ -254,7 +254,7 @@
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.shadowBlur = 12;
-                ctx.shadowColor = "#ff1493";
+                ctx.shadowColor = "#ff1493"; // Vẫn giữ tâm tim hồng cho lãng mạn tình yêu
                 ctx.fillText("Tú Nhi ♥️ Minh Đức", window.innerWidth / 2, window.innerHeight / 2 - 20);
             }
 
