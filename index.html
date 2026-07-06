@@ -104,7 +104,8 @@
         window.addEventListener('resize', resizeCanvas);
 
         // --- 1. MA TRẬN ĐA TẦNG (CẦU KỲ HƠN) ---
-        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕", "✨", "Tú Nhi", "Minh Đức", "Chúc mừng sinh nhật em"];
+        // Tách các từ đơn lẻ và ký tự chữ ra để rơi mượt, không bị dính chùm thành một khối dọc dài
+        const matrixWords = ["I", "L", "O", "V", "E", "Y", "O", "U", "❤️", "💕", "✨", "Tú", "Nhi", "Minh", "Đức", "Chúc", "mừng", "sinh", "nhật", "em"];
         const columnsCount = Math.floor(canvas.width / 20);
         const matrixStreams = [];
 
@@ -159,7 +160,7 @@
                 ctx.globalAlpha = this.alpha;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, Math.random() * 1.5 + 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = color;
+                ctx.fillStyle = this.color;
                 ctx.shadowBlur = 12;
                 ctx.shadowColor = this.color;
                 ctx.fill();
@@ -210,18 +211,14 @@
             // Vẽ ma trận nhỏ đa tầng siêu mịn
             matrixStreams.forEach(stream => {
                 ctx.font = `bold ${stream.fontSize}px monospace`;
-                const rawText = matrixWords[Math.floor(Math.random() * matrixWords.length)];
+                const text = matrixWords[Math.floor(Math.random() * matrixWords.length)];
                 
                 if(Math.random() > 0.97) ctx.fillStyle = "#fff";
-                else if(rawText === "❤️" || rawText === "💕") ctx.fillStyle = "#ff1744";
+                else if(text === "❤️" || text === "💕") ctx.fillStyle = "#ff1744";
                 else ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
 
-                // RẢI CHỮ THEO CHIỀU ĐỨNG: Nếu là chuỗi dài, vẽ từng ký tự xuống theo trục Y
-                let currentY = stream.y;
-                for (let i = 0; i < rawText.length; i++) {
-                    ctx.fillText(rawText[i], stream.x, currentY);
-                    currentY += stream.fontSize + 2; // Khoảng cách giữa các ký tự đứng
-                }
+                // Rải ký tự/từ đơn lẻ theo luồng đứng không kéo vệt dài
+                ctx.fillText(text, stream.x, stream.y);
 
                 stream.y += stream.speed;
                 if (stream.y > canvas.height) {
