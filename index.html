@@ -55,19 +55,17 @@
 
         function createLoveBlock(columnIndex, initY = null) {
             const text = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)];
-            
-            // Chiều cao của khối chữ dọc bằng số ký tự nhân với cỡ chữ
             const blockHeight = text.length * fontSize; 
 
             return {
                 text: text,
-                // Đặt cố định theo cột dọc tương ứng
-                x: columnIndex * (fontSize + (isMobile() ? 15 : 25)) + 15,
-                // Vị trí Y ban đầu (nếu initY có thì rải đều, không thì ẩn hẳn trên đỉnh)
-                y: initY !== null ? initY : -blockHeight - 50,
+                // Tính toán vị trí X dựa vào số cột và độ giãn cách để rải đều màn hình
+                x: columnIndex * (fontSize + (isMobile() ? 12 : 22)) + 10,
+                // Trôi nguyên khối từ trên đỉnh (giấu đi khi reset)
+                y: initY !== null ? initY : -blockHeight - 30,
                 height: blockHeight,
-                speed: Math.random() * 0.3 + 0.25, // Tốc độ trôi nguyên khối rất thong thả
-                opacity: Math.random() * 0.35 + 0.15 // Độ mờ lãng mạn cho nền
+                speed: Math.random() * 0.4 + 0.3, // Tốc độ trôi từ tốn, mượt mà giống video
+                opacity: Math.random() * 0.32 + 0.12 // Độ mờ lãng mạn cho nền phía sau
             };
         }
 
@@ -76,12 +74,11 @@
             canvas.height = window.innerHeight * dpr;
             ctx.scale(dpr, dpr);
             
-            // Tính số cột đứng dựa trên kích thước chữ + khoảng cách giãn cách cột
-            columns = Math.floor(window.innerWidth / (fontSize + (isMobile() ? 15 : 25)));
+            columns = Math.floor(window.innerWidth / (fontSize + (isMobile() ? 12 : 22)));
             
             loveBlocks = [];
             for (let i = 0; i < columns; i++) {
-                // Rải ngẫu nhiên các khối dọc ở các độ cao khác nhau trên bầu trời ban đầu
+                // Khởi tạo ban đầu rải đều khắp các độ cao khác nhau trên màn hình
                 let initialY = Math.random() * -window.innerHeight * 1.5;
                 loveBlocks.push(createLoveBlock(i, initialY));
             }
@@ -232,28 +229,28 @@
 
         // --- VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
         function animate() {
-            // Giữ lại một chút mờ nhẹ để chuyển động mượt mà nhưng không tạo dải đuôi dài lê thê
-            ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+            // Xóa mờ nhẹ để tạo chuyển động sắc nét nguyên khối, không kéo đuôi mờ nhòe dài
+            ctx.fillStyle = "rgba(0, 0, 0, 0.18)";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // VẼ CHỮ NỀN XẾP ĐỨNG VÀ RƠI NGUYÊN KHỐI TỪ TRÊN XUỐNG
+            // VẼ CHỮ NỀN XẾP ĐỨNG VÀ TRÔI NGUYÊN KHỐI THEO ĐÚNG VIDEO MẪU
             ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
             ctx.textAlign = 'center';
             
             for (let i = 0; i < loveBlocks.length; i++) {
                 let block = loveBlocks[i];
 
-                // Chỉ vẽ nếu khối chữ đang nằm trong phạm vi hiển thị của màn hình
+                // Chỉ vẽ nếu khối chữ nằm trong vùng nhìn thấy của màn hình
                 if (block.y + block.height > 0 && block.y < window.innerHeight) {
                     ctx.save();
                     ctx.fillStyle = `rgba(255, 50, 135, ${block.opacity})`;
                     ctx.shadowBlur = 4;
-                    ctx.shadowColor = "rgba(255, 50, 135, 0.6)";
+                    ctx.shadowColor = "rgba(255, 50, 135, 0.5)";
                     
-                    // Vẽ từng ký tự của cụm từ chồng đứng lên nhau theo khối dọc
+                    // Lặp qua từng ký tự và vẽ dọc chồng lên nhau thành một cột
                     for (let j = 0; j < block.text.length; j++) {
                         let char = block.text.charAt(j);
-                        if (char === " ") char = "♥"; // Biến khoảng trắng thành trái tim lãng mạn
+                        if (char === " ") char = "♥"; // Khoảng trắng đổi thành trái tim lãng mạn
                         
                         let charY = block.y + (j * fontSize);
                         ctx.fillText(char, block.x, charY);
@@ -261,12 +258,11 @@
                     ctx.restore();
                 }
 
-                // Cập nhật vị trí di chuyển đi xuống nguyên khối một cách từ tốn
+                // Cập nhật vị trí tịnh tiến đi xuống nguyên cột đứng
                 block.y += block.speed;
 
-                // Khi toàn bộ cột chữ đứng đã lọt hẳn xuống dưới đáy màn hình
+                // Nếu cột dọc trôi lọt hẳn xuống dưới màn hình, reset lên đỉnh trời
                 if (block.y > window.innerHeight) {
-                    // Tái tạo lại khối chữ mới đẩy lên đỉnh trời
                     loveBlocks[i] = createLoveBlock(i);
                 }
             }
@@ -277,7 +273,7 @@
                 p.draw();
             });
 
-            // MÀN KẾT THÚC: Hiện tên hai bạn ở trung tâm trái tim hồng lãng mạn
+            // MÀN KẾT THÚC: Hiện tên hai bạn ở tâm trái tim hồng nhấp nháy lãng mạn
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
                 let textFont = isMobile() ? "bold 15px 'Courier New', monospace" : "bold 22px 'Courier New', monospace";
                 ctx.font = textFont;
