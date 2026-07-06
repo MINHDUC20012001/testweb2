@@ -86,10 +86,11 @@
         <div class="effect-text countdown" id="text-2">2</div>
         <div class="effect-text countdown" id="text-1">1</div>
         
-        <div class="effect-text love-phrase" id="text-p1">Em đồng ý</div>
-        <div class="effect-text love-phrase" id="text-p2">Làm người yêu</div>
-        <div class="effect-text love-phrase" id="text-p3">Anh nhé ❤️</div>
-        <div class="effect-text love-phrase" id="text-p4">Anh Yêu Em</div>
+        <!-- ĐÃ THAY ĐỔI: Nội dung chữ hiển thị ở giữa màn hình -->
+        <div class="effect-text love-phrase" id="text-p1">Chúc em</div>
+        <div class="effect-text love-phrase" id="text-p2">Sinh nhật vui vẻ</div>
+        <div class="effect-text love-phrase" id="text-p3">Yêu em</div>
+        <div class="effect-text love-phrase" id="text-p4">Tú Nhi ♥️</div>
     </div>
 
     <script>
@@ -109,9 +110,8 @@
             "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
             "Mãi bên nhau", "Luôn rạng rỡ", "My Girl", "Happy Birthday",
             "❤️", "💕", "✨", "I LOVE YOU",
-            // 4 câu chúc mới được thêm vào ở đây:
             "Tuổi mới thật rực rỡ nhé Tú Nhi", "Mừng sinh nhật công chúa Tú Nhi",
-            "Sinh nhật ấm áp nhé em yêu", "Cảm ơn em đã đến bên anh", "Chúc em luôn hạnh phúc", "Chúc em luôn nở nụ cười trên môi"
+            "Sinh nhật ấm áp nhé em yêu", "Cảm ơn Tú Nhi đã đến bên anh"
         ];
         
         const columnWidth = 14; 
@@ -168,7 +168,7 @@
                 ctx.globalAlpha = this.alpha;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, Math.random() * 1.5 + 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = this.color; // ĐÃ SỬA: Thay đổi lỗi thiếu 'this.' khiến code bị dừng trôi
+                ctx.fillStyle = this.color; 
                 ctx.shadowBlur = 12;
                 ctx.shadowColor = this.color;
                 ctx.fill();
@@ -270,7 +270,7 @@
         setTimeout(() => document.getElementById('text-1').style.display = 'block', 3100);
         setTimeout(() => { document.getElementById('text-1').style.display = 'none'; explodeFirework(); setTimeout(explodeFirework, 150); }, 4300);
 
-        // Chuỗi chữ tỏ tình
+        // Chuỗi chữ chúc mừng sinh nhật
         const textTimeline = [
             { id: 'text-p1', show: 4800, hide: 6800 },
             { id: 'text-p2', show: 7200, hide: 9200 },
