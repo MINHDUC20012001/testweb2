@@ -114,7 +114,7 @@
             matrixStreams.push({
                 x: i * 20,
                 y: Math.random() * -canvas.height,
-                speed: Math.random() * 1 + 0.5,             // ĐÃ GIẢM: Tốc độ rơi chậm lại vừa phải và mượt mà hơn
+                speed: Math.random() * 3 + 2,
                 fontSize: Math.floor(Math.random() * 6) + 12, // Kích thước chữ to nhỏ khác nhau
                 opacity: Math.random() * 0.4 + 0.15          // Độ mờ khác nhau tạo hiệu ứng 3D
             });
@@ -222,7 +222,7 @@
                 stream.y += stream.speed;
                 if (stream.y > canvas.height) {
                     stream.y = Math.random() * -100;
-                    stream.speed = Math.random() * 1 + 0.5; // ĐÃ GIẢM: Giữ nguyên tốc độ chậm khi reset dòng mới
+                    stream.speed = Math.random() * 3 + 2;
                 }
             });
 
@@ -285,3 +285,5 @@
     </script>
 </body>
 </html>
+
+Code này nền sau rơi chậm tí
