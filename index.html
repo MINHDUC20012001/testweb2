@@ -40,18 +40,23 @@
         const canvas = document.getElementById('creativeCanvas');
         const ctx = canvas.getContext('2d');
 
+        // Bật chế độ tối ưu mật độ điểm ảnh cao giúp hạt và nét chữ siêu căng, không mờ dạng răng cưa
+        const dpr = window.devicePixelRatio || 1;
+
         function isMobile() {
             return window.innerWidth < 768;
         }
 
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            columns = canvas.width / fontSize;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            ctx.scale(dpr, dpr);
+            
+            columns = window.innerWidth / fontSize;
             drops = Array(Math.floor(columns)).fill(0);
         }
         
-        // --- 1. CẤU HÌNH MA TRẬN NỀN "I love" RẢI TỪ TRÊN XUỐNG ---
+        // --- 1. HỆ THỐNG MA TRẬN ĐỔ THÁC "I love" CỰC MƯỢT ---
         const matrixString = "Ilove"; 
         const fontSize = 11; 
         let columns;
@@ -60,46 +65,41 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 2. CHUỖI TEXT THEO VIDEO ---
+        // --- 2. CHUỖI TEXT CHÚC MỪNG SINH NHẬT ---
         const textSequences = ["3", "2", "1", "Chúc em", "sinh nhật", "vui vẻ 🎂", "Tú Nhi ♥️", "HEART"];
         let currentSequenceIndex = 0;
         let timelineStarted = false;
 
-        // --- 3. HỆ THỐNG HẠT SÁNG TỤ CHỮ & RÃ CHỮ MƯỢT MÀ ---
+        // --- 3. ĐỊNH NGHĨA LỚP HẠT SÁNG NÉT CAO (CINEMATIC) ---
         let particles = [];
-        const maxParticles = 950; 
+        const maxParticles = 1000; // Tăng lượng hạt tạo độ dày, bao phủ chữ căng nét
 
         class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.targetX = x;
-                this.targetY = y;
-                this.vx = (Math.random() * 2 - 1) * 0.5; // Tốc độ trôi dạt nhẹ nhàng
-                this.vy = (Math.random() * 2 - 1) * 0.5;
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight;
+                this.targetX = this.x;
+                this.targetY = this.y;
+                this.vx = (Math.random() * 1.5 - 0.75); 
+                this.vy = (Math.random() * 1.5 - 0.75);
                 this.color = '#ffffff';
-                this.size = Math.random() * 1.5 + 1.0; 
-                this.alpha = 0; // Ẩn lúc đầu khi chưa chạy chữ
+                this.size = Math.random() * 1.2 + 1.2; // Kích thước hạt vừa vặn tinh tế
+                this.alpha = 0; 
             }
 
             update(mode) {
                 if (!timelineStarted) return;
 
                 if (mode === "GATHER") {
-                    // Hạt từ từ hút tụ lại thành chữ mượt mà như video
-                    this.x += (this.targetX - this.x) * 0.12;
-                    this.y += (this.targetY - this.y) * 0.12;
-                    this.alpha = 1;
+                    // Cơ chế hút gia tốc mượt mà, định hình chữ cực sắc nét
+                    this.x += (this.targetX - this.x) * 0.14;
+                    this.y += (this.targetY - this.y) * 0.14;
+                    if (this.alpha < 1) this.alpha += 0.05;
                 } else {
-                    // Khi rã chữ: hạt tự bay tản mát nhẹ nhàng, không nổ mạnh
+                    // Hiệu ứng tan rã lướt nhẹ kết hợp làm mờ dần sang trọng
                     this.x += this.vx;
                     this.y += this.vy;
-                    // Giới hạn hạt trôi chậm trong màn hình
-                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-                    
-                    // Giảm dần độ sáng khi rã ra tạo hiệu ứng tan biến lãng mạn
-                    if (this.alpha > 0) this.alpha -= 0.01;
+                    if (this.alpha > 0) this.alpha -= 0.02; 
                 }
             }
 
@@ -109,61 +109,65 @@
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
                 
-                // Quầng sáng mờ mịn xung quanh chữ nét trắng giống video
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = this.color === '#ffffff' ? 'rgba(255,255,255,0.8)' : this.color; 
+                // Trộn hiệu ứng màu trắng phủ hào quang neon hồng nhẹ
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(255, 20, 147, 0.9)'; 
+                
                 ctx.fill();
                 ctx.restore();
             }
         }
 
         for (let i = 0; i < maxParticles; i++) {
-            particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
+            particles.push(new Particle());
         }
 
-        // --- 4. THUẬT TOÁN QUÉT TOẠ ĐỘ CHỮ ---
+        // --- 4. THUẬT TOÁN QUÉT VÙNG ĐIỂM CHỮ SIÊU MỊN ---
         let currentMode = "FREE"; 
 
         function getTargetPoints(text) {
             let targets = [];
             
             if (text === "HEART") {
-                const scale = Math.min(canvas.width, canvas.height) / 38;
+                // Tỉ lệ hình trái tim chuẩn điện thoại không lỗi góc
+                const scale = Math.min(window.innerWidth, window.innerHeight) / 38;
                 const step = (Math.PI * 2) / maxParticles;
                 for (let i = 0; i < maxParticles; i++) {
                     let angle = i * step;
                     let x = 16 * Math.pow(Math.sin(angle), 3);
                     let y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
                     targets.push({
-                        x: canvas.width / 2 + x * scale,
-                        y: canvas.height / 2 + y * scale - 20, 
+                        x: window.innerWidth / 2 + x * scale,
+                        y: window.innerHeight / 2 + y * scale - 20,
                         color: '#ff1493'
                     });
                 }
             } else {
                 const memCanvas = document.createElement('canvas');
                 const memCtx = memCanvas.getContext('2d');
-                memCanvas.width = canvas.width;
-                memCanvas.height = canvas.height;
+                memCanvas.width = window.innerWidth;
+                memCanvas.height = window.innerHeight;
                 
                 let isNumber = !isNaN(text);
-                let finalFontSize = isMobile() ? (isNumber ? '95px' : '36px') : (isNumber ? '140px' : '65px');
+                // Sử dụng thuộc tính font dày đặc biệt để ôm khít chữ
+                let finalFontSize = isMobile() ? (isNumber ? '95px' : '38px') : (isNumber ? '140px' : '68px');
 
-                memCtx.font = `900 ${finalFontSize} Arial, sans-serif`;
+                memCtx.font = `900 ${finalFontSize} system-ui, -apple-system, sans-serif`;
                 memCtx.fillStyle = '#fff';
                 memCtx.textAlign = 'center';
                 memCtx.textBaseline = 'middle';
-                memCtx.fillText(text, canvas.width / 2, canvas.height / 2);
+                memCtx.fillText(text, window.innerWidth / 2, window.innerHeight / 2);
 
-                const imgData = memCtx.getImageData(0, 0, canvas.width, canvas.height).data;
+                const imgData = memCtx.getImageData(0, 0, window.innerWidth, window.innerHeight).data;
                 
-                for (let y = 0; y < canvas.height; y += 2) {
-                    for (let x = 0; x < canvas.width; x += 2) {
-                        let alpha = imgData[((y * canvas.width) + x) * 4 + 3];
-                        if (alpha > 128) {
-                            targets.push({ x: x, y: y, color: '#ffffff' });
+                // Quét điểm chặt chẽ với bước nhảy 2 pixel cho độ phân giải cực căng
+                for (let y = 0; y < window.innerHeight; y += 2) {
+                    for (let x = 0; x < window.innerWidth; x += 2) {
+                        let alpha = imgData[((y * window.innerWidth) + x) * 4 + 3];
+                        if (alpha > 130) {
+                            targets.push({ x: x, y: y });
                         }
                     }
                 }
@@ -172,7 +176,7 @@
             return targets;
         }
 
-        // --- 5. ĐIỀU KHIỂN NHỊP CHUYỂN CHỮ (TIMELINE) ---
+        // --- 5. TIMELINE ĐIỀU PHỐI CHUYỂN CẢNH ---
         function runTimeline() {
             timelineStarted = true;
             if (currentSequenceIndex >= textSequences.length) return;
@@ -183,82 +187,77 @@
             particles.forEach((p, index) => {
                 let target = targets[index % targets.length];
                 if (target) {
-                    p.targetX = target.x + (Math.random() * 1.2 - 0.6); 
-                    p.targetY = target.y + (Math.random() * 1.2 - 0.6);
-                    p.color = target.color;
+                    // Khóa điểm chính xác để loại bỏ nhiễu nhòe chữ
+                    p.targetX = target.x + (Math.random() * 0.8 - 0.4); 
+                    p.targetY = target.y + (Math.random() * 0.8 - 0.4);
                 }
             });
 
-            currentMode = "GATHER"; // Gom hạt tạo chữ
+            currentMode = "GATHER"; 
 
             if (currentText !== "HEART") {
-                // Thời gian hiện chữ (Số: nhanh, Chữ dài: giữ lâu hơn để đọc)
-                let displayTime = currentText.length <= 1 ? 1300 : 2200; 
+                let displayTime = currentText.length <= 1 ? 1400 : 2400; 
 
                 setTimeout(() => {
-                    currentMode = "FREE"; // Rã hạt trôi nhẹ nhàng
+                    currentMode = "FREE"; 
                     
                     particles.forEach(p => {
-                        // Tạo lại vận tốc trôi nhẹ ngẫu nhiên khi chữ rã
-                        p.vx = (Math.random() * 2 - 1) * 1.2;
-                        p.vy = (Math.random() * 2 - 1) * 1.2;
+                        p.vx = (Math.random() * 2 - 1) * 1.3;
+                        p.vy = (Math.random() * 2 - 1) * 1.3;
                     });
 
                     currentSequenceIndex++;
-                    // Chờ hạt rã ra một chút rồi mới gom thành chữ tiếp theo
-                    setTimeout(runTimeline, 1000); 
+                    setTimeout(runTimeline, 800); 
                 }, displayTime); 
             }
         }
 
-        // Chạy nền ma trận đổ trước 3.5 giây đúng điệu video rồi mới chạy timeline chữ
+        // Chạy nền mưa "I love" mượt mà trước 3.5 giây như trong video
         setTimeout(runTimeline, 3500);
 
-        // --- 6. VÒNG LẶP HOẠT HỌA LIÊN TỤC ---
+        // --- 6. VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
         function animate() {
-            // Hiệu ứng xóa mờ nhẹ giúp ma trận và hạt có vệt đuôi trượt mịn màng
-            ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Giữ lại lớp phủ đen vừa vặn tránh việc chữ bị nhòe vệt sáng cũ
+            ctx.fillStyle = "rgba(0, 0, 0, 0.11)";
+            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // VẼ MA TRẬN NỀN RẢI THÁC ĐỔ LIÊN TỤC
+            // HIỂU ỨNG MA TRẬN MƯA RƠI THÁC ĐỔ
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
                 const charIndex = Math.floor(drops[i] + i) % matrixString.length;
                 const text = matrixString.charAt(charIndex);
                 
-                // Phối màu ma trận hồng mờ lãng mạn như video
-                if (Math.random() > 0.98) {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.8)"; // Đầu dòng sáng nhẹ
+                if (Math.random() > 0.985) {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.85)"; 
                 } else {
-                    ctx.fillStyle = "rgba(255, 105, 180, 0.18)"; // Thân dòng mờ ảo phía sau
+                    ctx.fillStyle = "rgba(255, 105, 180, 0.16)"; 
                 }
 
                 ctx.fillText(text, i * (fontSize + 8), drops[i] * fontSize);
 
-                // Trôi hết màn hình thì lặp lại từ đỉnh xuống
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                if (drops[i] * fontSize > window.innerHeight && Math.random() > 0.98) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
 
-            // VẼ HỆ THỐNG HẠT CHỮ LÊN PHÍA TRƯỚC NỀN
+            // CẬP NHẬT & VẼ KHỐI CHỮ TRẮNG PHÍA TRƯỚC
             particles.forEach(p => {
                 p.update(currentMode);
                 p.draw();
             });
 
-            // MÀN KẾT: Hiện chữ lãng mạn nhấp nháy ở giữa trái tim hồng
+            // MÀN KẾT THÚC: Chữ nhấp nháy định vị hoàn hảo trong tâm trái tim hồng
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
-                let textFont = isMobile() ? "bold 14px 'Courier New', monospace" : "bold 20px 'Courier New', monospace";
+                let textFont = isMobile() ? "bold 14px 'Courier New', monospace" : "bold 21px 'Courier New', monospace";
                 ctx.font = textFont;
                 let alpha = (Math.sin(Date.now() * 0.005) + 1) / 2 * 0.6 + 0.4;
                 ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.shadowBlur = 10;
+                ctx.shadowBlur = 12;
                 ctx.shadowColor = "#ff1493";
-                ctx.fillText("Tú Nhi ♥️ Minh Đức", canvas.width / 2, canvas.height / 2 - 20);
+                ctx.fillText("Tú Nhi ♥️ Minh Đức", window.innerWidth / 2, window.innerHeight / 2 - 20);
             }
 
             requestAnimationFrame(animate);
