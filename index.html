@@ -35,7 +35,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 999; /* ĐÃ FIX: Đẩy lên trên cùng để không bị hiệu ứng che mất */
+            z-index: 999; 
             text-align: center;
             width: 100%;
             max-width: 700px;
@@ -68,9 +68,9 @@
             animation: pulseGlow 2s infinite alternate;
         }
 
-        /* Định dạng chữ nằm giữa trái tim ở đoạn cuối */
+        /* ĐÃ FIX: Cho chữ nhỏ lại vừa vặn và tinh tế hơn */
         .final-phrase {
-            font-size: 2.8rem;
+            font-size: 2.2rem; /* Giảm từ 2.8rem xuống 2.2rem */
             max-width: 100vw;
             font-weight: 900;
             color: #fff;
@@ -82,14 +82,19 @@
             user-select: none;
             text-shadow: 0 0 10px #ff1493, 0 0 20px #ff00ff, 0 0 40px #fff;
             animation: finalAppear 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseGlow 2s infinite alternate;
-            animation-delay: 0s, 1.5s; /* Chạy ngay khi kích hoạt hiển thị */
+            animation-delay: 0s, 1.5s; 
         }
 
         /* Cấu hình riêng cho màn hình điện thoại nhỏ */
         @media (max-width: 480px) {
-            .love-phrase, .final-phrase {
+            .love-phrase {
                 font-size: 2.2rem; 
                 letter-spacing: -1px;
+            }
+            /* Chữ cuối trên mobile nhỏ nhắn xinh xắn hơn nữa */
+            .final-phrase {
+                font-size: 1.7rem; 
+                letter-spacing: -0.5px;
             }
             .countdown {
                 font-size: 5rem;
@@ -110,7 +115,6 @@
             100% { transform: translate(-50%, -50%) scale(1.04); text-shadow: 0 0 25px #ff1493, 0 0 50px #ff00ff, 0 0 70px #fff; }
         }
 
-        /* Hiệu ứng lớn dần từ tâm cho chữ cuối */
         @keyframes finalAppear {
             0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
@@ -131,7 +135,6 @@
         <div class="effect-text love-phrase" id="text-p3">Yêu em</div>
         <div class="effect-text love-phrase" id="text-p4">Tú Nhi ♥️</div>
 
-        <!-- Chữ cuối xuất hiện cùng lúc với trái tim ở giây thứ 14.5 -->
         <div id="text-final" class="final-phrase" style="display: none;">Tú Nhi ♥️ Minh Đức</div>
     </div>
 
