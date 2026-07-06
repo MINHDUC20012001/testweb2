@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            perspective: 1000px; /* Tạo không gian 3D cho thiệp */
+            perspective: 1000px;
         }
 
         canvas {
@@ -38,15 +38,14 @@
             height: 420px;
             z-index: 1000;
             cursor: pointer;
-            transition: transform 1s, opacity 1s;
+            transition: transform 0.6s, opacity 0.5s ease-in-out; /* Tăng tốc độ biến mất */
         }
 
-        /* Khi mở thiệp, dịch chuyển nhẹ sang phải để cân đối */
+        /* FIX LỖI: Khi mở thiệp, lật nhanh và biến mất ngay lập tức sau 0.5 giây */
         .card-wrapper.open {
-            transform: rotateY(-140deg) translateX(-50px);
-            pointer-events: none; /* Mở xong thì ẩn tương tác để không che hiệu ứng sau */
-            animation: fadeOutCard 1s forwards;
-            animation-delay: 4s; /* Tự động ẩn thiệp sau 4 giây để xem hiệu ứng ma trận */
+            transform: rotateY(-140deg) scale(0.8);
+            opacity: 0;
+            pointer-events: none;
         }
 
         .card {
@@ -54,10 +53,9 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.5s ease-in-out;
         }
 
-        /* Các mặt của thiệp */
         .card-face {
             position: absolute;
             width: 100%;
@@ -73,7 +71,6 @@
             text-align: center;
         }
 
-        /* Mặt ngoài của thiệp (Bìa) */
         .card-front {
             background: linear-gradient(135deg, #ff1493, #800080);
             border: 3px solid #fff;
@@ -103,7 +100,6 @@
             border-radius: 20px;
         }
 
-        /* Mặt trong của thiệp */
         .card-back {
             background: #fff;
             color: #333;
@@ -125,7 +121,7 @@
             font-style: italic;
         }
 
-        /* --- CONTAINER CHỨA HIỆU ỨNG CHỮ PHÍA SAU --- */
+        /* --- CONTAINER HIỆU ỨNG CHỮ PHÍA SAU --- */
         .content-container {
             position: absolute;
             top: 50%;
@@ -163,6 +159,7 @@
             animation: pulseGlow 2s infinite alternate;
         }
 
+        /* Chữ cuối nhỏ nhắn, tinh tế vừa lòng trái tim */
         .final-phrase {
             font-size: 2.2rem; 
             max-width: 100vw;
@@ -186,11 +183,6 @@
             100% { transform: scale(1); }
         }
 
-        @keyframes fadeOutCard {
-            0% { opacity: 1; transform: rotateY(-140deg) scale(1); }
-            100% { opacity: 0; transform: rotateY(-140deg) scale(0.8); display: none; }
-        }
-
         @keyframes glitchZoom {
             0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; text-shadow: -3px 0 #ff00ff, 3px 0 #00ffff; }
             20% { opacity: 1; text-shadow: -5px 0 #ff1493, 5px 0 #ff69b4; }
@@ -210,7 +202,6 @@
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
-        /* Cấu hình responsive cho điện thoại */
         @media (max-width: 480px) {
             .card-wrapper { width: 280px; height: 380px; }
             .love-phrase { font-size: 2.2rem; }
@@ -221,16 +212,14 @@
 </head>
 <body>
 
-    <!-- THIỆP ĐIỆN TỬ 3D -->
+    <!-- THIỆP ĐIỆN TỬ -->
     <div class="card-wrapper" id="birthdayCard" onclick="openCard()">
         <div class="card">
-            <!-- Mặt bìa ngoài -->
             <div class="card-face card-front">
                 <div class="heart-icon">❤️</div>
                 <h2>Gửi Tú Nhi ♥️</h2>
                 <p>Chạm vào để mở thiệp nha...</p>
             </div>
-            <!-- Mặt trong thiệp -->
             <div class="card-face card-back">
                 <h3>Happy Birthday!</h3>
                 <p>"Chúc em tuổi mới luôn rạng rỡ, bình yên và hạnh phúc. Cảm ơn Tú Nhi vì đã đến bên anh!"</p>
@@ -241,7 +230,6 @@
 
     <canvas id="superCanvas"></canvas>
 
-    <!-- CONTAINER CHỨA CHỮ ĐẾM NGƯỢC VÀ PHÁO HOA PHÍA SAU -->
     <div class="content-container">
         <div class="effect-text countdown" id="text-3">3</div>
         <div class="effect-text countdown" id="text-2">2</div>
@@ -252,6 +240,7 @@
         <div class="effect-text love-phrase" id="text-p3">Yêu em</div>
         <div class="effect-text love-phrase" id="text-p4">Tú Nhi ♥️</div>
 
+        <!-- Chữ cuối xuất hiện ở giữa trái tim hạt ở giây thứ 14.5 -->
         <div id="text-final" class="final-phrase" style="display: none;">Tú Nhi ♥️ Minh Đức</div>
     </div>
 
@@ -266,7 +255,7 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. MA TRẬN NỀN CHẠY SẴN ---
+        // --- 1. MA TRẬN NỀN ---
         const matrixWords = ["Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", "Yêu em", "Bình yên", "Hạnh phúc", "❤️", "💕", "✨"];
         const columnWidth = 14; 
         const columnsCount = Math.floor(canvas.width / columnWidth);
@@ -278,7 +267,7 @@
                 y: Math.random() * canvas.height,             
                 speed: Math.random() * 0.4 + 0.2,             
                 fontSize: Math.floor(Math.random() * 4) + 12, 
-                opacity: Math.random() * 0.2 + 0.1, // Nhạt hơn một chút lúc đầu để nổi bật thiệp          
+                opacity: Math.random() * 0.2 + 0.1,          
                 word: matrixWords[Math.floor(Math.random() * matrixWords.length)] 
             });
         }
@@ -332,6 +321,7 @@
             }
         }
 
+        // Tạo hạt bao quanh chữ cuối
         function spawnHeartParticles() {
             const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff'];
             heartPoints.forEach(point => {
@@ -362,35 +352,39 @@
         }
         animate();
 
-        // --- 3. ĐIỀU KHIỂN KÍCH HOẠT KHI MỞ THIỆP ---
+        // --- 3. ĐIỀU KHIỂN KÍCH HOẠT SAU KHI THIỆP BIẾN MẤT ---
         let isOpened = false;
         function openCard() {
             if (isOpened) return;
             isOpened = true;
             
-            // Chạy hiệu ứng lật thiệp 3D
+            // Ẩn thiệp ngay lập tức
             document.getElementById('birthdayCard').classList.add('open');
 
-            // Bắt đầu timeline đếm ngược và chữ sau khi thiệp mở ra được 1.5 giây
+            // Đợi 500ms thiệp ẩn hẳn rồi mới kích hoạt dòng chữ đếm ngược
             setTimeout(() => {
+                // Hoàn toàn giải phóng bộ nhớ của thiệp
+                document.getElementById('birthdayCard').style.display = 'none';
+
+                // BẮT ĐẦU ĐẾM NGƯỢC CHUẨN XÁC
                 // Số 3
-                setTimeout(() => document.getElementById('text-3').style.display = 'block', 500);
-                setTimeout(() => { document.getElementById('text-3').style.display = 'none'; explodeFirework(); }, 1700);
+                setTimeout(() => document.getElementById('text-3').style.display = 'block', 100);
+                setTimeout(() => { document.getElementById('text-3').style.display = 'none'; explodeFirework(); }, 1300);
 
                 // Số 2
-                setTimeout(() => document.getElementById('text-2').style.display = 'block', 1800);
-                setTimeout(() => { document.getElementById('text-2').style.display = 'none'; explodeFirework(); }, 3000);
+                setTimeout(() => document.getElementById('text-2').style.display = 'block', 1400);
+                setTimeout(() => { document.getElementById('text-2').style.display = 'none'; explodeFirework(); }, 2600);
 
                 // Số 1
-                setTimeout(() => document.getElementById('text-1').style.display = 'block', 3100);
-                setTimeout(() => { document.getElementById('text-1').style.display = 'none'; explodeFirework(); }, 4300);
+                setTimeout(() => document.getElementById('text-1').style.display = 'block', 2700);
+                setTimeout(() => { document.getElementById('text-1').style.display = 'none'; explodeFirework(); }, 3900);
 
                 // Chuỗi chữ chúc mừng
                 const textTimeline = [
-                    { id: 'text-p1', show: 4800, hide: 6800 },
-                    { id: 'text-p2', show: 7200, hide: 9200 },
-                    { id: 'text-p3', show: 9600, hide: 11600 },
-                    { id: 'text-p4', show: 12000, hide: 14000 },
+                    { id: 'text-p1', show: 4400, hide: 6400 },
+                    { id: 'text-p2', show: 6800, hide: 8800 },
+                    { id: 'text-p3', show: 9200, hide: 11200 },
+                    { id: 'text-p4', show: 11600, hide: 13600 },
                 ];
 
                 textTimeline.forEach(item => {
@@ -398,14 +392,14 @@
                     setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide);
                 });
 
-                // Kết thúc: Triệu hồi trái tim hạt ánh sáng và chữ "Tú Nhi ♥️ Minh Đức"
+                // Triệu hồi trái tim hạt ánh sáng và chữ cuối cùng ở chính giữa
                 setTimeout(() => {
                     spawnHeartParticles();
                     gatherToHeart = true;
                     document.getElementById('text-final').style.display = 'block'; 
-                }, 14500);
+                }, 14100);
 
-            }, 1500);
+            }, 500);
         }
     </script>
 </body>
