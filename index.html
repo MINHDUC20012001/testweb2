@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Matrix Perfect Heart & Firework Blast ❤️</title>
+    <title>Chúc Mừng Sinh Nhật Tú Nhi ❤️</title>
     <style>
         * {
             margin: 0;
@@ -51,8 +51,8 @@
             drops = Array(Math.floor(columns)).fill(1);
         }
         
-        // --- 1. MA TRẬN CHỮ NỀN "I LOVE YOU" ---
-        const matrixString = "ILOVEYOU"; 
+        // --- 1. MA TRẬN CHỮ NỀN CHỈ CHẠY "I love" ---
+        const matrixString = "Ilove"; 
         const fontSize = 11; 
         let columns;
         let drops;
@@ -60,8 +60,8 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 2. TIMELINE CHỮ TỤ HẠT SÁNG ---
-        const textSequences = ["3", "2", "1", "Em đồng ý", "Làm người yêu", "Anh nhé ❤️", "Anh Yêu Em", "HEART"];
+        // --- 2. TIMELINE CHỮ TỤ HẠT SÁNG MỚI THEO Ý BẠN ---
+        const textSequences = ["3", "2", "1", "Chúc em", "sinh nhật", "vui vẻ 🎂", "Tú Nhi ♥️", "HEART"];
         let currentSequenceIndex = 0;
 
         // --- 3. HỆ THỐNG HẠT SÁNG VẬT LÝ PHÁO HOA ---
@@ -109,7 +109,6 @@
             }
         }
 
-        // Khởi tạo các hạt sáng nằm ẩn rải rác sẵn
         for (let i = 0; i < maxParticles; i++) {
             particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
         }
@@ -199,7 +198,7 @@
             }
         }
 
-        // ĐÃ SỬA: Cho nền "I LOVE YOU" chạy trước 3.5 giây (3500ms) rồi mới kích nổ đếm số 3-2-1
+        // Nền "I love" chạy trước 3.5 giây rồi mới kích nổ đếm số 3-2-1
         setTimeout(runTimeline, 3500);
 
         // --- 6. VÒNG LẶP RENDERING LIÊN TỤC ---
@@ -207,7 +206,7 @@
             ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Vẽ chuỗi mật mã "I LOVE YOU" chạy dọc mờ ảo ở nền sau
+            // Vẽ chuỗi mật mã "I love" chạy dọc mờ ảo ở nền sau
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
                 const charIndex = Math.floor(drops[i] + i) % matrixString.length;
@@ -223,15 +222,14 @@
                 drops[i]++;
             }
 
-            // Chỉ cập nhật hạt pháo hoa khi tiến trình timeline bắt đầu chạy dệt chữ
             particles.forEach(p => {
                 p.update(currentMode);
                 p.draw();
             });
 
-            // Chữ nhấp nháy lãng mạn ở tâm trái tim màn kết thúc
+            // Đoạn kết: Đổi chữ nhấp nháy ở tâm trái tim thành "Tú Nhi ♥️ Minh Đức"
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
-                let textFont = isMobile() ? "bold 15px 'Courier New', monospace" : "bold 22px 'Courier New', monospace";
+                let textFont = isMobile() ? "bold 14px 'Courier New', monospace" : "bold 20px 'Courier New', monospace";
                 ctx.font = textFont;
                 let alpha = (Math.sin(Date.now() * 0.005) + 1) / 2 * 0.6 + 0.4;
                 ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
@@ -239,7 +237,7 @@
                 ctx.textBaseline = 'middle';
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = "#ff1493";
-                ctx.fillText("Love You - Pink Team", canvas.width / 2, canvas.height / 2 - 20);
+                ctx.fillText("Tú Nhi ♥️ Minh Đức", canvas.width / 2, canvas.height / 2 - 20);
             }
 
             requestAnimationFrame(animate);
