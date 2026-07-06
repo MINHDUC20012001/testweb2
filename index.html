@@ -3,243 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trái Tim Đặc Biệt</title>
+    <title>Tỏ Tình Matrix ❤️</title>
     <style>
-        /* Nền Gradient chuyển động mượt mà */
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black;
+            overflow: hidden;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(-45deg, #ff758c, #ff7eb3, #e74c3c, #9b59b6);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Trái tim lớn ở giữa */
-        .heart-container {
-            position: relative;
-            margin-bottom: 50px;
-        }
-
-        .heart {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            background-color: #ffffff; /* Đổi trái tim thành màu trắng nổi bật trên nền đỏ hồng */
-            transform: rotate(-45deg);
-            animation: heartbeat 1.2s infinite;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-            cursor: pointer;
-        }
-
-        .heart::before,
-        .heart::after {
-            content: '';
+        /* Canvas làm nền hiệu ứng Matrix */
+        canvas {
             position: absolute;
-            width: 120px;
-            height: 120px;
-            background-color: #ffffff;
-            border-radius: 50%;
-        }
-
-        .heart::before { top: -60px; left: 0; }
-        .heart::after { top: 0; left: 60px; }
-
-        @keyframes heartbeat {
-            0% { transform: rotate(-45deg) scale(1); }
-            20% { transform: rotate(-45deg) scale(1.1); }
-            40% { transform: rotate(-45deg) scale(1); }
-            60% { transform: rotate(-45deg) scale(1.15); }
-            100% { transform: rotate(-45deg) scale(1); }
-        }
-
-        /* Hiệu ứng chữ chạy (Typing Effect) */
-        .text-container {
-            min-height: 40px;
-        }
-
-        .typing-text {
-            font-size: 24px;
-            color: #ffffff;
-            font-weight: bold;
-            border-right: 3px solid #ffffff;
-            white-space: nowrap;
-            letter-spacing: 1px;
-            padding-right: 5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            animation: blink 0.75s step-end infinite;
-        }
-
-        @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: white; }
-        }
-
-        /* Các hạt trái tim bay nhỏ (Floating Hearts) */
-        .floating-heart {
-            position: absolute;
-            bottom: -20px;
-            background-color: rgba(255, 255, 255, 0.7);
-            transform: rotate(-45deg);
-            pointer-events: none;
-            animation: floatUp linear forwards;
-        }
-
-        .floating-heart::before,
-        .floating-heart::after {
-            content: '';
-            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color: inherit;
-            border-radius: 50%;
+            z-index: 1;
         }
-        .floating-heart::before { top: -50%; left: 0; }
-        .floating-heart::after { top: 0; left: 50%; }
 
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) rotate(-45deg) scale(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100vh) rotate(-45deg) scale(1);
-                opacity: 0;
-            }
+        /* Khối chứa nội dung hiển thị ở giữa */
+        .content-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+
+        /* Định dạng chữ hiển thị */
+        .matrix-text {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+            /* Tạo hiệu ứng phát sáng lấp lánh màu hồng/vàng như video */
+            text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493, 0 0 30px #ff00ff;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: none;
+            user-select: none;
+        }
+
+        /* Khối trái tim kết thúc */
+        .heart-wrapper {
+            display: none;
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            animation: beat 1.2s infinite;
+        }
+
+        /* Trái tim vẽ bằng CSS lấp lánh hạt hồng */
+        .heart-shape {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: #ff1493;
+            transform: rotate(-45deg);
+            margin-top: 50px;
+            box-shadow: 0 0 30px #ff69b4, inset 0 0 15px rgba(255,255,255,0.6);
+        }
+
+        .heart-shape::before,
+        .heart-shape::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff1493;
+            border-radius: 50%;
+            box-shadow: 0 0 30px #ff69b4;
+        }
+
+        .heart-shape::before { top: -50px; left: 0; }
+        .heart-shape::after { top: 0; left: 50px; }
+
+        .heart-text {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px #000;
+            width: 100%;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.15); }
+            60% { transform: scale(1.05); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Trái tim lớn ở giữa -->
-    <div class="heart-container">
-        <div class="heart" onclick="createBurst()"></div>
-    </div>
+    <canvas id="matrixCanvas"></canvas>
 
-    <!-- Khối chứa chữ chạy -->
-    <div class="text-container">
-        <span class="typing-text" id="text"></span>
+    <div class="content-container">
+        <div class="matrix-text" id="text-3">3</div>
+        <div class="matrix-text" id="text-2">2</div>
+        <div class="matrix-text" id="text-1">1</div>
+        <div class="matrix-text" id="text-p1">Em đồng ý</div>
+        <div class="matrix-text" id="text-p2">Làm người yêu</div>
+        <div class="matrix-text" id="text-p3">Anh nhé ❤️</div>
+        <div class="matrix-text" id="text-p4">Anh Yêu Em</div>
+        
+        <div class="heart-wrapper" id="final-heart">
+            <div class="heart-shape"></div>
+            <div class="heart-text">Love You</div>
+        </div>
     </div>
 
     <script>
-        // --- 1. XỬ LÝ CHỮ CHẠY TỰ ĐỘNG ---
-        // Bạn có thể thay đổi các câu chữ ở đây tùy ý
-        const phrases = [
-            "Chào bạn yêu! ❤️",
-            "Chúc bạn một ngày ngập tràn niềm vui ✨",
-            "Mọi điều tốt đẹp nhất sẽ đến với bạn...",
-            "Click vào trái tim xem có gì nào! 😉"
+        // --- 1. CODE BACKGROUND MƯA MATRIX (MÀU HỒNG/TÍM NHƯ VIDEO) ---
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Ký tự chữ cái/số rơi ngẫu nhiên
+        const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ❤️🌸✨";
+        const charArr = chars.split("");
+        
+        const fontSize = 16;
+        let columns = canvas.width / fontSize;
+        let drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            // Tạo hiệu ứng mờ dần để chữ có đuôi rơi
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Màu chữ Matrix đổi từ xanh sang hồng/tím để hợp tông lãng mạn
+            ctx.fillStyle = "#ff69b4"; 
+            ctx.font = fontSize + "px monospace";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = charArr[Math.floor(Math.random() * charArr.length)];
+                
+                // Lâu lâu đổi màu vài chữ thành trắng cho lấp lánh
+                if(Math.random() > 0.98) ctx.fillStyle = "#fff";
+                else ctx.fillStyle = "#ff1493";
+
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+
+        // --- 2. CODE ĐIỀU KHIỂN CHỮ CHẠY THEO TIMELINE VIDEO ---
+        const timeline = [
+            { id: 'text-3', show: 1000, hide: 2000 },
+            { id: 'text-2', show: 2200, hide: 3200 },
+            { id: 'text-1', show: 3400, hide: 4400 },
+            { id: 'text-p1', show: 4800, hide: 6800 },  // "Em đồng ý"
+            { id: 'text-p2', show: 7200, hide: 9200 },  // "Làm người yêu"
+            { id: 'text-p3', show: 9600, hide: 11600 }, // "Anh nhé"
+            { id: 'text-p4', show: 12000, hide: 14000 }, // "Anh Yêu Em"
         ];
 
-        let phraseIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const textElement = document.getElementById("text");
+        timeline.forEach(item => {
+            // Hiện chữ
+            setTimeout(() => {
+                const el = document.getElementById(item.id);
+                el.style.display = 'block';
+                setTimeout(() => el.style.opacity = 1, 50);
+            }, item.show);
 
-        function type() {
-            const currentPhrase = phrases[phraseIndex];
-            
-            if (isDeleting) {
-                // Xóa chữ
-                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                // Gõ chữ
-                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
-                charIndex++;
-            }
-
-            // Tốc độ gõ/xóa
-            let typeSpeed = isDeleting ? 50 : 150;
-
-            if (!isDeleting && charIndex === currentPhrase.length) {
-                // Gõ xong câu, dừng lại một chút rồi chuẩn bị xóa
-                typeSpeed = 2000; 
-                isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
-                // Xóa xong câu, chuyển sang câu tiếp theo
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500;
-            }
-
-            setTimeout(type, typeSpeed);
-        }
-
-        // Bắt đầu chạy hiệu ứng chữ
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(type, 1000);
+            // Ẩn chữ
+            setTimeout(() => {
+                const el = document.getElementById(item.id);
+                el.style.opacity = 0;
+                setTimeout(() => el.style.display = 'none', 500);
+            }, item.hide);
         });
 
+        // Hiện trái tim ở cuối (giây thứ 14.5)
+        setTimeout(() => {
+            const heart = document.getElementById('final-heart');
+            heart.style.display = 'block';
+        }, 14500);
 
-        // --- 2. HIỆU ỨNG TRÁI TIM BAY TỰ ĐỘNG ---
-        function createFloatingHeart() {
-            const heart = document.createElement("div");
-            heart.classList.add("floating-heart");
-            
-            // Kích thước ngẫu nhiên từ 10px đến 25px
-            const size = Math.random() * 15 + 10;
-            heart.style.width = `${size}px`;
-            heart.style.height = `${size}px`;
-            
-            // Vị trí xuất hiện ngẫu nhiên theo chiều ngang
-            heart.style.left = Math.random() * 100 + "vw";
-            
-            // Thời gian bay ngẫu nhiên từ 4s đến 8s
-            const duration = Math.random() * 4 + 4;
-            heart.style.animationDuration = `${duration}s`;
-            
-            // Độ mờ ngẫu nhiên
-            heart.style.opacity = Math.random() * 0.5 + 0.3;
-
-            document.body.appendChild(heart);
-
-            // Xóa bỏ trái tim sau khi bay xong để tránh nặng máy
-            setTimeout(() => {
-                heart.remove();
-            }, duration * 1000);
-        }
-        
-        // Cứ mỗi 300ms tạo ra 1 trái tim nhỏ bay lên
-        setInterval(createFloatingHeart, 300);
-
-
-        // --- 3. HIỆU ỨNG CLICK VÀO TRÁI TIM LỚN ---
-        // Khi click vào trái tim lớn sẽ "bắn" ra một loạt trái tim nhỏ
-        function createBurst() {
-            for (let i = 0; i < 15; i++) {
-                setTimeout(() => {
-                    const heart = document.createElement("div");
-                    heart.classList.add("floating-heart");
-                    
-                    const size = Math.random() * 10 + 15;
-                    heart.style.width = `${size}px`;
-                    heart.style.height = `${size}px`;
-                    
-                    // Xuất hiện từ vị trí trái tim giữa màn hình
-                    heart.style.left = "calc(50% + " + (Math.random() * 100 - 50) + "px)";
-                    heart.style.bottom = "50vh";
-                    
-                    const duration = Math.random() * 2 + 1;
-                    heart.style.animationDuration = `${duration}s`;
-                    heart.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`; // Đa sắc màu luôn!
-
-                    document.body.appendChild(heart);
-                    setTimeout(() => heart.remove(), duration * 1000);
-                }, i * 30);
-            }
-        }
     </script>
 </body>
 </html>
