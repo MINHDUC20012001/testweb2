@@ -51,17 +51,15 @@
             canvas.height = window.innerHeight * dpr;
             ctx.scale(dpr, dpr);
             
-            // Tối ưu khoảng cách cột để ma trận sao băng dày đặc hơn nữa
             columns = window.innerWidth / (fontSize - 2);
-            drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -100); // Rải rác vị trí bắt đầu từ trên trời
+            drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -100); 
             
-            // Chỉ định chuỗi chữ ngẫu nhiên cho từng cột để tạo sự đa dạng
             columnTexts = Array(Math.floor(columns)).fill(0).map(() => matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]);
-            // Tốc độ rơi ngẫu nhiên mô phỏng sao băng nhanh chậm khác nhau
-            dropSpeeds = Array(Math.floor(columns)).fill(0).map(() => Math.random() * 1.5 + 1.2); 
+            // ĐÃ SỬA: Giảm tốc độ rơi xuống rất nhỏ (0.3 -> 0.7) giúp sao băng lướt từ tốn, chậm rãi
+            dropSpeeds = Array(Math.floor(columns)).fill(0).map(() => Math.random() * 0.4 + 0.3); 
         }
         
-        // --- 1. HỆ THỐNG SAO BĂNG NỀN "DÀY ĐẶC & RÕ NÉT" THEO YÊU CẦU ---
+        // --- 1. HỆ THỐNG SAO BĂNG NỀN CHẠY CHẬM ---
         const matrixPhrases = ["I love you", "Minh đức", "Tú Nhi", "Happy birthday"]; 
         const fontSize = 11; 
         let columns, drops, columnTexts, dropSpeeds;
@@ -69,14 +67,14 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 2. CHUỖI TEXT CHỮ TRẮNG NỔI BẬT ---
-        const textSequences = ["3", "2", "1", "Chúc em", "sinh nhật", "vui vẻ 🎂", "Tú Nhi ♥️", "HEART"];
+        // --- 2. CHUỖI TEXT CHỮ TRẮNG (ĐÃ BỎ ĐẾM 3-2-1) ---
+        const textSequences = ["Chúc em", "sinh nhật", "vui vẻ 🎂", "Tú Nhi ♥️", "HEART"];
         let currentSequenceIndex = 0;
         let timelineStarted = false;
 
         // --- 3. ĐỊNH NGHĨA LỚP HẠT SÁNG NÉT CAO PHÍA TRƯỚC ---
         let particles = [];
-        const maxParticles = 1100; // Tăng lượng hạt giúp khối chữ nét căng
+        const maxParticles = 1100; 
 
         class Particle {
             constructor() {
@@ -149,8 +147,7 @@
                 memCanvas.width = window.innerWidth;
                 memCanvas.height = window.innerHeight;
                 
-                let isNumber = !isNaN(text);
-                let finalFontSize = isMobile() ? (isNumber ? '95px' : '38px') : (isNumber ? '140px' : '68px');
+                let finalFontSize = isMobile() ? '38px' : '68px';
 
                 memCtx.font = `900 ${finalFontSize} system-ui, -apple-system, sans-serif`;
                 memCtx.fillStyle = '#fff';
@@ -192,7 +189,7 @@
             currentMode = "GATHER"; 
 
             if (currentText !== "HEART") {
-                let displayTime = currentText.length <= 1 ? 1400 : 2400; 
+                let displayTime = 2400; // Thời gian chữ hiển thị ổn định để đọc
 
                 setTimeout(() => {
                     currentMode = "FREE"; 
@@ -208,41 +205,37 @@
             }
         }
 
-        // Chạy nền mưa sao băng rơi dày đặc trước 3.5 giây cực chất rồi mới đếm số
+        // Cho ma trận sao băng lướt chậm từ tốn trước 3.5 giây rồi mới gom chữ
         setTimeout(runTimeline, 3500);
 
         // --- 6. VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
         function animate() {
-            // Giảm độ mờ một chút giúp đuôi sao băng kéo dài rõ nét và lung linh hơn
             ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // THUẬT TOÁN SAO BĂNG ĐỔ THÁC DÀY ĐẶC ĐA DẠNG CHỮ
+            // THUẬT TOÁN SAO BĂNG ĐỔ THÁC TỪ TỐN
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
                 const currentTextStr = columnTexts[i];
-                // Lấy ký tự tuần tự dựa trên vị trí hàng rơi hiện tại
                 const charIndex = Math.floor(drops[i]) % currentTextStr.length;
                 let text = currentTextStr.charAt(charIndex);
-                if (text === " ") text = "★"; // Đổi khoảng trắng thành ngôi sao nhỏ lấp lánh cho đúng vị sao băng
+                if (text === " ") text = "★"; 
                 
-                // Tăng độ sáng (alpha rõ ràng hơn) cho chữ nền xịn hơn hẳn mẫu cũ
-                if (Math.random() > 0.982) {
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.95)"; // Đầu sao băng rực sáng trắng
+                if (Math.random() > 0.985) {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.95)"; 
                 } else {
-                    ctx.fillStyle = "rgba(255, 60, 140, 0.35)"; // Thân sao băng hồng neon rực rõ nét
+                    ctx.fillStyle = "rgba(255, 60, 140, 0.35)"; 
                 }
 
                 ctx.fillText(text, i * (fontSize + 4), drops[i] * fontSize);
 
-                // Di chuyển theo tốc độ sao băng riêng biệt của từng cột
+                // Cộng dồn theo tốc độ rơi chậm rãi từ tốn đã cấu hình
                 drops[i] += dropSpeeds[i];
 
-                // Nếu chạm đáy hoặc ngẫu nhiên đặt lại lên đỉnh trời để tiếp tục rơi xuống
                 if (drops[i] * fontSize > window.innerHeight && Math.random() > 0.975) {
                     drops[i] = Math.random() * -10;
-                    columnTexts[i] = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]; // Đổi nội dung câu chữ ngẫu nhiên tiếp theo
-                    dropSpeeds[i] = Math.random() * 1.5 + 1.2;
+                    columnTexts[i] = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]; 
+                    dropSpeeds[i] = Math.random() * 0.4 + 0.3; // Giữ nguyên tốc độ rơi chậm cho lượt tiếp theo
                 }
             }
 
@@ -252,7 +245,7 @@
                 p.draw();
             });
 
-            // MÀN KẾT THÚC: Chữ nhấp nháy định vị hoàn hảo trong tâm trái tim hồng
+            // MÀN KẾT THÚC: Chữ nhấp nháy lãng mạn định vị hoàn hảo trong tâm trái tim hồng
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
                 let textFont = isMobile() ? "bold 14px 'Courier New', monospace" : "bold 21px 'Courier New', monospace";
                 ctx.font = textFont;
