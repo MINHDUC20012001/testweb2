@@ -34,8 +34,9 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            width: 90%;
+            width: 100%;
             max-width: 700px;
+            padding: 0 10px;
         }
 
         /* Hiệu ứng Glitch lấp lánh cực đỉnh cho số và chữ */
@@ -56,9 +57,23 @@
             animation: glitchZoom 1.2s ease-in-out forwards;
         }
 
+        /* ĐÃ FIX: Tối ưu kích thước chữ để không bao giờ bị tràn hay vỡ dòng */
         .love-phrase {
-            font-size: 3.5rem;
+            font-size: 3rem;
+            max-width: 100vw;
+            letter-spacing: -1px;
             animation: pulseGlow 2s infinite alternate;
+        }
+
+        /* Cấu hình riêng cho màn hình điện thoại nhỏ */
+        @media (max-width: 480px) {
+            .love-phrase {
+                font-size: 2.5rem; 
+                letter-spacing: -1.5px;
+            }
+            .countdown {
+                font-size: 5rem;
+            }
         }
 
         @keyframes glitchZoom {
@@ -73,7 +88,7 @@
         @keyframes pulseGlow {
             0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493; }
             15% { opacity: 1; }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); text-shadow: 0 0 20px #ff1493, 0 0 40px #ff00ff, 0 0 60px #fff; }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); text-shadow: 0 0 20px #ff1493, 0 0 40px #ff00ff, 0 0 60px #fff; }
         }
     </style>
 </head>
@@ -86,7 +101,6 @@
         <div class="effect-text countdown" id="text-2">2</div>
         <div class="effect-text countdown" id="text-1">1</div>
         
-        <!-- ĐÃ THAY ĐỔI: Nội dung chữ hiển thị ở giữa màn hình -->
         <div class="effect-text love-phrase" id="text-p1">Chúc em</div>
         <div class="effect-text love-phrase" id="text-p2">Sinh nhật vui vẻ</div>
         <div class="effect-text love-phrase" id="text-p3">Yêu em</div>
@@ -216,7 +230,6 @@
                 ctx.font = `bold ${stream.fontSize}px 'Segoe UI', monospace`;
                 const text = stream.word; 
                 
-                // Cập nhật điều kiện tô màu: Nếu từ chứa "Tú Nhi" hoặc các từ khóa đặc biệt thì tô màu hồng đỏ
                 if(text === "❤️" || text === "💕" || text.includes("Tú Nhi") || text === "Yêu em") {
                     ctx.fillStyle = "#ff1744";
                 } else {
@@ -227,7 +240,6 @@
 
                 stream.y += stream.speed;
                 
-                // Khi chạm đáy màn hình, lập tức quay lại đỉnh để tiếp tục trôi xuống tuần hoàn
                 if (stream.y > canvas.height + 50) {
                     stream.y = Math.random() * -60; 
                     stream.speed = Math.random() * 0.4 + 0.2; 
