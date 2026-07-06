@@ -59,7 +59,7 @@
         <div class="effect-text love-phrase" id="text-p6">Mong em sẽ gặp được những điều tốt đẹp nhất</div>
         <div class="effect-text love-phrase" id="text-p7">Xứng đáng với sự tử tế của em</div>
         <div class="effect-text love-phrase" id="text-p8">Anh sẽ luôn ở đây</div>
-        <div class="effect-text love-phrase" id="text-p9">Làm chỗ dựa vững chắc cho em ♥️</div>
+        <div class="effect-text love-phrase" id="text-p9">Làm chỗ dựa vững chắc cho Tú Nhi ♥️</div>
         <div class="effect-text love-phrase" id="text-p10">Yêu em</div>
         <div class="effect-text love-phrase" id="text-p11">Tú Nhi ♥️</div>
         <div id="text-final" class="final-phrase" style="display: none;">Tú Nhi ♥️ Minh Đức</div>
@@ -69,27 +69,17 @@
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         resizeCanvas(); window.addEventListener('resize', resizeCanvas);
         const matrixWords = ["Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", "Yêu em", "Bình yên", "Hạnh phúc", "❤️", "💕", "✨"];
-        const matrixStreams = Array.from({length: 50}, (_, i) => ({ x: i * 20, y: Math.random() * canvas.height, speed: Math.random() * 0.4 + 0.2, word: matrixWords[Math.floor(Math.random() * matrixWords.length)] }));
+        const columnWidth = 14; const columnsCount = Math.floor(canvas.width / columnWidth);
+        const matrixStreams = [];
+        for (let i = 0; i < columnsCount; i++) { matrixStreams.push({ x: i * columnWidth, y: Math.random() * canvas.height, speed: Math.random() * 0.4 + 0.2, fontSize: Math.floor(Math.random() * 4) + 12, opacity: Math.random() * 0.2 + 0.1, word: matrixWords[Math.floor(Math.random() * matrixWords.length)] }); }
         let particles = [], gatherToHeart = false, heartPoints = [];
         function calculateHeartPoints() {
-            heartPoints = [];
-            const scale = Math.min(canvas.width, canvas.height) / 35;
-            for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
-                const x = 16 * Math.pow(Math.sin(angle), 3);
-                const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
-                heartPoints.push({ targetX: canvas.width / 2 + x * scale, targetY: canvas.height / 2 + y * scale });
-            }
+            heartPoints = []; const scale = Math.min(canvas.width, canvas.height) / 35;
+            for (let angle = 0; angle < Math.PI * 2; angle += 0.05) { const x = 16 * Math.pow(Math.sin(angle), 3); const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle)); heartPoints.push({ targetX: canvas.width / 2 + x * scale, targetY: canvas.height / 2 + y * scale }); }
         }
         calculateHeartPoints();
         class Particle {
-            constructor(x, y, color, targetPoint = null) {
-                this.x = x; this.y = y; this.color = color;
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 7 + 4;
-                this.vx = Math.cos(angle) * speed; this.vy = Math.sin(angle) * speed;
-                this.alpha = 1; this.decay = Math.random() * 0.008 + 0.008;
-                this.targetPoint = targetPoint;
-            }
+            constructor(x, y, color, targetPoint = null) { this.x = x; this.y = y; this.color = color; const angle = Math.random() * Math.PI * 2; const speed = Math.random() * 7 + 4; this.vx = Math.cos(angle) * speed; this.vy = Math.sin(angle) * speed; this.alpha = 1; this.decay = Math.random() * 0.008 + 0.008; this.targetPoint = targetPoint; }
             draw() { ctx.save(); ctx.globalAlpha = this.alpha; ctx.beginPath(); ctx.arc(this.x, this.y, Math.random() * 1.5 + 1.5, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.shadowBlur = 12; ctx.shadowColor = this.color; ctx.fill(); ctx.restore(); }
             update() { if (gatherToHeart && this.targetPoint) { this.x += (this.targetPoint.targetX - this.x) * 0.05; this.y += (this.targetPoint.targetY - this.y) * 0.05; this.alpha = 1; } else { this.x += this.vx; this.y += this.vy; this.vy += 0.03; this.alpha -= this.decay; } }
         }
@@ -109,10 +99,10 @@
                     { id: 'text-p1', show: 4400, hide: 6400 }, { id: 'text-p2', show: 6700, hide: 8700 }, { id: 'text-p3', show: 9000, hide: 11200 },
                     { id: 'text-p4', show: 11500, hide: 14200 }, { id: 'text-p5', show: 14500, hide: 16700 }, { id: 'text-p6', show: 17000, hide: 19700 },
                     { id: 'text-p7', show: 20000, hide: 22200 }, { id: 'text-p8', show: 22500, hide: 24500 }, { id: 'text-p9', show: 24800, hide: 27300 },
-                    { id: 'text-p10', show: 27600, hide: 29600 }, { id: 'text-p11', show: 29900, hide: 31900 }
+                    { id: 'text-p10', show: 27600, hide: 29500 }, { id: 'text-p11', show: 29800, hide: 31800 }
                 ];
                 textTimeline.forEach(item => { setTimeout(() => document.getElementById(item.id).style.display = 'block', item.show); setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide); });
-                setTimeout(() => { spawnHeartParticles(); gatherToHeart = true; document.getElementById('text-final').style.display = 'block'; }, 32500);
+                setTimeout(() => { spawnHeartParticles(); gatherToHeart = true; document.getElementById('text-final').style.display = 'block'; }, 32000);
             }, 500);
         }
     </script>
