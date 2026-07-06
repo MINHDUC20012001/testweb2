@@ -38,10 +38,9 @@
             height: 420px;
             z-index: 1000;
             cursor: pointer;
-            transition: transform 0.6s, opacity 0.5s ease-in-out; /* Tăng tốc độ biến mất */
+            transition: transform 0.6s, opacity 0.5s ease-in-out;
         }
 
-        /* FIX LỖI: Khi mở thiệp, lật nhanh và biến mất ngay lập tức sau 0.5 giây */
         .card-wrapper.open {
             transform: rotateY(-140deg) scale(0.8);
             opacity: 0;
@@ -159,7 +158,6 @@
             animation: pulseGlow 2s infinite alternate;
         }
 
-        /* Chữ cuối nhỏ nhắn, tinh tế vừa lòng trái tim */
         .final-phrase {
             font-size: 2.2rem; 
             max-width: 100vw;
@@ -235,17 +233,17 @@
         <div class="effect-text countdown" id="text-2">2</div>
         <div class="effect-text countdown" id="text-1">1</div>
         
+        <!-- ĐÃ FIX: Chữ chạy liên tục từ p1 đến p9 mượt mà -->
         <div class="effect-text love-phrase" id="text-p1">Chúc mừng</div>
-        <div class="effect-text love-phrase" id="text-p2">Sinh nhật công chúa của anh vu</div>
-        <div class="effect-text love-phrase" id="text-p3">mong rằng những điều tốt đẹp</div>
-        <div class="effect-text love-phrase" id="text-p4">sẽ đến với em</div>
-        <div class="effect-text love-phrase" id="text-p5">tuổi mới thật rực rỡ nhé</div>
+        <div class="effect-text love-phrase" id="text-p2">Sinh nhật công chúa của anh</div>
+        <div class="effect-text love-phrase" id="text-p3">Mong rằng những điều tốt đẹp</div>
+        <div class="effect-text love-phrase" id="text-p4">Sẽ đến với em</div>
+        <div class="effect-text love-phrase" id="text-p5">Tuổi mới thật rực rỡ nhé</div>
         <div class="effect-text love-phrase" id="text-p6">Hãy cười nhiều lên nhé</div>
-        <div class="effect-text love-phrase" id="text-p7">vì nụ cười của em là đẹp nhất</div>
+        <div class="effect-text love-phrase" id="text-p7">Vì nụ cười của em là đẹp nhất</div>
         <div class="effect-text love-phrase" id="text-p8">Yêu em</div>
         <div class="effect-text love-phrase" id="text-p9">Tú Nhi ♥️</div>
 
-        <!-- Chữ cuối xuất hiện ở giữa trái tim hạt ở giây thứ 14.5 -->
         <div id="text-final" class="final-phrase" style="display: none;">Tú Nhi ♥️ Minh Đức</div>
     </div>
 
@@ -326,7 +324,6 @@
             }
         }
 
-        // Tạo hạt bao quanh chữ cuối
         function spawnHeartParticles() {
             const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff'];
             heartPoints.forEach(point => {
@@ -357,39 +354,38 @@
         }
         animate();
 
-        // --- 3. ĐIỀU KHIỂN KÍCH HOẠT SAU KHI THIỆP BIẾN MẤT ---
+        // --- 3. ĐIỀU KHIỂN KÍCH HOẠT CHUẨN XÁC ---
         let isOpened = false;
         function openCard() {
             if (isOpened) return;
             isOpened = true;
             
-            // Ẩn thiệp ngay lập tức
             document.getElementById('birthdayCard').classList.add('open');
 
-            // Đợi 500ms thiệp ẩn hẳn rồi mới kích hoạt dòng chữ đếm ngược
             setTimeout(() => {
-                // Hoàn toàn giải phóng bộ nhớ của thiệp
                 document.getElementById('birthdayCard').style.display = 'none';
 
-                // BẮT ĐẦU ĐẾM NGƯỢC CHUẨN XÁC
-                // Số 3
+                // Số 3, 2, 1
                 setTimeout(() => document.getElementById('text-3').style.display = 'block', 100);
                 setTimeout(() => { document.getElementById('text-3').style.display = 'none'; explodeFirework(); }, 1300);
 
-                // Số 2
                 setTimeout(() => document.getElementById('text-2').style.display = 'block', 1400);
                 setTimeout(() => { document.getElementById('text-2').style.display = 'none'; explodeFirework(); }, 2600);
 
-                // Số 1
                 setTimeout(() => document.getElementById('text-1').style.display = 'block', 2700);
                 setTimeout(() => { document.getElementById('text-1').style.display = 'none'; explodeFirework(); }, 3900);
 
-                // Chuỗi chữ chúc mừng
+                // ĐÃ THÊM: Toàn bộ timeline hiển thị nối tiếp mượt mà từ p1 đến p9
                 const textTimeline = [
-                    { id: 'text-p1', show: 4400, hide: 6400 },
-                    { id: 'text-p2', show: 6800, hide: 8800 },
-                    { id: 'text-p3', show: 9200, hide: 11200 },
-                    { id: 'text-p4', show: 11600, hide: 13600 },
+                    { id: 'text-p1', show: 4400, hide: 6200 },
+                    { id: 'text-p2', show: 6500, hide: 8500 },
+                    { id: 'text-p3', show: 8800, hide: 10800 },
+                    { id: 'text-p4', show: 11100, hide: 13100 },
+                    { id: 'text-p5', show: 13400, hide: 15400 },
+                    { id: 'text-p6', show: 15700, hide: 17700 },
+                    { id: 'text-p7', show: 18000, hide: 20500 },
+                    { id: 'text-p8', show: 20800, hide: 22600 },
+                    { id: 'text-p9', show: 22900, hide: 25000 },
                 ];
 
                 textTimeline.forEach(item => {
@@ -397,12 +393,12 @@
                     setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide);
                 });
 
-                // Triệu hồi trái tim hạt ánh sáng và chữ cuối cùng ở chính giữa
+                // Kết bài: Triệu hồi trái tim tụ lại ngay sau khi câu p9 vừa ẩn đi (giây thứ 25.2)
                 setTimeout(() => {
                     spawnHeartParticles();
                     gatherToHeart = true;
                     document.getElementById('text-final').style.display = 'block'; 
-                }, 14100);
+                }, 25200);
 
             }, 500);
         }
