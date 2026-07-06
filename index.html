@@ -103,12 +103,18 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. MA TRẬN ĐA TẦNG DÀY ĐẶC ---
+        // --- 1. KHO CÂU CHÚC ĐÃ ĐƯỢC MỞ RỘNG (PHONG PHÚ HƠN) ---
         const matrixWords = [
-            "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", 
-            "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
-            "Mãi bên nhau", "Luôn rạng rỡ", "My Girl", "Happy Birthday",
-            "❤️", "💕", "✨", "I LOVE YOU"
+            // Tên & Lời chúc chính
+            "Tú Nhi ♥️", "Chúc em sinh nhật vui vẻ", "Happy Birthday Tú Nhi", "Tuổi mới thật rực rỡ",
+            "Mừng sinh nhật em yêu", "Sinh nhật ấm áp nhé", "Luôn hạnh phúc em nhé", "Happy Birthday My Girl",
+            // Lời chúc ngọt ngào
+            "Nụ cười em là nắng", "Mãi yêu đời em nhé", "Luôn rạng rỡ như hoa", "Bình yên bên anh",
+            "Luôn thương em", "Mãi bên nhau em nhé", "Thế giới của anh", "Cảm ơn vì đã đến",
+            "Công chúa của anh", "Yêu em vô điều kiện", "Mỗi ngày đều vui vẻ", "Ngoan ngoãn đáng yêu",
+            // Biểu tượng & Từ ngắn lãng mạn
+            "❤️", "💕", "✨", "I LOVE YOU", "My Love", "Love ya", "Forever", "Always",
+            "🥰", "🌹", "👑", "💝", "Sweetheart", "Honey", "Angel", "Dương Tú Nhi"
         ];
         
         const columnWidth = 14; 
@@ -165,7 +171,7 @@
                 ctx.globalAlpha = this.alpha;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, Math.random() * 1.5 + 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = this.color; // ĐÃ SỬA: Thay đổi lỗi thiếu 'this.' khiến code bị dừng trôi
+                ctx.fillStyle = this.color; 
                 ctx.shadowBlur = 12;
                 ctx.shadowColor = this.color;
                 ctx.fill();
@@ -213,7 +219,8 @@
                 ctx.font = `bold ${stream.fontSize}px 'Segoe UI', monospace`;
                 const text = stream.word; 
                 
-                if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Yêu em") {
+                // Nổi bật các từ khóa đặc biệt bằng màu đỏ hồng ngọt ngào
+                if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Dương Tú Nhi" || text === "Yêu em" || text === "💝" || text === "🌹") {
                     ctx.fillStyle = "#ff1744";
                 } else {
                     ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
