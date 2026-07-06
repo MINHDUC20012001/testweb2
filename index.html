@@ -104,13 +104,8 @@
         window.addEventListener('resize', resizeCanvas);
 
         // --- 1. MA TRẬN ĐA TẦNG (CẦU KỲ HƠN) ---
-        // Đã đan xen thêm văn thơ chúc mừng sinh nhật lãng mạn ngọt ngào vào nền sau
-        const matrixWords = [
-            "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", 
-            "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
-            "Mãi bên nhau", "Luôn rạng rỡ", "My Girl", "Happy Birthday",
-            "❤️", "💕", "✨", "I LOVE YOU"
-        ];
+        // Đã thay đổi thành các lời chúc mới theo đúng yêu cầu của bạn
+        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕", "✨", "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️"];
         const columnsCount = Math.floor(canvas.width / 20);
         const matrixStreams = [];
 
@@ -219,7 +214,7 @@
                 const text = matrixWords[Math.floor(Math.random() * matrixWords.length)];
                 
                 if(Math.random() > 0.97) ctx.fillStyle = "#fff";
-                else if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Yêu em") ctx.fillStyle = "#ff1744";
+                else if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️") ctx.fillStyle = "#ff1744";
                 else ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
 
                 ctx.fillText(text, stream.x, stream.y);
