@@ -104,17 +104,21 @@
         window.addEventListener('resize', resizeCanvas);
 
         // --- 1. MA TRẬN ĐA TẦNG (CẦU KỲ HƠN) ---
-        // Đã thêm chữ "Tú Nhi", "Minh Đức", "Chúc mừng sinh nhật em" vào mảng từ chạy nền
-        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕", "✨", "Tú Nhi", "Minh Đức", "Chúc mừng sinh nhật em"];
+        const matrixWords = [
+            "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", 
+            "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
+            "Mãi bên nhau", "Luôn rạng rỡ", "My Girl", "Happy Birthday",
+            "❤️", "💕", "✨", "I LOVE YOU"
+        ];
         const columnsCount = Math.floor(canvas.width / 20);
         const matrixStreams = [];
 
-        // Tạo cấu trúc mỗi dòng ma trận độc lập về tốc độ, kích thước chữ để tạo chiều sâu
+        // THAY ĐỔI TẠI ĐÂY: Rải đều tọa độ Y từ 0 đến chiều cao canvas để chữ xuất hiện kín nền ngay lập tức
         for (let i = 0; i < columnsCount; i++) {
             matrixStreams.push({
                 x: i * 20,
-                y: Math.random() * -canvas.height,
-                speed: Math.random() * 1 + 0.5,             // ĐÃ GIẢM: Tốc độ rơi chậm lại vừa phải và mượt mà hơn
+                y: Math.random() * canvas.height,             // Xuất hiện ngẫu nhiên ngay trên màn hình ban đầu
+                speed: Math.random() * 1 + 0.5,             // Giữ tốc độ rơi chậm mượt mà
                 fontSize: Math.floor(Math.random() * 6) + 12, // Kích thước chữ to nhỏ khác nhau
                 opacity: Math.random() * 0.4 + 0.15          // Độ mờ khác nhau tạo hiệu ứng 3D
             });
@@ -122,15 +126,13 @@
 
         // --- 2. HỆ THỐNG HẠT PHÁO HOA & GÔM THÀNH TRÁI TIM ---
         let particles = [];
-        let gatherToHeart = false; // Biến kích hoạt gom hạt thành hình trái tim
+        let gatherToHeart = false; 
         let heartPoints = [];
 
-        // Công thức toán học định hình tọa độ mạng lưới Trái Tim
         function calculateHeartPoints() {
             heartPoints = [];
             const scale = Math.min(canvas.width, canvas.height) / 35; 
             for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
-                // Công thức phương trình tham số Trái Tim nổi tiếng
                 const x = 16 * Math.pow(Math.sin(angle), 3);
                 const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
                 heartPoints.push({
@@ -153,7 +155,7 @@
                 this.vy = Math.sin(angle) * speed;
                 this.alpha = 1;
                 this.decay = Math.random() * 0.008 + 0.008;
-                this.targetPoint = targetPoint; // Lưu điểm đích nếu thuộc hình trái tim
+                this.targetPoint = targetPoint; 
             }
             draw() {
                 ctx.save();
@@ -168,15 +170,13 @@
             }
             update() {
                 if (gatherToHeart && this.targetPoint) {
-                    // Cơ chế hút hạt: Kéo các hạt từ vị trí đang bay về tọa độ hình trái tim
                     this.x += (this.targetPoint.targetX - this.x) * 0.05;
                     this.y += (this.targetPoint.targetY - this.y) * 0.05;
-                    this.alpha = 1; // Giữ pháo hoa không bị tắt đi
+                    this.alpha = 1; 
                 } else {
-                    // Trạng thái nổ tự do bình thường
                     this.x += this.vx;
                     this.y += this.vy;
-                    this.vy += 0.03; // Trọng lực nhẹ
+                    this.vy += 0.03; 
                     this.alpha -= this.decay;
                 }
             }
@@ -184,19 +184,16 @@
 
         function explodeFirework() {
             const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff', '#ffb6c1'];
-            // Bắn đợt hạt tự do
             for (let i = 0; i < 70; i++) {
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 particles.push(new Particle(canvas.width / 2, canvas.height / 2, color));
             }
         }
 
-        // Tạo ra các hạt đặc biệt phục vụ riêng cho việc xếp hình trái tim ở cuối
         function spawnHeartParticles() {
             const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff'];
             heartPoints.forEach(point => {
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                // Cho xuất phát ngẫu nhiên quanh tâm rồi hút vào
                 const initX = canvas.width / 2 + (Math.random() * 200 - 100);
                 const initY = canvas.height / 2 + (Math.random() * 200 - 100);
                 particles.push(new Particle(initX, initY, color, point));
@@ -214,15 +211,15 @@
                 const text = matrixWords[Math.floor(Math.random() * matrixWords.length)];
                 
                 if(Math.random() > 0.97) ctx.fillStyle = "#fff";
-                else if(text === "❤️" || text === "💕") ctx.fillStyle = "#ff1744";
+                else if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Yêu em") ctx.fillStyle = "#ff1744";
                 else ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
 
                 ctx.fillText(text, stream.x, stream.y);
 
                 stream.y += stream.speed;
                 if (stream.y > canvas.height) {
-                    stream.y = Math.random() * -100;
-                    stream.speed = Math.random() * 1 + 0.5; // ĐÃ GIẢM: Giữ nguyên tốc độ chậm khi reset dòng mới
+                    stream.y = Math.random() * -100; // Khi rơi hết màn hình thì reset lại từ đỉnh trên
+                    stream.speed = Math.random() * 1 + 0.5; 
                 }
             });
 
@@ -235,10 +232,8 @@
                 }
             }
 
-            // Tạo nhịp đập co giãn nhẹ cho cả hệ thống trái tim hạt sau giây 14.5
             if (gatherToHeart) {
                 heartPoints.forEach(p => {
-                    // Dùng hàm sin toán học để dịch chuyển nhẹ bia tọa độ theo thời gian
                     const pulse = 1 + Math.sin(Date.now() * 0.005) * 0.03;
                     const cx = canvas.width / 2;
                     const cy = canvas.height / 2;
@@ -276,7 +271,7 @@
             setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide);
         });
 
-        // BÀI CUỐI: Triệu hồi trái tim được dệt bằng hàng trăm hạt ánh sáng
+        // BÀI CUỐI: Triệu hồi trái tim hạt ánh sáng
         setTimeout(() => {
             spawnHeartParticles();
             gatherToHeart = true;
