@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chúc Mừng Sinh Nhật Tú Nhi ❤️</title>
+    <title>Happy Birthday Tú Nhi ❤️</title>
     <style>
         * {
             margin: 0;
@@ -51,28 +51,32 @@
             canvas.height = window.innerHeight * dpr;
             ctx.scale(dpr, dpr);
             
-            // TỐI ƯU: Thu hẹp khoảng cách cột để tạo nhiều dòng ma trận chữ hơn
-            columns = window.innerWidth / (fontSize + 3);
-            drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -20); // Cho các dòng xuất phát so le nhau từ trên đỉnh
+            // Tối ưu khoảng cách cột để ma trận sao băng dày đặc hơn nữa
+            columns = window.innerWidth / (fontSize - 2);
+            drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -100); // Rải rác vị trí bắt đầu từ trên trời
+            
+            // Chỉ định chuỗi chữ ngẫu nhiên cho từng cột để tạo sự đa dạng
+            columnTexts = Array(Math.floor(columns)).fill(0).map(() => matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]);
+            // Tốc độ rơi ngẫu nhiên mô phỏng sao băng nhanh chậm khác nhau
+            dropSpeeds = Array(Math.floor(columns)).fill(0).map(() => Math.random() * 1.5 + 1.2); 
         }
         
-        // --- 1. MA TRẬN NỀN "I love" NHIỀU CHỮ & RƠI CHẬM ---
-        const matrixString = "Ilove"; 
+        // --- 1. HỆ THỐNG SAO BĂNG NỀN "DÀY ĐẶC & RÕ NÉT" THEO YÊU CẦU ---
+        const matrixPhrases = ["I love you", "Minh đức", "Tú Nhi", "Happy birthday"]; 
         const fontSize = 11; 
-        let columns;
-        let drops;
+        let columns, drops, columnTexts, dropSpeeds;
         
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 2. CHUỖI TEXT CHÚC MỪNG SINH NHẬT ---
+        // --- 2. CHUỖI TEXT CHỮ TRẮNG NỔI BẬT ---
         const textSequences = ["3", "2", "1", "Chúc em", "sinh nhật", "vui vẻ 🎂", "Tú Nhi ♥️", "HEART"];
         let currentSequenceIndex = 0;
         let timelineStarted = false;
 
-        // --- 3. HỆ THỐNG HẠT SÁNG NÉT CAO (CINEMATIC) ---
+        // --- 3. ĐỊNH NGHĨA LỚP HẠT SÁNG NÉT CAO PHÍA TRƯỚC ---
         let particles = [];
-        const maxParticles = 1000; 
+        const maxParticles = 1100; // Tăng lượng hạt giúp khối chữ nét căng
 
         class Particle {
             constructor() {
@@ -107,9 +111,11 @@
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = 'rgba(255, 20, 147, 0.9)'; 
+                
                 ctx.fill();
                 ctx.restore();
             }
@@ -202,37 +208,41 @@
             }
         }
 
-        // Chạy nền mưa "I love" mượt mà trước 3.5 giây rồi mới chạy timeline chữ
+        // Chạy nền mưa sao băng rơi dày đặc trước 3.5 giây cực chất rồi mới đếm số
         setTimeout(runTimeline, 3500);
 
         // --- 6. VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
         function animate() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.11)";
+            // Giảm độ mờ một chút giúp đuôi sao băng kéo dài rõ nét và lung linh hơn
+            ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // VẼ MA TRẬN MƯA RƠI CHẬM VÀ DÀY ĐẶC
+            // THUẬT TOÁN SAO BĂNG ĐỔ THÁC DÀY ĐẶC ĐA DẠNG CHỮ
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
-                // Chỉ lấy ký tự khi vị trí rơi ở vùng dương (nằm trong màn hình)
-                if (drops[i] >= 0) {
-                    const charIndex = Math.floor(drops[i] + i) % matrixString.length;
-                    const text = matrixString.charAt(charIndex);
-                    
-                    if (Math.random() > 0.99) {
-                        ctx.fillStyle = "rgba(255, 255, 255, 0.85)"; // Hạt đầu dòng sáng nhẹ
-                    } else {
-                        ctx.fillStyle = "rgba(255, 105, 180, 0.17)"; // Chữ ma trận hồng lãng mạn
-                    }
-
-                    // Khoảng cách ngang được bóp nghẹt lại (fontSize + 3) giúp tăng lượng chữ rải trên màn hình
-                    ctx.fillText(text, i * (fontSize + 3), drops[i] * fontSize);
+                const currentTextStr = columnTexts[i];
+                // Lấy ký tự tuần tự dựa trên vị trí hàng rơi hiện tại
+                const charIndex = Math.floor(drops[i]) % currentTextStr.length;
+                let text = currentTextStr.charAt(charIndex);
+                if (text === " ") text = "★"; // Đổi khoảng trắng thành ngôi sao nhỏ lấp lánh cho đúng vị sao băng
+                
+                // Tăng độ sáng (alpha rõ ràng hơn) cho chữ nền xịn hơn hẳn mẫu cũ
+                if (Math.random() > 0.982) {
+                    ctx.fillStyle = "rgba(255, 255, 255, 0.95)"; // Đầu sao băng rực sáng trắng
+                } else {
+                    ctx.fillStyle = "rgba(255, 60, 140, 0.35)"; // Thân sao băng hồng neon rực rõ nét
                 }
 
-                // TỐI ƯU: Tăng một lượng nhỏ thập phân (0.23) mỗi khung hình giúp chữ rơi chậm rãi như mưa phùn
-                drops[i] += 0.23;
+                ctx.fillText(text, i * (fontSize + 4), drops[i] * fontSize);
 
-                if (drops[i] * fontSize > window.innerHeight && Math.random() > 0.985) {
-                    drops[i] = Math.random() * -5; // Quay lại đỉnh so le nhau
+                // Di chuyển theo tốc độ sao băng riêng biệt của từng cột
+                drops[i] += dropSpeeds[i];
+
+                // Nếu chạm đáy hoặc ngẫu nhiên đặt lại lên đỉnh trời để tiếp tục rơi xuống
+                if (drops[i] * fontSize > window.innerHeight && Math.random() > 0.975) {
+                    drops[i] = Math.random() * -10;
+                    columnTexts[i] = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]; // Đổi nội dung câu chữ ngẫu nhiên tiếp theo
+                    dropSpeeds[i] = Math.random() * 1.5 + 1.2;
                 }
             }
 
