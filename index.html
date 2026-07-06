@@ -103,25 +103,26 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. KHO CÂU CHÚC ĐÃ ĐƯỢC MỞ RỘNG (PHONG PHÚ HƠN) ---
+        // --- 1. MA TRẬN TẬP TRUNG TÊN "TÚ NHI" ---
         const matrixWords = [
-            // Tên & Lời chúc chính
-            "Tú Nhi ♥️", "Chúc em sinh nhật vui vẻ", "Happy Birthday Tú Nhi", "Tuổi mới thật rực rỡ",
-            "Mừng sinh nhật em yêu", "Sinh nhật ấm áp nhé", "Luôn hạnh phúc em nhé", "Happy Birthday My Girl",
-            // Lời chúc ngọt ngào
+            // Đã nhân bản từ khóa "Tú Nhi" lên rất nhiều lần để tăng mật độ xuất hiện liên tục
+            "Tú Nhi ♥️", "Dương Tú Nhi", "Tú Nhi ♥️", "Dương Tú Nhi", "Tú Nhi ♥️", "Dương Tú Nhi",
+            "Happy Birthday Tú Nhi", "Mừng sinh nhật Tú Nhi", "Yêu Tú Nhi nhiều lắm", "Tú Nhi công chúa",
+            // Lời chúc sinh nhật và yêu thương đan xen
+            "Chúc em sinh nhật vui vẻ", "Tuổi mới thật rực rỡ", "Mừng sinh nhật em yêu", 
+            "Sinh nhật ấm áp nhé", "Luôn hạnh phúc em nhé", "Happy Birthday My Girl",
             "Nụ cười em là nắng", "Mãi yêu đời em nhé", "Luôn rạng rỡ như hoa", "Bình yên bên anh",
             "Luôn thương em", "Mãi bên nhau em nhé", "Thế giới của anh", "Cảm ơn vì đã đến",
-            "Công chúa của anh", "Yêu em vô điều kiện", "Mỗi ngày đều vui vẻ", "Ngoan ngoãn đáng yêu",
-            // Biểu tượng & Từ ngắn lãng mạn
-            "❤️", "💕", "✨", "I LOVE YOU", "My Love", "Love ya", "Forever", "Always",
-            "🥰", "🌹", "👑", "💝", "Sweetheart", "Honey", "Angel", "Dương Tú Nhi"
+            "Yêu em vô điều kiện", "Mỗi ngày đều vui vẻ", "Ngoan ngoãn đáng yêu", "Yêu em",
+            // Biểu tượng lãng mạn
+            "❤️", "💕", "✨", "I LOVE YOU", "🥰", "🌹", "👑", "💝"
         ];
         
         const columnWidth = 14; 
         const columnsCount = Math.floor(canvas.width / columnWidth);
         const matrixStreams = [];
 
-        // Tạo dòng chữ rải đều màn hình, trượt liên tục tuần hoàn
+        // Khởi tạo dòng chữ rải đều màn hình
         for (let i = 0; i < columnsCount; i++) {
             matrixStreams.push({
                 x: i * columnWidth,
@@ -214,13 +215,12 @@
             ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Vẽ ma trận trượt liên tục không ngừng nghỉ
             matrixStreams.forEach(stream => {
                 ctx.font = `bold ${stream.fontSize}px 'Segoe UI', monospace`;
                 const text = stream.word; 
                 
-                // Nổi bật các từ khóa đặc biệt bằng màu đỏ hồng ngọt ngào
-                if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Dương Tú Nhi" || text === "Yêu em" || text === "💝" || text === "🌹") {
+                // Tô màu hồng đỏ rực rỡ để làm nổi bật tên Tú Nhi và các biểu tượng tình yêu
+                if(text.includes("Tú Nhi") || text === "❤️" || text === "💕" || text === "Yêu em" || text === "💝" || text === "🌹") {
                     ctx.fillStyle = "#ff1744";
                 } else {
                     ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
@@ -230,7 +230,6 @@
 
                 stream.y += stream.speed;
                 
-                // Khi chạm đáy màn hình, lập tức quay lại đỉnh để tiếp tục trôi xuống tuần hoàn
                 if (stream.y > canvas.height + 50) {
                     stream.y = Math.random() * -60; 
                     stream.speed = Math.random() * 0.4 + 0.2; 
@@ -260,7 +259,7 @@
         }
         animate();
 
-        // --- 4. TIMELINE ĐIỀU KHIỂN CHÍNH XÁC ---
+        // --- 4. TIMELINE ĐIỀU KHIỂN ---
         // Số 3
         setTimeout(() => document.getElementById('text-3').style.display = 'block', 500);
         setTimeout(() => { document.getElementById('text-3').style.display = 'none'; explodeFirework(); }, 1700);
