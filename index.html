@@ -46,36 +46,51 @@
             return window.innerWidth < 768;
         }
 
+        // Cấu hình danh sách các cụm chữ nền
+        const matrixPhrases = ["I love you ♥", "Minh đức ♥", "Tú Nhi ♥", "Happy birthday"]; 
+        const fontSize = 24; 
+        
+        let loveBlocks = [];
+        const maxBlocks = 35; // Số lượng khối chữ xuất hiện trên màn hình
+
+        function createLoveBlock(initY = null) {
+            ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
+            const text = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)];
+            const textWidth = ctx.measureText(text).width;
+            
+            return {
+                text: text,
+                // Rải ngẫu nhiên vị trí X sao cho không bị tràn khỏi màn hình
+                x: Math.random() * (window.innerWidth - textWidth - 20) + 10,
+                // Nếu khởi tạo ban đầu thì rải đều màn hình, nếu tái tạo thì đẩy lên đỉnh trời
+                y: initY !== null ? initY : -fontSize * 2,
+                speed: Math.random() * 0.4 + 0.3, // Tốc độ trôi thong thả, từ tốn
+                opacity: Math.random() * 0.35 + 0.15 // Độ mờ lãng mạn cho nền phía sau
+            };
+        }
+
         function resizeCanvas() {
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
             ctx.scale(dpr, dpr);
             
-            // Tính toán số cột dựa trên kích thước chữ to
-            columns = window.innerWidth / (fontSize * 3); // Giãn cách rộng ra cho thoáng mắt
-            
-            // Khởi tạo vị trí rơi (tính bằng pixel trực tiếp để mượt mà)
-            drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -window.innerHeight); 
-            columnTexts = Array(Math.floor(columns)).fill(0).map(() => matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]);
-            
-            // Tốc độ trôi nguyên khối thong thả, từ tốn
-            dropSpeeds = Array(Math.floor(columns)).fill(0).map(() => Math.random() * 0.4 + 0.3); 
+            // Khởi tạo danh sách các khối chữ nằm rải rác từ trên xuống dưới
+            loveBlocks = [];
+            for (let i = 0; i < maxBlocks; i++) {
+                let initialY = Math.random() * -window.innerHeight;
+                loveBlocks.push(createLoveBlock(initialY));
+            }
         }
-        
-        // --- 1. CẤU HÌNH CHỮ NỀN NGUYÊN KHỐI TO RÕ (KHÔNG KÉO DÀI ĐUÔI) ---
-        const matrixPhrases = ["I love you ♥", "Minh đức ♥", "Tú Nhi ♥", "Happy birthday"]; 
-        const fontSize = 24; 
-        let columns, drops, columnTexts, dropSpeeds;
         
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 2. CHUỖI TEXT CHỮ TRẮNG NỔI BẬT PHÍA TRƯỚC ---
+        // --- CHUỖI TEXT CHỮ TRẮNG NỔI BẬT PHÍA TRƯỚC ---
         const textSequences = ["Chúc em", "sinh nhật", "vui vẻ 🎂", "Tú Nhi ♥️", "HEART"];
         let currentSequenceIndex = 0;
         let timelineStarted = false;
 
-        // --- 3. ĐỊNH NGHĨA LỚP HẠT SÁNG NÉT CAO PHÍA TRƯỚC ---
+        // --- ĐỊNH NGHĨA LỚP HẠT SÁNG NÉT CAO PHÍA TRƯỚC ---
         let particles = [];
         const maxParticles = 1300; 
 
@@ -126,7 +141,7 @@
             particles.push(new Particle());
         }
 
-        // --- 4. THUẬT TOÁN QUÉT VÙNG ĐIỂM CHỮ SIÊU MỊN ---
+        // --- THUẬT TOÁN QUÉT VÙNG ĐIỂM CHỮ SIÊU MỊN ---
         let currentMode = "FREE"; 
 
         function getTargetPoints(text) {
@@ -173,7 +188,7 @@
             return targets;
         }
 
-        // --- 5. TIMELINE ĐIỀU PHỐI CHUYỂN CẢNH ---
+        // --- TIMELINE ĐIỀU PHỐI CHUYỂN CẢNH ---
         function runTimeline() {
             timelineStarted = true;
             if (currentSequenceIndex >= textSequences.length) return;
@@ -208,43 +223,39 @@
             }
         }
 
-        setTimeout(runTimeline, 3500);
+        setTimeout(runTimeline, 3000);
 
-        // --- 6. VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
+        // --- VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
         function animate() {
-            // Giảm độ lưu vệt để chữ nền không bị nhòe vệt kéo dài, nhìn sắc nét nguyên khối
-            ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+            // Giữ nền đen sâu, xóa vệt mờ kéo dài để chữ nguyên khối trôi mượt mà đúng điệu video
+            ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // VẼ CHỮ NỀN TRÔI NGUYÊN KHỐI (KHÔNG CHẠY VÒNG LẶP ĐUÔI)
+            // VẼ CHỮ NỀN TRÔI NGUYÊN KHỐI THEO CHIỀU NGANG GIỐNG VIDEO MẪU
             ctx.font = `900 ${fontSize}px system-ui, -apple-system, sans-serif`;
             ctx.textAlign = 'left';
             
-            for (let i = 0; i < drops.length; i++) {
-                let textY = drops[i];
-                
-                if (textY > -fontSize * 2 && textY < window.innerHeight + fontSize) {
-                    let currentTextStr = columnTexts[i];
+            for (let i = 0; i < loveBlocks.length; i++) {
+                let block = loveBlocks[i];
 
-                    // Đắp quầng sáng nhẹ nhàng lãng mạn cho chữ nền tình yêu
+                if (block.y > -fontSize * 2 && block.y < window.innerHeight + fontSize) {
                     ctx.save();
-                    ctx.fillStyle = "rgba(255, 40, 130, 0.55)"; // Màu hồng ngọt ngào rõ ràng
+                    // Tạo màu chữ hồng lãng mạn kèm hiệu ứng phát sáng nhẹ
+                    ctx.fillStyle = `rgba(255, 50, 135, ${block.opacity})`;
                     ctx.shadowBlur = 4;
-                    ctx.shadowColor = "rgba(255, 40, 130, 0.8)";
+                    ctx.shadowColor = "rgba(255, 50, 135, 0.6)";
                     
-                    // Vẽ cả cụm từ nằm ngang trôi dọc xuống (không xé lẻ thành hàng dọc thườn thượt)
-                    ctx.fillText(currentTextStr, i * (fontSize * 2.8), textY);
+                    // Vẽ nguyên cụm từ nằm ngang trôi từ trên xuống
+                    ctx.fillText(block.text, block.x, block.y);
                     ctx.restore();
                 }
 
-                // Tịnh tiến vị trí rơi của khối chữ từ tốn
-                drops[i] += dropSpeeds[i];
+                // Cập nhật vị trí trôi dọc thong thả
+                block.y += block.speed;
 
-                // Nếu cụm chữ đã rơi quá đáy màn hình thì reset lên đỉnh
-                if (drops[i] > window.innerHeight && Math.random() > 0.98) {
-                    drops[i] = -fontSize * 3; 
-                    columnTexts[i] = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]; 
-                    dropSpeeds[i] = Math.random() * 0.4 + 0.3; 
+                // Nếu cụm chữ rơi qua đáy màn hình, reset lên trên đỉnh với nội dung và tọa độ X ngẫu nhiên mới
+                if (block.y > window.innerHeight) {
+                    loveBlocks[i] = createLoveBlock();
                 }
             }
 
@@ -254,7 +265,7 @@
                 p.draw();
             });
 
-            // MÀN KẾT THÚC: Trái tim và tên hai bạn nhấp nháy ngọt ngào
+            // MÀN KẾT THÚC: Hiện tên hai bạn ở trung tâm trái tim
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
                 let textFont = isMobile() ? "bold 15px 'Courier New', monospace" : "bold 22px 'Courier New', monospace";
                 ctx.font = textFont;
