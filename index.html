@@ -104,8 +104,8 @@
         window.addEventListener('resize', resizeCanvas);
 
         // --- 1. MA TRẬN ĐA TẦNG (CẦU KỲ HƠN) ---
-        // Tách các từ đơn lẻ và ký tự chữ ra để rơi mượt, không bị dính chùm thành một khối dọc dài
-        const matrixWords = ["I", "L", "O", "V", "E", "Y", "O", "U", "❤️", "💕", "✨", "Tú", "Nhi", "Minh", "Đức", "Chúc", "mừng", "sinh", "nhật", "em"];
+        // Đã thêm chữ "Tú Nhi", "Minh Đức", "Chúc mừng sinh nhật em" vào mảng từ chạy nền
+        const matrixWords = ["I", "LOVE", "YOU", "❤️", "💕", "✨", "Tú Nhi", "Minh Đức", "Chúc mừng sinh nhật em"];
         const columnsCount = Math.floor(canvas.width / 20);
         const matrixStreams = [];
 
@@ -217,7 +217,6 @@
                 else if(text === "❤️" || text === "💕") ctx.fillStyle = "#ff1744";
                 else ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
 
-                // Rải ký tự/từ đơn lẻ theo luồng đứng không kéo vệt dài
                 ctx.fillText(text, stream.x, stream.y);
 
                 stream.y += stream.speed;
