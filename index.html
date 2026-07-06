@@ -57,7 +57,6 @@
             animation: glitchZoom 1.2s ease-in-out forwards;
         }
 
-        /* ĐÃ FIX: Tối ưu kích thước chữ để không bao giờ bị tràn hay vỡ dòng */
         .love-phrase {
             font-size: 3rem;
             max-width: 100vw;
@@ -65,10 +64,28 @@
             animation: pulseGlow 2s infinite alternate;
         }
 
+        /* ĐÃ THÊM: Định dạng chữ nằm giữa trái tim ở đoạn cuối */
+        .final-phrase {
+            font-size: 2.8rem;
+            max-width: 100vw;
+            font-weight: 900;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            white-space: nowrap;
+            user-select: none;
+            z-index: 3;
+            text-shadow: 0 0 10px #ff1493, 0 0 20px #ff00ff, 0 0 40px #fff;
+            animation: finalAppear 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseGlow 2s infinite alternate;
+            animation-delay: 14.5s, 16.5s; /* Chạy hiệu ứng xuất hiện trước, sau đó lấp lánh liên tục */
+        }
+
         /* Cấu hình riêng cho màn hình điện thoại nhỏ */
         @media (max-width: 480px) {
-            .love-phrase {
-                font-size: 2.5rem; 
+            .love-phrase, .final-phrase {
+                font-size: 2.3rem; 
                 letter-spacing: -1.5px;
             }
             .countdown {
@@ -86,9 +103,14 @@
         }
 
         @keyframes pulseGlow {
-            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493; }
-            15% { opacity: 1; }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); text-shadow: 0 0 20px #ff1493, 0 0 40px #ff00ff, 0 0 60px #fff; }
+            0% { transform: translate(-50%, -50%) scale(0.96); text-shadow: 0 0 15px #ff1493, 0 0 25px #ff00ff; }
+            100% { transform: translate(-50%, -50%) scale(1.04); text-shadow: 0 0 25px #ff1493, 0 0 50px #ff00ff, 0 0 70px #fff; }
+        }
+
+        /* Hiệu ứng lớn dần từ tâm cho chữ cuối */
+        @keyframes finalAppear {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -105,6 +127,9 @@
         <div class="effect-text love-phrase" id="text-p2">Sinh nhật vui vẻ</div>
         <div class="effect-text love-phrase" id="text-p3">Yêu em</div>
         <div class="effect-text love-phrase" id="text-p4">Tú Nhi ♥️</div>
+
+        <!-- ĐÃ THÊM: Dòng chữ định mệnh xuất hiện ở trung tâm trái tim đoạn cuối -->
+        <div id="text-final" class="final-phrase" style="display: none;">Tú Nhi ♥️ Minh Đức</div>
     </div>
 
     <script>
@@ -295,10 +320,11 @@
             setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide);
         });
 
-        // BÀI CUỐI: Triệu hồi trái tim hạt ánh sáng
+        // BÀI CUỐI: Triệu hồi trái tim hạt ánh sáng và chữ "Tú Nhi ♥️ Minh Đức" ở chính giữa
         setTimeout(() => {
             spawnHeartParticles();
             gatherToHeart = true;
+            document.getElementById('text-final').style.display = 'block'; // Hiển thị chữ cuối cùng
         }, 14500);
 
     </script>
