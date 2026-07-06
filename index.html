@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siêu Ma Trận Tỏ Tình & Pháo Hoa Hạt ❤️</title>
+    <title>Thiệp Chúc Mừng Sinh Nhật - Tú Nhi ♥️</title>
     <style>
         * {
             margin: 0;
@@ -19,6 +19,7 @@
             justify-content: center;
             align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            perspective: 1000px; /* Tạo không gian 3D cho thiệp */
         }
 
         canvas {
@@ -30,6 +31,101 @@
             z-index: 1;
         }
 
+        /* --- CẤU TRÚC THIỆP 3D LẬT MỞ --- */
+        .card-wrapper {
+            position: relative;
+            width: 320px;
+            height: 420px;
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 1s, opacity 1s;
+        }
+
+        /* Khi mở thiệp, dịch chuyển nhẹ sang phải để cân đối */
+        .card-wrapper.open {
+            transform: rotateY(-140deg) translateX(-50px);
+            pointer-events: none; /* Mở xong thì ẩn tương tác để không che hiệu ứng sau */
+            animation: fadeOutCard 1s forwards;
+            animation-delay: 4s; /* Tự động ẩn thiệp sau 4 giây để xem hiệu ứng ma trận */
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Các mặt của thiệp */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(255, 20, 147, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+        }
+
+        /* Mặt ngoài của thiệp (Bìa) */
+        .card-front {
+            background: linear-gradient(135deg, #ff1493, #800080);
+            border: 3px solid #fff;
+            color: #fff;
+        }
+
+        .card-front .heart-icon {
+            font-size: 5rem;
+            color: #fff;
+            animation: heartBeat 1.2s infinite;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+        }
+
+        .card-front h2 {
+            font-size: 1.8rem;
+            margin-top: 20px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .card-front p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 15px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        /* Mặt trong của thiệp */
+        .card-back {
+            background: #fff;
+            color: #333;
+            transform: rotateY(180deg);
+            border: 3px solid #ff1493;
+        }
+
+        .card-back h3 {
+            color: #ff1493;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .card-back p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* --- CONTAINER CHỨA HIỆU ỨNG CHỮ PHÍA SAU --- */
         .content-container {
             position: absolute;
             top: 50%;
@@ -43,7 +139,6 @@
             pointer-events: none;
         }
 
-        /* Hiệu ứng Glitch lấp lánh cực đỉnh cho số và chữ */
         .effect-text {
             font-weight: 900;
             color: #fff;
@@ -68,9 +163,8 @@
             animation: pulseGlow 2s infinite alternate;
         }
 
-        /* ĐÃ FIX: Cho chữ nhỏ lại vừa vặn và tinh tế hơn */
         .final-phrase {
-            font-size: 2.2rem; /* Giảm từ 2.8rem xuống 2.2rem */
+            font-size: 2.2rem; 
             max-width: 100vw;
             font-weight: 900;
             color: #fff;
@@ -85,20 +179,16 @@
             animation-delay: 0s, 1.5s; 
         }
 
-        /* Cấu hình riêng cho màn hình điện thoại nhỏ */
-        @media (max-width: 480px) {
-            .love-phrase {
-                font-size: 2.2rem; 
-                letter-spacing: -1px;
-            }
-            /* Chữ cuối trên mobile nhỏ nhắn xinh xắn hơn nữa */
-            .final-phrase {
-                font-size: 1.7rem; 
-                letter-spacing: -0.5px;
-            }
-            .countdown {
-                font-size: 5rem;
-            }
+        /* --- ANIMATIONS --- */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeOutCard {
+            0% { opacity: 1; transform: rotateY(-140deg) scale(1); }
+            100% { opacity: 0; transform: rotateY(-140deg) scale(0.8); display: none; }
         }
 
         @keyframes glitchZoom {
@@ -119,12 +209,39 @@
             0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
+
+        /* Cấu hình responsive cho điện thoại */
+        @media (max-width: 480px) {
+            .card-wrapper { width: 280px; height: 380px; }
+            .love-phrase { font-size: 2.2rem; }
+            .final-phrase { font-size: 1.7rem; letter-spacing: -0.5px; }
+            .countdown { font-size: 5rem; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- THIỆP ĐIỆN TỬ 3D -->
+    <div class="card-wrapper" id="birthdayCard" onclick="openCard()">
+        <div class="card">
+            <!-- Mặt bìa ngoài -->
+            <div class="card-face card-front">
+                <div class="heart-icon">❤️</div>
+                <h2>Gửi Tú Nhi ♥️</h2>
+                <p>Chạm vào để mở thiệp nha...</p>
+            </div>
+            <!-- Mặt trong thiệp -->
+            <div class="card-face card-back">
+                <h3>Happy Birthday!</h3>
+                <p>"Chúc em tuổi mới luôn rạng rỡ, bình yên và hạnh phúc. Cảm ơn Tú Nhi vì đã đến bên anh!"</p>
+                <p style="margin-top: 20px; font-weight: bold; color: #ff1493;">- Minh Đức -</p>
+            </div>
+        </div>
+    </div>
+
     <canvas id="superCanvas"></canvas>
 
+    <!-- CONTAINER CHỨA CHỮ ĐẾM NGƯỢC VÀ PHÁO HOA PHÍA SAU -->
     <div class="content-container">
         <div class="effect-text countdown" id="text-3">3</div>
         <div class="effect-text countdown" id="text-2">2</div>
@@ -149,16 +266,8 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. MA TRẬN ĐA TẦNG DÀY ĐẶC ---
-        const matrixWords = [
-            "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", 
-            "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
-            "Mãi bên nhau", "Luôn rạng rỡ", "My Girl", "Happy Birthday",
-            "❤️", "💕", "✨", "I LOVE YOU",
-            "Tuổi mới thật rực rỡ nhé Tú Nhi", "Mừng sinh nhật công chúa Tú Nhi",
-            "Sinh nhật ấm áp nhé em yêu", "Cảm ơn Tú Nhi đã đến bên anh"
-        ];
-        
+        // --- 1. MA TRẬN NỀN CHẠY SẴN ---
+        const matrixWords = ["Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", "Yêu em", "Bình yên", "Hạnh phúc", "❤️", "💕", "✨"];
         const columnWidth = 14; 
         const columnsCount = Math.floor(canvas.width / columnWidth);
         const matrixStreams = [];
@@ -169,12 +278,12 @@
                 y: Math.random() * canvas.height,             
                 speed: Math.random() * 0.4 + 0.2,             
                 fontSize: Math.floor(Math.random() * 4) + 12, 
-                opacity: Math.random() * 0.35 + 0.15,          
+                opacity: Math.random() * 0.2 + 0.1, // Nhạt hơn một chút lúc đầu để nổi bật thiệp          
                 word: matrixWords[Math.floor(Math.random() * matrixWords.length)] 
             });
         }
 
-        // --- 2. HỆ THỐNG HẠT PHÁO HOA & TRÁI TIM ---
+        // --- 2. HẠT PHÁO HOA & TRÁI TIM ---
         let particles = [];
         let gatherToHeart = false; 
         let heartPoints = [];
@@ -185,38 +294,25 @@
             for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
                 const x = 16 * Math.pow(Math.sin(angle), 3);
                 const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
-                heartPoints.push({
-                    targetX: canvas.width / 2 + x * scale,
-                    targetY: canvas.height / 2 + y * scale
-                });
+                heartPoints.push({ targetX: canvas.width / 2 + x * scale, targetY: canvas.height / 2 + y * scale });
             }
         }
         calculateHeartPoints();
-        window.addEventListener('resize', calculateHeartPoints);
 
         class Particle {
             constructor(x, y, color, targetPoint = null) {
-                this.x = x;
-                this.y = y;
-                this.color = color;
+                this.x = x; this.y = y; this.color = color;
                 const angle = Math.random() * Math.PI * 2;
                 const speed = Math.random() * 7 + 4;
-                this.vx = Math.cos(angle) * speed;
-                this.vy = Math.sin(angle) * speed;
-                this.alpha = 1;
-                this.decay = Math.random() * 0.008 + 0.008;
+                this.vx = Math.cos(angle) * speed; this.vy = Math.sin(angle) * speed;
+                this.alpha = 1; this.decay = Math.random() * 0.008 + 0.008;
                 this.targetPoint = targetPoint; 
             }
             draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                ctx.beginPath();
+                ctx.save(); ctx.globalAlpha = this.alpha; ctx.beginPath();
                 ctx.arc(this.x, this.y, Math.random() * 1.5 + 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = this.color; 
-                ctx.shadowBlur = 12;
-                ctx.shadowColor = this.color;
-                ctx.fill();
-                ctx.restore();
+                ctx.fillStyle = this.color; ctx.shadowBlur = 12; ctx.shadowColor = this.color;
+                ctx.fill(); ctx.restore();
             }
             update() {
                 if (gatherToHeart && this.targetPoint) {
@@ -224,10 +320,7 @@
                     this.y += (this.targetPoint.targetY - this.y) * 0.05;
                     this.alpha = 1; 
                 } else {
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    this.vy += 0.03; 
-                    this.alpha -= this.decay;
+                    this.x += this.vx; this.y += this.vy; this.vy += 0.03; this.alpha -= this.decay;
                 }
             }
         }
@@ -235,100 +328,85 @@
         function explodeFirework() {
             const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff', '#ffb6c1'];
             for (let i = 0; i < 70; i++) {
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                particles.push(new Particle(canvas.width / 2, canvas.height / 2, color));
+                particles.push(new Particle(canvas.width / 2, canvas.height / 2, colors[Math.floor(Math.random() * colors.length)]));
             }
         }
 
         function spawnHeartParticles() {
             const colors = ['#ff1493', '#ff69b4', '#ffffff', '#ff00ff'];
             heartPoints.forEach(point => {
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const initX = canvas.width / 2 + (Math.random() * 200 - 100);
-                const initY = canvas.height / 2 + (Math.random() * 200 - 100);
-                particles.push(new Particle(initX, initY, color, point));
+                particles.push(new Particle(canvas.width / 2 + (Math.random() * 200 - 100), canvas.height / 2 + (Math.random() * 200 - 100), colors[Math.floor(Math.random() * colors.length)], point));
             });
         }
 
-        // --- 3. VÒNG LẶP RENDER CHÍNH ---
         function animate() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             matrixStreams.forEach(stream => {
                 ctx.font = `bold ${stream.fontSize}px 'Segoe UI', monospace`;
-                const text = stream.word; 
-                
-                if(text === "❤️" || text === "💕" || text.includes("Tú Nhi") || text === "Yêu em") {
-                    ctx.fillStyle = "#ff1744";
-                } else {
-                    ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
-                }
-
-                ctx.fillText(text, stream.x, stream.y);
+                ctx.fillStyle = (stream.word === "❤️" || stream.word === "💕" || stream.word.includes("Tú Nhi")) ? "#ff1744" : `rgba(255, 105, 180, ${stream.opacity})`;
+                ctx.fillText(stream.word, stream.x, stream.y);
                 stream.y += stream.speed;
-                
                 if (stream.y > canvas.height + 50) {
-                    stream.y = Math.random() * -60; 
-                    stream.speed = Math.random() * 0.4 + 0.2; 
-                    stream.word = matrixWords[Math.floor(Math.random() * matrixWords.length)]; 
+                    stream.y = Math.random() * -60;
+                    stream.word = matrixWords[Math.floor(Math.random() * matrixWords.length)];
                 }
             });
 
             for (let i = particles.length - 1; i >= 0; i--) {
-                particles[i].update();
-                particles[i].draw();
-                if (!gatherToHeart && particles[i].alpha <= 0) {
-                    particles.splice(i, 1);
-                }
+                particles[i].update(); particles[i].draw();
+                if (!gatherToHeart && particles[i].alpha <= 0) particles.splice(i, 1);
             }
-
-            if (gatherToHeart) {
-                heartPoints.forEach(p => {
-                    const pulse = 1 + Math.sin(Date.now() * 0.005) * 0.03;
-                    const cx = canvas.width / 2;
-                    const cy = canvas.height / 2;
-                    p.targetX = cx + (p.targetX - cx) * (pulse / pulse); 
-                });
-            }
-
             requestAnimationFrame(animate);
         }
         animate();
 
-        // --- 4. TIMELINE ĐIỀU KHIỂN CHÍNH XÁC ---
-        // Số 3
-        setTimeout(() => document.getElementById('text-3').style.display = 'block', 500);
-        setTimeout(() => { document.getElementById('text-3').style.display = 'none'; explodeFirework(); }, 1700);
+        // --- 3. ĐIỀU KHIỂN KÍCH HOẠT KHI MỞ THIỆP ---
+        let isOpened = false;
+        function openCard() {
+            if (isOpened) return;
+            isOpened = true;
+            
+            // Chạy hiệu ứng lật thiệp 3D
+            document.getElementById('birthdayCard').classList.add('open');
 
-        // Số 2
-        setTimeout(() => document.getElementById('text-2').style.display = 'block', 1800);
-        setTimeout(() => { document.getElementById('text-2').style.display = 'none'; explodeFirework(); }, 3000);
+            // Bắt đầu timeline đếm ngược và chữ sau khi thiệp mở ra được 1.5 giây
+            setTimeout(() => {
+                // Số 3
+                setTimeout(() => document.getElementById('text-3').style.display = 'block', 500);
+                setTimeout(() => { document.getElementById('text-3').style.display = 'none'; explodeFirework(); }, 1700);
 
-        // Số 1
-        setTimeout(() => document.getElementById('text-1').style.display = 'block', 3100);
-        setTimeout(() => { document.getElementById('text-1').style.display = 'none'; explodeFirework(); setTimeout(explodeFirework, 150); }, 4300);
+                // Số 2
+                setTimeout(() => document.getElementById('text-2').style.display = 'block', 1800);
+                setTimeout(() => { document.getElementById('text-2').style.display = 'none'; explodeFirework(); }, 3000);
 
-        // Chuỗi chữ chúc mừng sinh nhật
-        const textTimeline = [
-            { id: 'text-p1', show: 4800, hide: 6800 },
-            { id: 'text-p2', show: 7200, hide: 9200 },
-            { id: 'text-p3', show: 9600, hide: 11600 },
-            { id: 'text-p4', show: 12000, hide: 14000 },
-        ];
+                // Số 1
+                setTimeout(() => document.getElementById('text-1').style.display = 'block', 3100);
+                setTimeout(() => { document.getElementById('text-1').style.display = 'none'; explodeFirework(); }, 4300);
 
-        textTimeline.forEach(item => {
-            setTimeout(() => document.getElementById(item.id).style.display = 'block', item.show);
-            setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide);
-        });
+                // Chuỗi chữ chúc mừng
+                const textTimeline = [
+                    { id: 'text-p1', show: 4800, hide: 6800 },
+                    { id: 'text-p2', show: 7200, hide: 9200 },
+                    { id: 'text-p3', show: 9600, hide: 11600 },
+                    { id: 'text-p4', show: 12000, hide: 14000 },
+                ];
 
-        // BÀI CUỐI: Triệu hồi trái tim hạt ánh sáng và chữ ở chính giữa
-        setTimeout(() => {
-            spawnHeartParticles();
-            gatherToHeart = true;
-            document.getElementById('text-final').style.display = 'block'; 
-        }, 14500);
+                textTimeline.forEach(item => {
+                    setTimeout(() => document.getElementById(item.id).style.display = 'block', item.show);
+                    setTimeout(() => document.getElementById(item.id).style.display = 'none', item.hide);
+                });
 
+                // Kết thúc: Triệu hồi trái tim hạt ánh sáng và chữ "Tú Nhi ♥️ Minh Đức"
+                setTimeout(() => {
+                    spawnHeartParticles();
+                    gatherToHeart = true;
+                    document.getElementById('text-final').style.display = 'block'; 
+                }, 14500);
+
+            }, 1500);
+        }
     </script>
 </body>
 </html>
