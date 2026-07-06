@@ -53,15 +53,15 @@
             
             columns = window.innerWidth / (fontSize - 4);
             
-            // Khởi tạo các vệt sao băng nằm rải rác ở các khoảng cách rất xa nhau phía trên bầu trời
+            // Khởi tạo các vệt sao băng nằm cách xa nhau tạo khoảng giãn cách
             drops = Array(Math.floor(columns)).fill(0).map(() => Math.random() * -120); 
             columnTexts = Array(Math.floor(columns)).fill(0).map(() => matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]);
             
-            // ĐÃ SỬA: Tốc độ rơi cực kỳ chậm (0.15 -> 0.25) giúp sao băng lướt từ tốn, dễ đọc chữ
+            // Giữ tốc độ rơi cực kỳ chậm rãi, thong thả từ tốn để dễ đọc chữ
             dropSpeeds = Array(Math.floor(columns)).fill(0).map(() => Math.random() * 0.1 + 0.15); 
         }
         
-        // --- 1. CẤU HÌNH SAO BĂNG CHỮ TO RƠI TỪNG ĐOẠN ---
+        // --- 1. CẤU HÌNH SAO BĂNG MA TRẬN TÌNH YÊU (LOVE MATRIX) ---
         const matrixPhrases = ["I love you", "Minh đức", "Tú Nhi", "Happy birthday"]; 
         const fontSize = 26; 
         let columns, drops, columnTexts, dropSpeeds;
@@ -114,7 +114,7 @@
                 
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
                 ctx.shadowBlur = 12;
-                ctx.shadowColor = 'rgba(0, 255, 70, 0.9)'; 
+                ctx.shadowColor = 'rgba(255, 20, 147, 0.9)'; // Quầng sáng hồng ngọt ngào bao quanh chữ chính
                 
                 ctx.fill();
                 ctx.restore();
@@ -211,47 +211,41 @@
 
         // --- 6. VÒNG LẶP HOẠT HỌA ENGINE CHÍNH ---
         function animate() {
-            // Giữ lại vệt sáng vừa phải để đuôi sao băng kéo dài nghệ thuật
             ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
             ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-            // THUẬT TOÁN ĐỔ THÁC SAO BĂNG THEO ĐOẠN (WORD BLOCKS)
+            // THUẬT TOÁN SAO BĂNG CHỮ KHỔNG LỒ TÔNG HỒNG TÌNH YÊU LÃNG MẠN
             ctx.font = `900 ${fontSize}px Impact, "Arial Black", sans-serif`;
             
             for (let i = 0; i < drops.length; i++) {
                 const currentTextStr = columnTexts[i];
                 
-                // Vẽ toàn bộ cụm từ theo hàng dọc để tạo thành một "đoạn sao băng" nguyên khối
                 for (let j = 0; j < currentTextStr.length; j++) {
                     let textY = (drops[i] + j) * fontSize;
                     
-                    // Chỉ vẽ nếu chữ nằm trong phạm vi màn hình
                     if (textY > -fontSize && textY < window.innerHeight + fontSize) {
                         let char = currentTextStr.charAt(j);
-                        if (char === " ") char = "★"; 
+                        // ĐÃ SỬA: Đổi khoảng trắng thành biểu tượng Trái Tim "♥" lãng mạn bay lượn
+                        if (char === " ") char = "♥"; 
 
-                        // Cơ chế đổi màu: chữ cuối cùng của chuỗi (nằm dưới cùng dòng rơi) sẽ rực sáng nhất như đầu sao băng
+                        // ĐÃ SỬA: Phối lại bảng màu sang Hồng Neon & Trắng Hồng ngọt ngào
                         if (j === currentTextStr.length - 1 && Math.random() > 0.5) {
-                            ctx.fillStyle = "rgba(225, 255, 225, 0.95)"; // Đầu sao băng sáng trắng xanh
+                            ctx.fillStyle = "rgba(255, 230, 240, 0.98)"; // Đầu vệt sao băng rực sáng trắng hồng cực đẹp
                         } else {
-                            // Thân sao băng mờ dần theo vị trí ký tự để tạo hiệu ứng đuôi lướt biến mất
                             let fadeRatio = (j + 1) / currentTextStr.length;
-                            ctx.fillStyle = `rgba(0, 255, 90, ${fadeRatio * 0.42})`; 
+                            ctx.fillStyle = `rgba(255, 60, 140, ${fadeRatio * 0.45})`; // Thân đuôi sao băng màu hồng lãng mạn mờ dần
                         }
 
                         ctx.fillText(char, i * (fontSize - 3), textY);
                     }
                 }
 
-                // Tịnh tiến vị trí rơi một cách từ tốn chậm rãi
                 drops[i] += dropSpeeds[i];
 
-                // Khi toàn bộ đoạn chữ đã trượt khuất hẳn màn hình
                 if ((drops[i] * fontSize) > window.innerHeight && Math.random() > 0.98) {
-                    // Đẩy ngược vị trí lên thật cao để tạo khoảng giãn cách trống (rơi từng đoạn)
                     drops[i] = Math.random() * -25 - 5; 
                     columnTexts[i] = matrixPhrases[Math.floor(Math.random() * matrixPhrases.length)]; 
-                    dropSpeeds[i] = Math.random() * 0.1 + 0.15; // Giữ nguyên nhịp trôi thong thả
+                    dropSpeeds[i] = Math.random() * 0.1 + 0.15; 
                 }
             }
 
