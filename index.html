@@ -103,7 +103,7 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 1. MA TRẬN ĐA TẦNG (CẦU KỲ HƠN) ---
+        // --- 1. MA TRẬN ĐA TẦNG (TỐI ƯU CHỐNG HOA MẮT) ---
         const matrixWords = [
             "Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", 
             "Yêu em", "Bình yên", "Nụ cười em", "Hạnh phúc", 
@@ -113,14 +113,15 @@
         const columnsCount = Math.floor(canvas.width / 20);
         const matrixStreams = [];
 
-        // THAY ĐỔI TẠI ĐÂY: Rải đều tọa độ Y từ 0 đến chiều cao canvas để chữ xuất hiện kín nền ngay lập tức
+        // Khởi tạo: Gán cố định một từ ban đầu cho mỗi dòng để không bị nhảy chữ liên tục
         for (let i = 0; i < columnsCount; i++) {
             matrixStreams.push({
                 x: i * 20,
-                y: Math.random() * canvas.height,             // Xuất hiện ngẫu nhiên ngay trên màn hình ban đầu
-                speed: Math.random() * 1 + 0.5,             // Giữ tốc độ rơi chậm mượt mà
-                fontSize: Math.floor(Math.random() * 6) + 12, // Kích thước chữ to nhỏ khác nhau
-                opacity: Math.random() * 0.4 + 0.15          // Độ mờ khác nhau tạo hiệu ứng 3D
+                y: Math.random() * canvas.height,             
+                speed: Math.random() * 0.4 + 0.2,             // Tốc độ trượt siêu chậm rãi
+                fontSize: Math.floor(Math.random() * 4) + 13, // Kích thước chữ ổn định hơn
+                opacity: Math.random() * 0.35 + 0.15,          
+                word: matrixWords[Math.floor(Math.random() * matrixWords.length)] // ĐÃ SỬA: Chữ cố định khi đang rơi
             });
         }
 
@@ -202,24 +203,29 @@
 
         // --- 3. VÒNG LẶP RENDER CHÍNH ---
         function animate() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+            ctx.fillStyle = "rgba(0, 0, 0, 0.06)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Vẽ ma trận nhỏ đa tầng siêu mịn
+            // Vẽ từng dòng chữ lướt êm dịu
             matrixStreams.forEach(stream => {
-                ctx.font = `bold ${stream.fontSize}px monospace`;
-                const text = matrixWords[Math.floor(Math.random() * matrixWords.length)];
+                ctx.font = `bold ${stream.fontSize}px 'Segoe UI', monospace`;
+                const text = stream.word; // Lấy chữ cố định của dòng đó, hoàn toàn không đổi giữa chừng
                 
-                if(Math.random() > 0.97) ctx.fillStyle = "#fff";
-                else if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Yêu em") ctx.fillStyle = "#ff1744";
-                else ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
+                if(text === "❤️" || text === "💕" || text === "Tú Nhi ♥️" || text === "Yêu em") {
+                    ctx.fillStyle = "#ff1744";
+                } else {
+                    ctx.fillStyle = `rgba(255, 105, 180, ${stream.opacity})`;
+                }
 
                 ctx.fillText(text, stream.x, stream.y);
 
                 stream.y += stream.speed;
+                
+                // Chỉ khi chữ rơi ra ngoài màn hình mới đổi sang chữ khác và chạy lại từ đầu
                 if (stream.y > canvas.height) {
-                    stream.y = Math.random() * -100; // Khi rơi hết màn hình thì reset lại từ đỉnh trên
-                    stream.speed = Math.random() * 1 + 0.5; 
+                    stream.y = Math.random() * -80; 
+                    stream.speed = Math.random() * 0.4 + 0.2; 
+                    stream.word = matrixWords[Math.floor(Math.random() * matrixWords.length)]; // Thay từ mới ở đây
                 }
             });
 
