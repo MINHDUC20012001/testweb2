@@ -83,17 +83,15 @@
 
             update(mode) {
                 if (mode === "GATHER") {
-                    // Hút hạt về để dệt thành chữ mới mượt mà
                     this.x += (this.targetX - this.x) * 0.15;
                     this.y += (this.targetY - this.y) * 0.15;
                     this.alpha = 1;
                 } else {
-                    // HIỆU ỨNG PHÁO HOA TỰ NHIÊN: Chạy vật lý nổ bung, có lực cản và trọng lực kéo xuống
                     this.x += this.vx;
                     this.y += this.vy;
                     
-                    this.vy += 0.04;    // Trọng lực: kéo tàn lửa rơi nhẹ xuống như pháo hoa thật
-                    this.vx *= 0.96;    // Lực cản không khí: giúp hạt pháo hoa chậm lại nghệ thuật
+                    this.vy += 0.04;    // Trọng lực rơi như pháo hoa
+                    this.vx *= 0.96;    // Lực cản không khí giúp hạt chậm lại
                     this.vy *= 0.96;
                 }
             }
@@ -104,7 +102,6 @@
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = this.color;
                 
-                // Quầng sáng lấp lánh rực rỡ của pháo hoa ban đêm
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = this.color === '#ffffff' ? '#ff1493' : this.color; 
                 ctx.fill();
@@ -112,18 +109,18 @@
             }
         }
 
+        // Khởi tạo các hạt sáng nằm ẩn rải rác sẵn
         for (let i = 0; i < maxParticles; i++) {
             particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
         }
 
-        // --- 4. THUẬT TOÁN QUÉT TỌA ĐỘ CHỮ & TRÁI TIM CHUẨN ĐẸP ---
+        // --- 4. THUẬT TOÁN QUÉT TỌA ĐỘ CHỮ & TRÁI TIM ---
         let currentMode = "FREE"; 
 
         function getTargetPoints(text) {
             let targets = [];
             
             if (text === "HEART") {
-                // Trái tim nhỏ gọn, khít màn hình dọc điện thoại, không chạm viền
                 const scale = Math.min(canvas.width, canvas.height) / 38;
                 const step = (Math.PI * 2) / maxParticles;
                 for (let i = 0; i < maxParticles; i++) {
@@ -166,7 +163,7 @@
             return targets;
         }
 
-        // --- 5. TIMELINE KÍCH NỔ PHÁO HOA VÀ CHUYỂN CHỮ ---
+        // --- 5. TIMELINE ĐIỀU KHIỂN CHUYỂN CHỮ ---
         function runTimeline() {
             if (currentSequenceIndex >= textSequences.length) return;
 
@@ -179,43 +176,38 @@
                     p.targetX = target.x + (Math.random() * 1.5 - 0.75); 
                     p.targetY = target.y + (Math.random() * 1.5 - 0.75);
                     p.color = target.color;
-                    // Điểm xuyết hạt trắng lấp lánh trong viền trái tim hồng
                     if (currentText === "HEART" && Math.random() > 0.85) p.color = '#ffffff'; 
                 }
             });
 
-            currentMode = "GATHER"; // Gom hạt lại hiện chữ rực rỡ
+            currentMode = "GATHER"; 
 
             if (currentText !== "HEART") {
                 setTimeout(() => {
-                    currentMode = "FREE"; // BÙNG NỔ THÀNH PHÁO HOA KHÔNG TRUNG!
+                    currentMode = "FREE"; // NỔ BÙNG THÀNH PHÁO HOA
                     
                     particles.forEach(p => {
-                        // Tính toán góc nổ tròn xoay 360 độ
                         const angle = Math.random() * Math.PI * 2;
-                        // Tăng lực nổ (tốc độ bay bắn ra từ 3.5 đến 8.5) giúp hạt tỏa rộng hoành tráng
                         const speed = Math.random() * 5 + 3.5; 
-                        
                         p.vx = Math.cos(angle) * speed;
                         p.vy = Math.sin(angle) * speed;
                     });
 
                     currentSequenceIndex++;
-                    // Khoảng thời gian để ngắm pháo hoa rơi trước khi hút vào chữ tiếp theo
                     setTimeout(runTimeline, 1200); 
                 }, currentText.length <= 1 ? 1400 : 2400); 
             }
         }
 
-        setTimeout(runTimeline, 500);
+        // ĐÃ SỬA: Cho nền "I LOVE YOU" chạy trước 3.5 giây (3500ms) rồi mới kích nổ đếm số 3-2-1
+        setTimeout(runTimeline, 3500);
 
-        // --- 6. VÒNG LẶP RENDERING MƯỢT MÀ ---
+        // --- 6. VÒNG LẶP RENDERING LIÊN TỤC ---
         function animate() {
-            // Giữ lại 0.12 độ mờ để tạo các đuôi ánh sáng quét lấp lánh cho hạt pháo hoa khi bắn ra
             ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Vẽ chuỗi mật mã "I LOVE YOU" nhỏ chạy dọc mờ ảo ở nền sau
+            // Vẽ chuỗi mật mã "I LOVE YOU" chạy dọc mờ ảo ở nền sau
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
                 const charIndex = Math.floor(drops[i] + i) % matrixString.length;
@@ -231,7 +223,7 @@
                 drops[i]++;
             }
 
-            // Cập nhật trạng thái vật lý & vẽ các hạt pháo hoa
+            // Chỉ cập nhật hạt pháo hoa khi tiến trình timeline bắt đầu chạy dệt chữ
             particles.forEach(p => {
                 p.update(currentMode);
                 p.draw();
