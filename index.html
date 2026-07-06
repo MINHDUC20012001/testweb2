@@ -64,7 +64,7 @@
         const canvas = document.getElementById('superCanvas'); const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         resizeCanvas(); window.addEventListener('resize', resizeCanvas);
-        const matrixWords = ["Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", "Bình yên", "Hạnh phúc", "❤️"];
+        const matrixWords = ["Chúc em", "Sinh nhật", "Vui vẻ", "Tú Nhi ♥️", "Yêu em", "Bình yên", "Hạnh phúc", "❤️", "💕"];
         const matrixStreams = Array.from({length: 50}, (_, i) => ({ x: i * 20, y: Math.random() * canvas.height, speed: Math.random() * 0.4 + 0.2, word: matrixWords[Math.floor(Math.random()*matrixWords.length)] }));
         let particles = [], gatherToHeart = false, heartPoints = [];
         function calculateHeartPoints() {
