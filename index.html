@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Matrix Perfect Heart & I Love You ❤️</title>
+    <title>Matrix Perfect Heart & Firework Blast ❤️</title>
     <style>
         * {
             margin: 0;
@@ -51,8 +51,8 @@
             drops = Array(Math.floor(columns)).fill(1);
         }
         
-        // --- 1. MA TRẬN CHỮ NỀN CHỈ CHẠY CHỮ "I LOVE YOU" ---
-        const matrixString = "ILOVEYOU"; // Chuỗi ký tự cố định cho nền sau
+        // --- 1. MA TRẬN CHỮ NỀN "I LOVE YOU" ---
+        const matrixString = "ILOVEYOU"; 
         const fontSize = 11; 
         let columns;
         let drops;
@@ -60,13 +60,13 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // --- 2. TIMELINE CHỮ TỤ HẠT SÁNG CHÍNH GIỮA ---
+        // --- 2. TIMELINE CHỮ TỤ HẠT SÁNG ---
         const textSequences = ["3", "2", "1", "Em đồng ý", "Làm người yêu", "Anh nhé ❤️", "Anh Yêu Em", "HEART"];
         let currentSequenceIndex = 0;
 
-        // --- 3. HỆ THỐNG QUẢN LÝ HẠT SÁNG CĂNG NÉT ---
+        // --- 3. HỆ THỐNG HẠT SÁNG VẬT LÝ PHÁO HOA ---
         let particles = [];
-        const maxParticles = 900; // Số lượng hạt tối ưu để viền trái tim mảnh và sắc nét nhất
+        const maxParticles = 950; 
 
         class Particle {
             constructor(x, y) {
@@ -74,20 +74,26 @@
                 this.y = y;
                 this.targetX = x;
                 this.targetY = y;
-                this.vx = Math.random() * 4 - 2;
-                this.vy = Math.random() * 4 - 2;
+                this.vx = 0;
+                this.vy = 0;
                 this.color = '#ffffff';
-                this.size = Math.random() * 1.5 + 1.0; 
+                this.size = Math.random() * 1.6 + 1.0; 
+                this.alpha = 1;
             }
 
             update(mode) {
                 if (mode === "GATHER") {
-                    this.x += (this.targetX - this.x) * 0.16;
-                    this.y += (this.targetY - this.y) * 0.16;
+                    // Hút hạt về để dệt thành chữ mới mượt mà
+                    this.x += (this.targetX - this.x) * 0.15;
+                    this.y += (this.targetY - this.y) * 0.15;
+                    this.alpha = 1;
                 } else {
+                    // HIỆU ỨNG PHÁO HOA TỰ NHIÊN: Chạy vật lý nổ bung, có lực cản và trọng lực kéo xuống
                     this.x += this.vx;
                     this.y += this.vy;
-                    this.vx *= 0.96;
+                    
+                    this.vy += 0.04;    // Trọng lực: kéo tàn lửa rơi nhẹ xuống như pháo hoa thật
+                    this.vx *= 0.96;    // Lực cản không khí: giúp hạt pháo hoa chậm lại nghệ thuật
                     this.vy *= 0.96;
                 }
             }
@@ -98,7 +104,8 @@
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fillStyle = this.color;
                 
-                ctx.shadowBlur = 8;
+                // Quầng sáng lấp lánh rực rỡ của pháo hoa ban đêm
+                ctx.shadowBlur = 10;
                 ctx.shadowColor = this.color === '#ffffff' ? '#ff1493' : this.color; 
                 ctx.fill();
                 ctx.restore();
@@ -109,20 +116,19 @@
             particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height));
         }
 
-        // --- 4. THUẬT TOÁN QUÉT CHỮ VÀ VẼ VIỀN TRÁI TIM CHUẨN KHÍT ---
+        // --- 4. THUẬT TOÁN QUÉT TỌA ĐỘ CHỮ & TRÁI TIM CHUẨN ĐẸP ---
         let currentMode = "FREE"; 
 
         function getTargetPoints(text) {
             let targets = [];
             
             if (text === "HEART") {
-                // ĐÃ FIX: Điều chỉnh tỷ lệ thu gọn (chia 38 thay vì 26) giúp trái tim nhỏ gọn ôm khít giữa màn hình điện thoại
+                // Trái tim nhỏ gọn, khít màn hình dọc điện thoại, không chạm viền
                 const scale = Math.min(canvas.width, canvas.height) / 38;
                 const step = (Math.PI * 2) / maxParticles;
                 for (let i = 0; i < maxParticles; i++) {
                     let angle = i * step;
                     let x = 16 * Math.pow(Math.sin(angle), 3);
-                    // Đẩy tâm Y dịch lên một chút cho cân đối màn hình dọc điện thoại
                     let y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
                     targets.push({
                         x: canvas.width / 2 + x * scale,
@@ -137,7 +143,7 @@
                 memCanvas.height = canvas.height;
                 
                 let isNumber = !isNaN(text);
-                let finalFontSize = isMobile() ? (isNumber ? '90px' : '36px') : (isNumber ? '140px' : '65px');
+                let finalFontSize = isMobile() ? (isNumber ? '95px' : '36px') : (isNumber ? '140px' : '65px');
 
                 memCtx.font = `900 ${finalFontSize} Arial, sans-serif`;
                 memCtx.fillStyle = '#fff';
@@ -160,7 +166,7 @@
             return targets;
         }
 
-        // --- 5. TIMELINE ĐIỀU KHIỂN ---
+        // --- 5. TIMELINE KÍCH NỔ PHÁO HOA VÀ CHUYỂN CHỮ ---
         function runTimeline() {
             if (currentSequenceIndex >= textSequences.length) return;
 
@@ -173,43 +179,49 @@
                     p.targetX = target.x + (Math.random() * 1.5 - 0.75); 
                     p.targetY = target.y + (Math.random() * 1.5 - 0.75);
                     p.color = target.color;
+                    // Điểm xuyết hạt trắng lấp lánh trong viền trái tim hồng
                     if (currentText === "HEART" && Math.random() > 0.85) p.color = '#ffffff'; 
                 }
             });
 
-            currentMode = "GATHER"; 
+            currentMode = "GATHER"; // Gom hạt lại hiện chữ rực rỡ
 
             if (currentText !== "HEART") {
                 setTimeout(() => {
-                    currentMode = "FREE"; 
+                    currentMode = "FREE"; // BÙNG NỔ THÀNH PHÁO HOA KHÔNG TRUNG!
+                    
                     particles.forEach(p => {
+                        // Tính toán góc nổ tròn xoay 360 độ
                         const angle = Math.random() * Math.PI * 2;
-                        const speed = Math.random() * 3.5 + 1.5;
+                        // Tăng lực nổ (tốc độ bay bắn ra từ 3.5 đến 8.5) giúp hạt tỏa rộng hoành tráng
+                        const speed = Math.random() * 5 + 3.5; 
+                        
                         p.vx = Math.cos(angle) * speed;
                         p.vy = Math.sin(angle) * speed;
                     });
 
                     currentSequenceIndex++;
-                    setTimeout(runTimeline, 900); 
+                    // Khoảng thời gian để ngắm pháo hoa rơi trước khi hút vào chữ tiếp theo
+                    setTimeout(runTimeline, 1200); 
                 }, currentText.length <= 1 ? 1400 : 2400); 
             }
         }
 
         setTimeout(runTimeline, 500);
 
-        // --- 6. VÒNG LẶP RENDERING LIÊN TỤC ---
+        // --- 6. VÒNG LẶP RENDERING MƯỢT MÀ ---
         function animate() {
+            // Giữ lại 0.12 độ mờ để tạo các đuôi ánh sáng quét lấp lánh cho hạt pháo hoa khi bắn ra
             ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // ĐÃ FIX: Vẽ chữ nền ma trận TUẦN TỰ chạy chuỗi chữ "I LOVE YOU" siêu mờ ảo
+            // Vẽ chuỗi mật mã "I LOVE YOU" nhỏ chạy dọc mờ ảo ở nền sau
             ctx.font = `bold ${fontSize}px monospace`;
             for (let i = 0; i < drops.length; i++) {
-                // Lấy ký tự tuần tự từ chữ I LOVE YOU dựa trên vị trí dòng rơi
                 const charIndex = Math.floor(drops[i] + i) % matrixString.length;
                 const text = matrixString.charAt(charIndex);
                 
-                ctx.fillStyle = "rgba(255, 105, 180, 0.05)"; // Giữ siêu mờ tinh tế làm nền sâu phía dưới
+                ctx.fillStyle = "rgba(255, 105, 180, 0.05)"; 
 
                 ctx.fillText(text, i * (fontSize + 10), drops[i] * fontSize);
 
@@ -219,13 +231,13 @@
                 drops[i]++;
             }
 
-            // Vẽ hạt tụ chữ rõ nét phía trước
+            // Cập nhật trạng thái vật lý & vẽ các hạt pháo hoa
             particles.forEach(p => {
                 p.update(currentMode);
                 p.draw();
             });
 
-            // Văn bản nhấp nháy tâm trái tim kết bài
+            // Chữ nhấp nháy lãng mạn ở tâm trái tim màn kết thúc
             if (textSequences[currentSequenceIndex] === "HEART" && currentMode === "GATHER") {
                 let textFont = isMobile() ? "bold 15px 'Courier New', monospace" : "bold 22px 'Courier New', monospace";
                 ctx.font = textFont;
@@ -235,7 +247,6 @@
                 ctx.textBaseline = 'middle';
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = "#ff1493";
-                // Căn chữ theo tọa độ Y mới của trái tim
                 ctx.fillText("Love You - Pink Team", canvas.width / 2, canvas.height / 2 - 20);
             }
 
